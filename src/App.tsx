@@ -1,24 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FunctionComponent } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { RoutePaths } from './routes/routePaths';
 
-function App() {
+const HomePage = React.lazy(() => import('./containers/HomePage/HomePage'));
+const ProfilePage = React.lazy(() => import('./containers/ProfilePage/ProfilePage'));
+const AllRecipesPage = React.lazy(() => import('./containers/AllRecipesPage/AllRecipesPage'));
+const FavouriteRecipesPage = React.lazy(() => import('./containers/FavouriteRecipesPage/FavouriteRecipesPage'));
+
+const App: FunctionComponent = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path={RoutePaths.PROFILE} element={<ProfilePage />} />
+          <Route path={RoutePaths.FAVOURITE_RECIPES} element={<FavouriteRecipesPage />} />
+          <Route path={RoutePaths.ALL_RECIPES} element={<AllRecipesPage />} />
+          <Route path="*" element={<HomePage />} />
+        </Routes>
     </div>
   );
 }
