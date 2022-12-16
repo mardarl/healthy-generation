@@ -5,21 +5,26 @@ import { RoutePaths } from '../../routes/routePaths';
 
 import Button from '../../ui-components/Button/Button';
 
-const AllRecipesPage: FunctionComponent = () => {
+const NewRecipesPage: FunctionComponent = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="AllRecipesPage">
+    <div className="NewRecipesPage">
       <p>
-        all recipe page
+        new recipe page
       </p>
       <Button 
-        onClick={() => navigate(RoutePaths.NEW_RECIPE)}
+        onClick={() => navigate(RoutePaths.ALL_RECIPES)}
       >
-        add new one
+        back
+      </Button>
+      <Button 
+        onClick={() => navigate(RoutePaths.ALL_RECIPES)}
+      >
+        save
       </Button>
     </div>
   );
 }
 
-export default AllRecipesPage;
+export default NewRecipesPage;

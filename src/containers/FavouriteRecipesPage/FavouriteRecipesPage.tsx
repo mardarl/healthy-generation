@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-function FavouriteRecipesPage() {
+const FavouriteRecipesPage: FunctionComponent = () => {
   return (
     <div className="FavouriteRecipesPage">
       <p>

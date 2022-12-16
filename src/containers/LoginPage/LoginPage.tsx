@@ -5,21 +5,21 @@ import { RoutePaths } from '../../routes/routePaths';
 
 import Button from '../../ui-components/Button/Button';
 
-const AllRecipesPage: FunctionComponent = () => {
+const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate()
 
   return (
-    <div className="AllRecipesPage">
+    <div className="LoginPage">
       <p>
-        all recipe page
+        login page
       </p>
       <Button 
-        onClick={() => navigate(RoutePaths.NEW_RECIPE)}
+        onClick={() => navigate(RoutePaths.HOME)}
       >
-        add new one
+          log in
       </Button>
     </div>
   );
 }
 
-export default AllRecipesPage;
+export default LoginPage;

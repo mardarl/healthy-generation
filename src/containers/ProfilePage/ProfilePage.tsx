@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-function ProfilePage() {
+const ProfilePage: FunctionComponent = () => {
   return (
     <div className="ProfilePage">
       <p>
