@@ -1,0 +1,14 @@
+{
+    "editor.formatOnSave": true,
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "prettier.jsxSingleQuote": true,
+    "prettier.singleQuote": true,
+    "html.completion.attributeDefaultValue": "singlequotes",
+    "editor.fontSize": 14,
+    "editor.tabSize": 4,
+    "prettier.tabWidth": 4,
+    "editor.minimap.scale": 1,
+    "prettier.printWidth": 120,
+    "prettier.semi": false
+}
