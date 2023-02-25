@@ -3,8 +3,8 @@ import Allergy from '../models/Allergy.js'
 /* READ */
 export const getAllergies = async (req, res) => {
     try {
-        const alergies = await Allergy.find()
-        res.status(200).json(alergies)
+        const allergies = await Allergy.find()
+        res.status(200).json(allergies)
     } catch (err) {
         res.status(404).json({ message: err.message })
     }

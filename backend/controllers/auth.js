@@ -5,8 +5,7 @@ import User from '../models/User.js'
 /* REGISTER USER */
 export const register = async (req, res) => {
     try {
-        const { first_name, last_name, email, password, allergies, diets, favourite_recipies, product_allergies } =
-            req.body
+        const { first_name, last_name, email, password } = req.body
 
         const salt = await bcrypt.genSalt()
         const passwordHash = await bcrypt.hash(password, salt)
@@ -16,10 +15,10 @@ export const register = async (req, res) => {
             last_name,
             email,
             password: passwordHash,
-            allergies,
-            diets,
-            favourite_recipies,
-            product_allergies,
+            allergies: [],
+            diets: [],
+            favourite_recipies: [],
+            product_allergies: [],
         })
         const savedUser = await newUser.save()
         res.status(201).json(savedUser)
@@ -40,7 +39,14 @@ export const login = async (req, res) => {
 
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
         delete user.password
-        res.status(200).json({ token, user })
+        res.status(200).json({
+            token,
+            user: {
+                _id: user._id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+            },
+        })
     } catch (err) {
         res.status(500).json({ error: err.message })
     }
