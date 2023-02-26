@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { getAllergies } from '../../api/allergies'
 import { getDiets } from '../../api/diets'
 import { changeUserPassword, getUser, updateUser } from '../../api/users'
+import { convertUserToUserSimple } from '../../common/convertResponse'
 import { NameSimple, User } from '../../common/types'
 import { RoutePaths } from '../../routes/routePaths'
 import Button from '../../ui-components/Button'
@@ -34,6 +35,7 @@ const ProfilePage: FunctionComponent = () => {
   }
 
   const setRespUserData = (data: User) => {
+    setUser(convertUserToUserSimple(data))
     setUserData(data)
     setNewUserData(data)
     setSelectedAllergies(data.allergies)
@@ -141,6 +143,7 @@ const ProfilePage: FunctionComponent = () => {
           <input value={newUserData?.email} onChange={(e) => handleChange(e, 'email')} disabled={!isEdit} />
         </div>
       )}
+      {userData?.favouriteRecipes && userData?.favouriteRecipes.map((recipe) => <p>{recipe}</p>)}
       <LabelSelect
         options={allergies || []}
         onSelect={setSelectedAllergies}

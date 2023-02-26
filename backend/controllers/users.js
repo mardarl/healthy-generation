@@ -36,7 +36,7 @@ export const updateUser = async (req, res) => {
                 email: req.body.email || user.email,
                 allergies: req.body.allergies || user.allergies,
                 diets: req.body.diets || user.diets,
-                favourite_recipies: req.body.favourite_recipies || user.favourite_recipies,
+                favourite_recipes: req.body.favourite_recipes || user.favourite_recipes,
                 product_allergies: req.body.product_allergies || user.product_allergies,
             },
             { new: true }

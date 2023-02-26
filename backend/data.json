@@ -126,12 +126,7 @@
                     "name": "vegan"
                 }
             ],
-            "favourite_recipies": [
-                {
-                    "_id": "63ede7fa8902e256ca8a57e6",
-                    "name": "Spinach, sweet potato & lentil dhal"
-                }
-            ],
+            "favourite_recipes": ["63ede7fa8902e256ca8a57e6"],
             "product_allergies": [
                 {
                     "_id": "63f385865e6bb04de6d9a15f",

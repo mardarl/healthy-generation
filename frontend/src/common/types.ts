@@ -1,3 +1,12 @@
+export type QueryParams = {
+  [key: string]: string | number | boolean
+}
+
+export type RecipePageProps = {
+  recipes: RecipeList
+  [key: string]: any
+}
+
 export type LoginBody = {
   email: string
   password: string
@@ -17,7 +26,7 @@ export type UserSimpleResponse = {
 export type UserSimple = {
   id: string
   firstName: string
-  lastMame: string
+  lastName: string
 }
 
 export type NameSimpleResponse = {
@@ -30,10 +39,6 @@ export type NameSimple = {
   name: string
 }
 
-export type AllergiesListResponse = {
-  allergies: Array<NameSimpleResponse>
-}
-
 export type UserResponse = {
   _id: string
   first_name: string
@@ -42,7 +47,7 @@ export type UserResponse = {
   email: string
   allergies?: Array<NameSimpleResponse>
   diets?: Array<NameSimpleResponse>
-  favourite_recipies?: Array<NameSimpleResponse>
+  favourite_recipes?: Array<string>
   product_allergies?: Array<NameSimpleResponse>
 }
 
@@ -54,7 +59,7 @@ export type User = {
   email: string
   allergies: Array<NameSimple> | null
   diets: Array<NameSimple> | null
-  favouriteRecipies: Array<NameSimple> | null
+  favouriteRecipes: Array<string> | null
   productAllergies: Array<NameSimple> | null
 }
 
@@ -141,9 +146,42 @@ export type Recipe = {
   totalCalories: number
 }
 
+export type RecipeSimpleResponse = {
+  _id: string
+  name: string
+  author_id: string
+  recipe_types?: Array<NameSimpleResponse>
+  picture_path?: string
+  cooking_time: number
+  total_carbs: number
+  total_proteins: number
+  total_fats: number
+  total_calories: number
+}
+
+export type RecipeSimple = {
+  id: string
+  name: string
+  authorId: string | null
+  recipeTypes: Array<NameSimple> | null
+  picturePath: string | null
+  cookingTime: number
+  totalCarbs: number
+  totalProteins: number
+  totalFats: number
+  totalCalories: number
+}
+
 export type RecipeListResponse = {
-  recipes: Array<RecipeResponse>
+  recipes: Array<RecipeSimpleResponse>
   current_page: number
   limit: number
   total_count: number
+}
+
+export type RecipeList = {
+  recipes: Array<RecipeSimple>
+  currentPage: number
+  limit: number
+  totalCount: number
 }

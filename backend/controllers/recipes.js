@@ -1,23 +1,43 @@
 import Recipe from '../models/Recipe.js'
+import User from '../models/User.js'
 
 /* READ */
 export const getRecipes = async (req, res) => {
     try {
-        const { search = '', limit = 10, page = 1 } = req.query
-
+        const { search = '', limit = 10, page = 1, is_favourite = false, user_id = null } = req.query
         const regex = new RegExp(`${search}`, 'i')
 
-        const recipes = await Recipe.find({ name: { $regex: regex } })
-            .limit(limit * 1)
-            .skip((page - 1) * limit)
-            .exec()
+        if (is_favourite && user_id) {
+            const user = await User.findById(user_id)
+            if (user) {
+                const favouriteRecipeIds = user.favourite_recipes
+                const recipes = await Recipe.find({ _id: { $in: favouriteRecipeIds }, name: { $regex: regex } })
+                    .limit(limit * 1)
+                    .skip((page - 1) * limit)
+                    .exec()
 
-        res.status(200).json({
-            recipes,
-            current_page: page,
-            limit,
-            total_count: await Recipe.countDocuments({ name: { $regex: regex } }),
-        })
+                res.status(200).json({
+                    recipes,
+                    current_page: page,
+                    limit,
+                    total_count: await Recipe.countDocuments({ name: { $regex: regex } }),
+                })
+            } else {
+                res.status(404).send('User not found')
+            }
+        } else {
+            const recipes = await Recipe.find({ name: { $regex: regex } })
+                .limit(limit * 1)
+                .skip((page - 1) * limit)
+                .exec()
+
+            res.status(200).json({
+                recipes,
+                current_page: page,
+                limit,
+                total_count: await Recipe.countDocuments({ name: { $regex: regex } }),
+            })
+        }
     } catch (err) {
         res.status(404).json({ message: err.message })
     }

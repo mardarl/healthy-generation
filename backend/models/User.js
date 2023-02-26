@@ -33,7 +33,7 @@ const UserSchema = new mongoose.Schema(
             type: Array,
             default: [],
         },
-        favourite_recipies: {
+        favourite_recipes: {
             type: Array,
             default: [],
         },

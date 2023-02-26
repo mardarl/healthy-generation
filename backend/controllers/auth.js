@@ -17,7 +17,7 @@ export const register = async (req, res) => {
             password: passwordHash,
             allergies: [],
             diets: [],
-            favourite_recipies: [],
+            favourite_recipes: [],
             product_allergies: [],
         })
         const savedUser = await newUser.save()

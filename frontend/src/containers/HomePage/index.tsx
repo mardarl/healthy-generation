@@ -13,7 +13,7 @@ const HomePage: FunctionComponent = () => {
   return (
     <div className='HomePage'>
       <p>home page</p>
-      {user?.id && <p>{`hi, ${user.firstName} ${user.lastMame}`}</p>}
+      {user?.id && <p>{`hi, ${user.firstName} ${user.lastName}`}</p>}
       {!user?.id && <Button onClick={() => navigate(RoutePaths.LOGIN)}>log in</Button>}
     </div>
   )
