@@ -15,7 +15,7 @@ export type UserSimpleResponse = {
 }
 
 export type UserSimple = {
-  userId: string
+  id: string
   firstName: string
   lastMame: string
 }

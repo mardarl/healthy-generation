@@ -8,6 +8,6 @@ router.get('/', verifyToken, getUsers)
 router.get('/:id', verifyToken, getUser)
 
 router.patch('/:id', verifyToken, updateUser)
-router.patch('/:id', verifyToken, changeUserPassword)
+router.patch('/:id/password', verifyToken, changeUserPassword)
 
 export default router

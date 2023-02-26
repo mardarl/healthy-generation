@@ -1,4 +1,5 @@
 import User from '../models/User.js'
+import bcrypt from 'bcrypt'
 
 /* READ */
 export const getUsers = async (req, res) => {
@@ -14,6 +15,7 @@ export const getUser = async (req, res) => {
     try {
         const { id } = req.params
         const user = await User.findById(id)
+        delete user.password
         res.status(200).json(user)
     } catch (err) {
         res.status(404).json({ message: err.message })
@@ -39,7 +41,7 @@ export const updateUser = async (req, res) => {
             },
             { new: true }
         )
-
+        delete updatedUser.password
         res.status(200).json(updatedUser)
     } catch (err) {
         res.status(404).json({ message: err.message })
@@ -52,6 +54,7 @@ export const changeUserPassword = async (req, res) => {
         const { password } = req.body
 
         const user = await User.findById(id)
+        if (!user) return res.status(400).json({ msg: 'User does not exist.' })
 
         const salt = await bcrypt.genSalt()
         const passwordHash = await bcrypt.hash(password, salt)
@@ -60,11 +63,10 @@ export const changeUserPassword = async (req, res) => {
             id,
             {
                 password: passwordHash,
-                ...user,
             },
             { new: true }
         )
-
+        delete updatedUser.password
         res.status(200).json(updatedUser)
     } catch (err) {
         res.status(404).json({ message: err.message })

@@ -11,6 +11,7 @@ const HomePage = lazy(() => import('./containers/HomePage'))
 const LoginPage = lazy(() => import('./containers/LoginPage'))
 const NewRecipesPage = lazy(() => import('./containers/NewRecipesPage'))
 const ProfilePage = lazy(() => import('./containers/ProfilePage'))
+const RecipePage = lazy(() => import('./containers/RecipePage'))
 
 const App: FunctionComponent = () => {
   return (
@@ -24,6 +25,7 @@ const App: FunctionComponent = () => {
           <Route path={RoutePaths.FAVOURITE_RECIPES} element={<FavouriteRecipesPage />} />
           <Route path={RoutePaths.ALL_RECIPES} element={<AllRecipesPage />} />
           <Route path={RoutePaths.NEW_RECIPE} element={<NewRecipesPage />} />
+          <Route path={RoutePaths.RECIPE} element={<RecipePage />} />
           <Route path='*' element={<HomePage />} />
         </Routes>
       </Suspense>

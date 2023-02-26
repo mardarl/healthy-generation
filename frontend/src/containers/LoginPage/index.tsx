@@ -15,7 +15,7 @@ const LoginPage: FunctionComponent = () => {
   const [password, setPassword] = useState<string>('')
 
   useEffect(() => {
-    user?.userId && navigate(RoutePaths.HOME)
+    user?.id && navigate(RoutePaths.HOME)
   }, [user, navigate])
 
   const handleLogin = async () => {

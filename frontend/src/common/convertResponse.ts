@@ -14,7 +14,7 @@ import {
 } from './types'
 
 export const convertUserSimpleResponse = (resp: UserSimpleResponse): UserSimple => ({
-  userId: resp._id,
+  id: resp._id,
   firstName: resp.first_name,
   lastMame: resp.last_name,
 })
@@ -23,7 +23,7 @@ export const convertUserResponse = (resp: UserResponse): User => ({
   id: resp._id,
   firstName: resp.first_name,
   lastName: resp.last_name,
-  password: resp.email,
+  password: resp.password,
   email: resp.email,
   allergies: resp?.allergies?.map((allergy) => convertNameSimpleResponse(allergy)) || [],
   diets: resp?.diets?.map((diet) => convertNameSimpleResponse(diet)) || [],
@@ -31,10 +31,30 @@ export const convertUserResponse = (resp: UserResponse): User => ({
   productAllergies: resp?.product_allergies?.map((allergy) => convertNameSimpleResponse(allergy)) || [],
 })
 
+export const convertUserRequest = (req: User): UserResponse => ({
+  _id: req.id,
+  first_name: req.firstName,
+  last_name: req.lastName,
+  password: req.password,
+  email: req.email,
+  allergies: req?.allergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
+  diets: req?.diets?.map((diet) => convertNameSimpleRequest(diet)) || [],
+  favourite_recipies: req?.favouriteRecipies?.map((recipe) => convertNameSimpleRequest(recipe)) || [],
+  product_allergies: req?.productAllergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
+})
+
 export const convertNameSimpleResponse = (resp: NameSimpleResponse): NameSimple => ({
   id: resp._id,
   name: resp.name,
 })
+
+export const convertNameSimpleRequest = (resp: NameSimple): NameSimpleResponse => ({
+  _id: resp.id,
+  name: resp.name,
+})
+
+export const convertNameSimpleListResponse = (resp: Array<NameSimpleResponse>): Array<NameSimple> =>
+  resp.map((item) => convertNameSimpleResponse(item))
 
 export const convertProductResponse = (resp: ProductResponse): Product => ({
   id: resp._id,
