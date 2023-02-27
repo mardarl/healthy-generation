@@ -87,8 +87,8 @@ export const createRecipe = async (req, res) => {
         })
         await newRecipe.save()
 
-        const recipe = await Recipe.find()
-        res.status(201).json(recipe)
+        await Recipe.find()
+        res.status(201).json(newRecipe)
     } catch (err) {
         res.status(409).json({ message: err.message })
     }

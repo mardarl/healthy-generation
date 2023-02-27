@@ -15,18 +15,22 @@ import {
   RecipeSimpleResponse,
   RecipeListResponse,
   RecipeList,
+  CreateRecipeBody,
+  CreateRecipeResponse,
 } from './types'
 
-export const convertUserSimpleResponse = (resp: UserSimpleResponse): UserSimple => ({
+export const convertUserSimpleResponse = (resp: UserSimpleResponse | UserResponse): UserSimple => ({
   id: resp._id,
   firstName: resp.first_name,
   lastName: resp.last_name,
+  favouriteRecipes: resp.favourite_recipes || [],
 })
 
 export const convertUserToUserSimple = (resp: User): UserSimple => ({
   id: resp.id,
   firstName: resp.firstName,
   lastName: resp.lastName,
+  favouriteRecipes: resp.favouriteRecipes || [],
 })
 
 export const convertUserResponse = (resp: UserResponse): User => ({
@@ -37,7 +41,7 @@ export const convertUserResponse = (resp: UserResponse): User => ({
   email: resp.email,
   allergies: resp?.allergies?.map((allergy) => convertNameSimpleResponse(allergy)) || [],
   diets: resp?.diets?.map((diet) => convertNameSimpleResponse(diet)) || [],
-  favouriteRecipes: resp?.favourite_recipes || [],
+  favouriteRecipes: resp.favourite_recipes || [],
   productAllergies: resp?.product_allergies?.map((allergy) => convertNameSimpleResponse(allergy)) || [],
 })
 
@@ -49,7 +53,7 @@ export const convertUserRequest = (req: User): UserResponse => ({
   email: req.email,
   allergies: req?.allergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
   diets: req?.diets?.map((diet) => convertNameSimpleRequest(diet)) || [],
-  favourite_recipes: req?.favouriteRecipes || [],
+  favourite_recipes: req.favouriteRecipes || [],
   product_allergies: req?.productAllergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
 })
 
@@ -83,9 +87,21 @@ export const convertIngredientResponse = (resp: IngredientResponse): Ingredient 
   proteins: resp.proteins,
   fats: resp.fats,
   calories: resp.calories,
-  recipeId: resp.product_id || null,
+  recipeId: resp.recipe_id || null,
   amount: resp.amount || 0,
   measurementType: resp.measurement_type || 'g',
+})
+
+export const convertIngredientRequest = (resp: Ingredient): IngredientResponse => ({
+  product_id: resp.productId,
+  name: resp.name,
+  carbs: resp.carbs,
+  proteins: resp.proteins,
+  fats: resp.fats,
+  calories: resp.calories,
+  recipe_id: resp.recipeId,
+  amount: resp.amount || 0,
+  measurement_type: resp.measurementType || 'g',
 })
 
 export const convertRecipeResponse = (resp: RecipeResponse): Recipe => ({
@@ -102,6 +118,37 @@ export const convertRecipeResponse = (resp: RecipeResponse): Recipe => ({
   totalProteins: resp.total_proteins,
   totalFats: resp.total_fats,
   totalCalories: resp.total_calories,
+})
+
+export const convertRecipeRequest = (resp: Recipe): RecipeResponse => ({
+  _id: resp.id,
+  name: resp.name,
+  author_id: resp.authorId || 'default',
+  ingredients: resp?.ingredients?.map((ingredient) => convertIngredientRequest(ingredient)) || [],
+  steps: resp?.steps || [],
+  posible_allergies: resp?.posibleAllergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
+  recipe_types: resp?.recipeTypes?.map((type) => convertNameSimpleRequest(type)) || [],
+  picture_path: resp.picturePath || '',
+  cooking_time: resp.cookingTime,
+  total_carbs: resp.totalCarbs,
+  total_proteins: resp.totalProteins,
+  total_fats: resp.totalFats,
+  total_calories: resp.totalCalories,
+})
+
+export const convertCreateRecipeRequest = (resp: CreateRecipeBody): CreateRecipeResponse => ({
+  name: resp.name,
+  author_id: resp.authorId || 'default',
+  ingredients: resp?.ingredients?.map((ingredient) => convertIngredientRequest(ingredient)) || [],
+  steps: resp?.steps || [],
+  posible_allergies: resp?.posibleAllergies?.map((allergy) => convertNameSimpleRequest(allergy)) || [],
+  recipe_types: resp?.recipeTypes?.map((type) => convertNameSimpleRequest(type)) || [],
+  picture_path: resp.picturePath || '',
+  cooking_time: resp.cookingTime,
+  total_carbs: resp.totalCarbs,
+  total_proteins: resp.totalProteins,
+  total_fats: resp.totalFats,
+  total_calories: resp.totalCalories,
 })
 
 export const convertRecipeSimpleResponse = (resp: RecipeSimpleResponse): RecipeSimple => ({

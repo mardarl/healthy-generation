@@ -45,6 +45,11 @@ export const login = async (req, res) => {
                 _id: user._id,
                 first_name: user.first_name,
                 last_name: user.last_name,
+                email,
+                allergies: user.allergies,
+                diets: user.diets,
+                favourite_recipes: user.favourite_recipes,
+                product_allergies: user.product_allergies,
             },
         })
     } catch (err) {

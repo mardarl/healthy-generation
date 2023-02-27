@@ -14,19 +14,21 @@ export type LoginBody = {
 
 export type LoginResponse = {
   token: string
-  user: UserSimpleResponse
+  user: UserResponse
 }
 
 export type UserSimpleResponse = {
   _id: string
   first_name: string
   last_name: string
+  favourite_recipes?: Array<string>
 }
 
 export type UserSimple = {
   id: string
   firstName: string
   lastName: string
+  favouriteRecipes: Array<string>
 }
 
 export type NameSimpleResponse = {
@@ -59,7 +61,7 @@ export type User = {
   email: string
   allergies: Array<NameSimple> | null
   diets: Array<NameSimple> | null
-  favouriteRecipes: Array<string> | null
+  favouriteRecipes: Array<string>
   productAllergies: Array<NameSimple> | null
 }
 
@@ -97,7 +99,7 @@ export type IngredientResponse = {
   proteins: number
   fats: number
   calories: number
-  recipeId?: string
+  recipe_id: string | null
   amount: number
   measurement_type: string
 }
@@ -118,7 +120,22 @@ export type RecipeResponse = {
   _id: string
   name: string
   author_id: string
-  ingredients?: Array<IngredientResponse>
+  ingredients: Array<IngredientResponse>
+  steps?: Array<string>
+  posible_allergies?: Array<NameSimpleResponse>
+  recipe_types?: Array<NameSimpleResponse>
+  picture_path?: string
+  cooking_time: number
+  total_carbs: number
+  total_proteins: number
+  total_fats: number
+  total_calories: number
+}
+
+export type CreateRecipeResponse = {
+  name: string
+  author_id: string
+  ingredients: Array<IngredientResponse>
   steps?: Array<string>
   posible_allergies?: Array<NameSimpleResponse>
   recipe_types?: Array<NameSimpleResponse>
@@ -134,10 +151,25 @@ export type Recipe = {
   id: string
   name: string
   authorId: string | null
-  ingredients?: Array<Ingredient> | null
+  ingredients: Array<Ingredient>
   steps: Array<string> | null
   posibleAllergies: Array<NameSimple> | null
   recipeTypes: Array<NameSimple> | null
+  picturePath: string | null
+  cookingTime: number
+  totalCarbs: number
+  totalProteins: number
+  totalFats: number
+  totalCalories: number
+}
+
+export type CreateRecipeBody = {
+  name: string
+  authorId: string
+  ingredients: Array<Ingredient> | []
+  steps: Array<string> | []
+  posibleAllergies: Array<NameSimple> | []
+  recipeTypes: Array<NameSimple> | []
   picturePath: string | null
   cookingTime: number
   totalCarbs: number

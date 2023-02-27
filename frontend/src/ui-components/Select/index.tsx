@@ -3,17 +3,25 @@ import { NameSimple } from '../../common/types'
 
 type SelectProps = {
   options: Array<NameSimple>
-  onSelect: (options: Array<string>) => void
-  selected?: Array<string>
+  onSelect: (id: string) => void
+  selected?: string
 }
 
 export const Select = (props: SelectProps) => {
   const { options, onSelect, selected } = props
   const [isOpen, setIsOpen] = useState(false)
+  const [value, setValue] = useState(selected)
   const ref = useRef<HTMLDivElement>(null)
 
-  const onSelectOption = (id: string) => {
-    selected?.includes(id) ? onSelect([...selected.filter((item) => item !== id)]) : onSelect([...(selected || []), id])
+  // const onSelectOption = (id: string) => {
+  //   selected?.includes(id) ? onSelect([...selected.filter((item) => item !== id)]) : onSelect([...(selected || []), id])
+  // }
+
+  const onSelectOption = (item: NameSimple) => {
+    if (item) {
+      setValue(item.name)
+      onSelect(item.id)
+    }
   }
 
   const toggleSelect = () => setIsOpen(!isOpen)
@@ -32,19 +40,22 @@ export const Select = (props: SelectProps) => {
     }
   }, [ref])
 
+  // const value = selected ? options.find((item) => item.id === selected)?.name : 'select'
+  // console.log('selected', selected)
+
   return (
     <div className='dropdown-container' ref={ref}>
-      <button className='dropdown-btn' onClick={toggleSelect}>
-        Select
-      </button>
+      <p className='dropdown-btn' onClick={toggleSelect}>
+        {value || 'select'}
+      </p>
       {/* <input value={selected} /> */}
       {isOpen && (
         <ul className='dropdown-menu' style={{ backgroundColor: 'gray', cursor: 'pointer' }}>
           {options.map((option) => (
             <li
-              onClick={() => onSelectOption(option.id)}
+              onClick={() => onSelectOption(option)}
               key={option.id}
-              style={{ color: selected && selected.includes(option.id) ? 'red' : 'black' }}
+              // style={{ color: selected && selected.includes(option.id) ? 'red' : 'black' }}
             >
               {option.name}
             </li>

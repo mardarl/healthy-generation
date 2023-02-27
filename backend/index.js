@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 /* ROUTES WITH FILES */
-app.post('/recipes', verifyToken, upload.single('picture'), createRecipe)
+app.post('/recipes', verifyToken, upload.single('picture_path'), createRecipe)
 
 /* ROUTES */
 app.use('/auth', authRoutes)

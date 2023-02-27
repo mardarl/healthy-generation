@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { getAllergies } from '../../api/allergies'
 import { getDiets } from '../../api/diets'
 import { changeUserPassword, getUser, updateUser } from '../../api/users'
-import { convertUserToUserSimple } from '../../common/convertResponse'
 import { NameSimple, User } from '../../common/types'
 import { RoutePaths } from '../../routes/routePaths'
 import Button from '../../ui-components/Button'
@@ -35,7 +34,7 @@ const ProfilePage: FunctionComponent = () => {
   }
 
   const setRespUserData = (data: User) => {
-    setUser(convertUserToUserSimple(data))
+    setUser(data)
     setUserData(data)
     setNewUserData(data)
     setSelectedAllergies(data.allergies)
@@ -99,14 +98,16 @@ const ProfilePage: FunctionComponent = () => {
     }
   }
 
+  // useEffect(() => {
+  //   fetchAllData()
+  // }, [])
+
   useEffect(() => {
-    if (user?.id) {
-      fetchUserData(user?.id)
+    if (user) {
+      fetchUserData(user.id)
       fetchAllData()
-    } else {
-      navigate(RoutePaths.LOGIN)
     }
-  }, [])
+  }, [user?.id])
 
   useEffect(() => {
     if (password.newPassword && password.repeatPassword) {

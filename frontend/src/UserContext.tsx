@@ -1,10 +1,11 @@
 import { createContext, useState, FunctionComponent, ReactNode, useEffect, useContext } from 'react'
-import { convertUserSimpleResponse } from './common/convertResponse'
-import { UserSimple } from './common/types'
+import { getUser } from './api/users'
+import { convertUserResponse } from './common/convertResponse'
+import { User } from './common/types'
 
 type UserContextType = {
-  user: UserSimple | null
-  setUser: (user: UserSimple | null) => void
+  user: User | null
+  setUser: (user: User | null) => void
 }
 
 type UserContextProviderProps = {
@@ -17,17 +18,21 @@ export const UserContext = createContext<UserContextType>({
 })
 
 export const UserContextProvider: FunctionComponent<UserContextProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<UserSimple | null>(null)
+  const [user, setUser] = useState<User | null>(null)
 
   const contextValue: UserContextType = {
     user,
     setUser,
   }
 
+  const fetchUserData = async (id: string) => {
+    setUser(await getUser(id))
+  }
+
   useEffect(() => {
     const user = localStorage.getItem('user')
     if (user) {
-      setUser(convertUserSimpleResponse(JSON.parse(user)))
+      fetchUserData(JSON.parse(user).id)
     }
   }, [])
 

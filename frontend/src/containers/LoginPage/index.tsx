@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { UserContext } from '../../UserContext'
-import { convertUserSimpleResponse } from '../../common/convertResponse'
+import { convertUserResponse, convertUserSimpleResponse } from '../../common/convertResponse'
 
 import { RoutePaths } from '../../routes/routePaths'
 
@@ -16,13 +16,13 @@ const LoginPage: FunctionComponent = () => {
 
   useEffect(() => {
     user?.id && navigate(RoutePaths.HOME)
-  }, [user, navigate])
+  }, [])
 
   const handleLogin = async () => {
     const { token, user } = await login({ email, password })
     localStorage.setItem('token', token)
-    localStorage.setItem('user', JSON.stringify(user))
-    setUser(convertUserSimpleResponse(user))
+    localStorage.setItem('user', JSON.stringify(convertUserSimpleResponse(user)))
+    setUser(convertUserResponse(user))
     navigate(RoutePaths.HOME)
   }
 
