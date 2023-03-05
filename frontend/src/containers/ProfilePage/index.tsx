@@ -5,8 +5,16 @@ import { getDiets } from '../../api/diets'
 import { changeUserPassword, getUser, updateUser } from '../../api/users'
 import { NameSimple, User } from '../../common/types'
 import { RoutePaths } from '../../routes/routePaths'
+import { StyledLabel } from '../../styles/Input.styled'
+import {
+  StyledButtonsContainer,
+  StyledHeader,
+  StyledProfilePage,
+  StyledProfilePageContent,
+} from '../../styles/ProfilePage.styled'
 import Button from '../../ui-components/Button'
-import { LabelSelect } from '../../ui-components/LableSelector'
+import Input from '../../ui-components/Input'
+import { LabelSelector } from '../../ui-components/LabelSelector'
 import { UserContext, useUser } from '../../UserContext'
 
 type PasswordFields = {
@@ -98,10 +106,6 @@ const ProfilePage: FunctionComponent = () => {
     }
   }
 
-  // useEffect(() => {
-  //   fetchAllData()
-  // }, [])
-
   useEffect(() => {
     if (user) {
       fetchUserData(user.id)
@@ -119,68 +123,88 @@ const ProfilePage: FunctionComponent = () => {
   }, [password.newPassword, password.repeatPassword])
 
   return (
-    <div className='ProfilePage'>
-      {isEdit ? (
-        <>
-          <Button onClick={handleEditChange}>cancel</Button>
-          <Button onClick={handleSave}>save</Button>
-        </>
-      ) : (
-        <Button onClick={handleEditChange}>edit</Button>
-      )}
-      {user?.id ? (
-        <Button onClick={handleLogout}>log out</Button>
-      ) : (
-        <Button onClick={() => navigate(RoutePaths.LOGIN)}>log in</Button>
-      )}
-      {newUserData && (
-        <div>
-          <h2>User Details</h2>
-          <p>Name:</p>
-          <input value={newUserData?.firstName} onChange={(e) => handleChange(e, 'firstName')} disabled={!isEdit} />
-          <p>Last:</p>
-          <input value={newUserData?.lastName} onChange={(e) => handleChange(e, 'lastName')} disabled={!isEdit} />
-          <p>Email:</p>
-          <input value={newUserData?.email} onChange={(e) => handleChange(e, 'email')} disabled={!isEdit} />
-        </div>
-      )}
-      {userData?.favouriteRecipes && userData?.favouriteRecipes.map((recipe) => <p>{recipe}</p>)}
-      <LabelSelect
-        options={allergies || []}
-        onSelect={setSelectedAllergies}
-        selected={selectedAllergies}
-        isEdit={isEdit}
-      />
-      <LabelSelect options={diets || []} onSelect={setSelectedDiets} selected={selectedDiets} isEdit={isEdit} />
+    <StyledProfilePage>
+      <StyledProfilePageContent>
+        <StyledHeader>
+          <span>profile</span>
+          <StyledButtonsContainer>
+            {isEdit ? (
+              <>
+                <Button onClick={handleEditChange}>cancel</Button>
+                <Button onClick={handleSave}>save</Button>
+              </>
+            ) : (
+              <Button onClick={handleEditChange}>edit</Button>
+            )}
+            {user?.id && <Button onClick={handleLogout}>log out</Button>}
+          </StyledButtonsContainer>
+        </StyledHeader>
 
-      {isChangePassword ? (
-        <>
-          <Button onClick={handlePasswordChangeTrigger}>cancel</Button>
-          <Button onClick={handlePasswordSave}>save</Button>
-        </>
-      ) : (
-        <Button onClick={() => setIsChangePassword(!isChangePassword)}>change password</Button>
-      )}
-      {isChangePassword && (
-        <>
-          <p>New password:</p>
-          <input
-            value={password.newPassword}
-            onChange={(e) => handlePasswordChange(e, 'newPassword')}
-            type='password'
-            autoComplete='new-password'
-          />
-          <p>Repeat password:</p>
-          <input
-            value={password.repeatPassword}
-            onChange={(e) => handlePasswordChange(e, 'repeatPassword')}
-            type='password'
-            autoComplete='new-password'
-          />
-          {password.repeatPassword && password.error && <p>{password.error}</p>}
-        </>
-      )}
-    </div>
+        {newUserData && (
+          <>
+            <Input
+              label='first name'
+              value={newUserData?.firstName}
+              onChange={(e) => handleChange(e, 'firstName')}
+              disabled={!isEdit}
+            />
+            <Input
+              label='last name'
+              value={newUserData?.lastName}
+              onChange={(e) => handleChange(e, 'lastName')}
+              disabled={!isEdit}
+            />
+            <Input
+              label='email'
+              value={newUserData?.email}
+              onChange={(e) => handleChange(e, 'email')}
+              disabled={!isEdit}
+            />
+          </>
+        )}
+        <StyledLabel marginBottom={20}>allergies</StyledLabel>
+        <LabelSelector
+          options={allergies || []}
+          onSelect={setSelectedAllergies}
+          selected={selectedAllergies}
+          isEdit={isEdit}
+        />
+        <StyledLabel marginBottom={20}>diets</StyledLabel>
+        <LabelSelector options={diets || []} onSelect={setSelectedDiets} selected={selectedDiets} isEdit={isEdit} />
+
+        <StyledButtonsContainer>
+          {isChangePassword ? (
+            <>
+              <Button onClick={handlePasswordChangeTrigger}>cancel</Button>
+              <Button onClick={handlePasswordSave}>save</Button>
+            </>
+          ) : (
+            <Button onClick={() => setIsChangePassword(!isChangePassword)}>change password</Button>
+          )}
+        </StyledButtonsContainer>
+
+        {isChangePassword && (
+          <>
+            <Input
+              label='new password'
+              value={password.newPassword}
+              onChange={(e) => handlePasswordChange(e, 'newPassword')}
+              type='password'
+              autoComplete='new-password'
+            />
+            <Input
+              label='repeat password'
+              value={password.repeatPassword}
+              onChange={(e) => handlePasswordChange(e, 'repeatPassword')}
+              type='password'
+              autoComplete='new-password'
+              errors={password.repeatPassword && password.error && password.error}
+            />
+          </>
+        )}
+      </StyledProfilePageContent>
+      <img src={'assets/Lesik.jpg'} alt='' />
+    </StyledProfilePage>
   )
 }
 

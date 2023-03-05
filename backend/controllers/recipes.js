@@ -20,7 +20,7 @@ export const getRecipes = async (req, res) => {
                     recipes,
                     current_page: page,
                     limit,
-                    total_count: await Recipe.countDocuments({ name: { $regex: regex } }),
+                    total_count: await Recipe.countDocuments({ name: { $regex: regex } })
                 })
             } else {
                 res.status(404).send('User not found')
@@ -35,7 +35,7 @@ export const getRecipes = async (req, res) => {
                 recipes,
                 current_page: page,
                 limit,
-                total_count: await Recipe.countDocuments({ name: { $regex: regex } }),
+                total_count: await Recipe.countDocuments({ name: { $regex: regex } })
             })
         }
     } catch (err) {
@@ -69,7 +69,7 @@ export const createRecipe = async (req, res) => {
             total_carbs,
             total_proteins,
             total_fats,
-            total_calories,
+            total_calories
         } = req.body
         const newRecipe = new Recipe({
             name,
@@ -83,7 +83,7 @@ export const createRecipe = async (req, res) => {
             total_carbs,
             total_proteins,
             total_fats,
-            total_calories,
+            total_calories
         })
         await newRecipe.save()
 
@@ -114,7 +114,7 @@ export const updateRecipe = async (req, res) => {
                 total_carbs: req.body.total_carbs || recipe.total_carbs,
                 total_proteins: req.body.total_proteins || recipe.total_proteins,
                 total_fats: req.body.total_fats || recipe.total_fats,
-                total_calories: req.body.total_calories || recipe.total_calories,
+                total_calories: req.body.total_calories || recipe.total_calories
             },
             { new: true }
         )

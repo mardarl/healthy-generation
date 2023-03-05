@@ -1,6 +1,5 @@
 import { createContext, useState, FunctionComponent, ReactNode, useEffect, useContext } from 'react'
 import { getUser } from './api/users'
-import { convertUserResponse } from './common/convertResponse'
 import { User } from './common/types'
 
 type UserContextType = {

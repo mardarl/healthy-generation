@@ -1,10 +1,19 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Formik, Form, Field, ErrorMessage, FieldArray } from 'formik'
-import * as yup from 'yup'
 import { Ingredient, NameSimple, Product, Recipe } from '../../common/types'
-import { LabelSelect } from '../../ui-components/LableSelector'
 import { Select } from '../../ui-components/Select'
+import { LabelSelector } from '../../ui-components/LabelSelector'
+import {
+  StyledPictureSection,
+  StyledRecipeForm,
+  StyledRecipeTitle,
+  StyledSelectorRow,
+} from '../../styles/RecipeForm.styled'
+import Input from '../../ui-components/Input'
+import { StyledTextarea } from '../../styles/TextArea.styled'
+import { recalculateIngredients } from '../../common/helpers'
+import { StyledButtonsContainer, StyledHeader } from '../../styles/RecipePage.styled'
+import Button from '../../ui-components/Button'
 
 type PecipeFormProps = {
   isNew: Boolean
@@ -12,32 +21,13 @@ type PecipeFormProps = {
   onFormSubmit: (values: Recipe) => void
   recipeTypes: NameSimple[]
   products: Product[]
+  onCancel: () => void
 }
 
-const recipeSchema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  ingredients: yup.array().of(
-    yup.object().shape({
-      productId: yup.string(),
-      name: yup.string(),
-      carbs: yup.number(),
-      proteins: yup.number(),
-      fats: yup.number(),
-      calories: yup.number(),
-      amount: yup.number(),
-      measurementType: yup.string(),
-    })
-  ),
-  steps: yup.array().of(yup.string()),
-  recipeTypes: yup.array().of(
-    yup.object().shape({
-      id: yup.string(),
-      name: yup.string(),
-    })
-  ),
-  picturePath: yup.string(),
-  cookingTime: yup.number().required('Cooking time is required'),
-})
+type InputProps<T> = {
+  value: T
+  error?: string
+}
 
 const initialValues: Recipe = {
   name: '',
@@ -55,11 +45,39 @@ const initialValues: Recipe = {
   posibleAllergies: null,
 }
 
+const initialIngredient: Ingredient = {
+  productId: '',
+  name: '',
+  carbs: 0,
+  proteins: 0,
+  fats: 0,
+  calories: 0,
+  recipeId: null,
+  amount: 0,
+  measurementType: 'g',
+}
+
 export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
-  const { isNew = true, recipeTypes, onFormSubmit, products, initialRecipeValues = initialValues } = props
-  const [selecteRecipeTypes, setSelectedRecipeTypes] = useState<Array<NameSimple> | null>(
+  const { isNew = true, recipeTypes, onFormSubmit, products, initialRecipeValues = initialValues, onCancel } = props
+
+  const [name, setName] = useState<InputProps<string>>({ value: initialRecipeValues.name || '', error: '' })
+  const [ingredients, setIngredients] = useState<InputProps<Array<Ingredient>>>({
+    value: initialRecipeValues.ingredients || [],
+    error: '',
+  })
+  const [steps, setSteps] = useState<InputProps<Array<string>>>({
+    value: initialRecipeValues.steps || [],
+    error: '',
+  })
+  const [stepHeights, setStepHeights] = useState<Array<number>>([])
+  const [selectedRecipeTypes, setSelectedRecipeTypes] = useState<Array<NameSimple> | null>(
     initialRecipeValues.recipeTypes
   )
+  const [cookingTime, setCookingTime] = useState<InputProps<number>>({
+    value: initialRecipeValues.cookingTime || 0,
+    error: '',
+  })
+  const [picturePath, setPicturePath] = useState<string | null>(initialRecipeValues.picturePath)
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: { 'image/*': [] },
@@ -67,26 +85,27 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     maxSize: 2097152,
   })
 
-  const files = acceptedFiles.map((file) => (
-    <li key={file.name}>
-      {file.name} - {file.size} bytes
-    </li>
-  ))
+  useEffect(() => {
+    setPicturePath(acceptedFiles[0]?.name)
+  }, [acceptedFiles])
 
-  const onSubmit = async (values: Recipe) => {
-    const allValues = {
-      ...values,
-      picturePath: acceptedFiles[0]?.name || values.picturePath,
-      recipeTypes: selecteRecipeTypes,
-    }
-    onFormSubmit(allValues)
+  const onSubmit = async () => {
+    onFormSubmit({
+      ...initialRecipeValues,
+      name: name.value,
+      ingredients: recalculateIngredients(ingredients.value),
+      steps: steps.value.filter((step) => step.length > 0),
+      recipeTypes: selectedRecipeTypes,
+      picturePath: picturePath || initialRecipeValues.picturePath,
+      cookingTime: cookingTime.value,
+    })
   }
 
-  const handleProductSelect = (id: string, index: number, values: Recipe, handleChange: any) => {
+  const handleProductSelect = (id: string, index: number) => {
     const product = products.find((item) => item.id === id)
-    if (values.ingredients && product) {
+    if (ingredients.value && product) {
       const updatedIngredient = {
-        ...values.ingredients[index],
+        ...ingredients.value[index],
         productId: product?.id,
         name: product?.name,
         carbs: product?.carbs,
@@ -96,142 +115,156 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         recipeId: null,
         measurementType: 'g',
       }
-      const updatedIngredients = values.ingredients
+      const updatedIngredients = ingredients.value
       updatedIngredients[index] = updatedIngredient
 
-      handleChange({ ...values, ingredients: updatedIngredients })
+      setIngredients({ value: updatedIngredients, error: '' })
     }
   }
 
-  const handleAmountChange = (amount: number, index: number, values: Recipe, handleChange: any) => {
-    const product = products.find((item) => item.id === values.ingredients[index].productId)
-    if (values.ingredients && amount && product) {
+  const handleAmountChange = (amount: number, index: number) => {
+    const product = products.find((item) => item.id === ingredients.value[index].productId)
+    if (ingredients.value && amount && product) {
       const updatedIngredient = {
-        ...values.ingredients[index],
-        carbs: (product?.carbs * amount) / 100,
-        proteins: (product.proteins * amount) / 100,
-        fats: (product.fats * amount) / 100,
-        calories: (product.calories * amount) / 100,
+        ...ingredients.value[index],
         amount: amount,
       }
-      const updatedIngredients = values.ingredients
+      const updatedIngredients = ingredients.value
       updatedIngredients[index] = updatedIngredient
 
-      handleChange({ ...values, ingredients: updatedIngredients })
+      setIngredients({ value: updatedIngredients, error: '' })
     }
+  }
+
+  const handleStepChange = (step: string, index: number, height: number) => {
+    if (steps.value) {
+      const updatedSteps = steps.value
+      updatedSteps[index] = step
+
+      const updatedStepHeights = stepHeights
+      updatedStepHeights[index] = height
+
+      setSteps({ value: updatedSteps, error: '' })
+      setStepHeights(updatedStepHeights)
+    }
+  }
+
+  const handleInputChange = (value: any, handleChange: any) => {
+    handleChange({ value, error: value ? '' : 'this field is required' })
+  }
+
+  const handleInsert = (value: any, array: any, index: number, handleChange: any) => {
+    array.length++
+    array.copyWithin(index + 1, index)
+    array[index] = value
+
+    handleChange({ value: array, error: '' })
+  }
+
+  const handleRemove = (array: any, index: number, handleChange: any) => {
+    handleChange({ value: array.filter((item: any, i: number) => i !== index && item), error: '' })
   }
 
   return (
-    <Formik
-      initialValues={isNew ? initialValues : initialRecipeValues}
-      onSubmit={onSubmit}
-      validationSchema={recipeSchema}
-    >
-      {({ isSubmitting, values, handleChange }: any) => (
-        <Form>
-          <p>recipe name</p>
-          <Field type='text' name='name' placeholder='Name' />
-          <ErrorMessage name='name' />
+    <>
+      <StyledHeader>
+        <span>{isNew ? 'new recipe' : 'edit recipe'}</span>
+        <StyledButtonsContainer>
+          <Button onClick={onCancel}>cancel</Button>
+          <Button disabled={!!name.error || !!cookingTime.error} onClick={onSubmit}>
+            save
+          </Button>
+        </StyledButtonsContainer>
+      </StyledHeader>
+      <StyledRecipeForm>
+        <StyledRecipeTitle>recipe name</StyledRecipeTitle>
+        <Input
+          type='text'
+          value={name.value}
+          onChange={(e) => handleInputChange(e.target.value, setName)}
+          placeholder='name'
+          errors={name.error}
+        />
 
-          <p>ingredients</p>
-          <FieldArray name='ingredients'>
-            {(arrayHelpers: any) => (
-              <div>
-                {values.ingredients.length ? (
-                  values.ingredients.map((ingredient: Ingredient, index: number) => (
-                    <div key={index}>
-                      <Select
-                        options={products}
-                        onSelect={(id) => handleProductSelect(id, index, values, handleChange)}
-                        selected={ingredient.name}
-                      />
-                      <Field
-                        type='number'
-                        name={`ingredients.${index}.amount`}
-                        placeholder='Amount'
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          handleAmountChange(e.target.valueAsNumber, index, values, handleChange)
-                        }
-                        value={values.ingredients[index].amount || ''}
-                      />
+        <StyledRecipeTitle>ingredients</StyledRecipeTitle>
+        <>
+          {ingredients && ingredients.value.length > 0 ? (
+            ingredients.value.map((ingredient: Ingredient, index: number) => (
+              <StyledSelectorRow key={index}>
+                <Select
+                  options={products}
+                  onSelect={(id) => handleProductSelect(id, index)}
+                  selected={ingredient.productId}
+                />
+                <Input
+                  type='number'
+                  placeholder='amount'
+                  onChange={(e) => handleAmountChange(e.target.valueAsNumber, index)}
+                  value={ingredients.value[index].amount || ''}
+                />
 
-                      <button type='button' onClick={() => arrayHelpers.remove(index)}>
-                        -
-                      </button>
-                      {index === values.ingredients.length - 1 && (
-                        <button type='button' onClick={() => arrayHelpers.insert(index + 1, '')}>
-                          +
-                        </button>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <button type='button' onClick={() => arrayHelpers.insert(0, '')}>
+                <Button onClick={() => handleRemove(ingredients.value, index, setIngredients)}>-</Button>
+                {index === ingredients.value.length - 1 && (
+                  <Button onClick={() => handleInsert(initialIngredient, ingredients.value, index + 1, setIngredients)}>
                     +
-                  </button>
+                  </Button>
                 )}
-              </div>
-            )}
-          </FieldArray>
+              </StyledSelectorRow>
+            ))
+          ) : (
+            <Button onClick={() => handleInsert(initialIngredient, ingredients.value, 0, setIngredients)}>+</Button>
+          )}
+        </>
 
-          <p>steps</p>
-          <FieldArray name='steps'>
-            {(arrayHelpers: any) => (
-              <div>
-                {values.steps.length ? (
-                  values.steps.map((_step: any, index: number) => (
-                    <div key={index}>
-                      <Field type='text' name={`steps.${index}`} placeholder='Step' />
-                      <ErrorMessage name={`steps.${index}`} />
+        <StyledRecipeTitle>steps</StyledRecipeTitle>
+        <>
+          {steps && steps.value.length > 0 ? (
+            steps.value.map((step: string, index: number) => (
+              <StyledSelectorRow key={index}>
+                <StyledTextarea
+                  placeholder='step'
+                  onChange={(e) => handleStepChange(e.target.value, index, e.target.scrollHeight)}
+                  value={step || ''}
+                  height={stepHeights[index]}
+                />
 
-                      <button type='button' onClick={() => arrayHelpers.remove(index)}>
-                        -
-                      </button>
-                      {index === values.steps.length - 1 && (
-                        <button type='button' onClick={() => arrayHelpers.insert(index + 1, '')}>
-                          +
-                        </button>
-                      )}
-                    </div>
-                  ))
-                ) : (
-                  <button type='button' onClick={() => arrayHelpers.insert(0, '')}>
-                    +
-                  </button>
+                <Button onClick={() => handleRemove(steps.value, index, setSteps)}>-</Button>
+                {index === steps.value.length - 1 && (
+                  <Button onClick={() => handleInsert('', steps.value, index + 1, setSteps)}>+</Button>
                 )}
-              </div>
-            )}
-          </FieldArray>
+              </StyledSelectorRow>
+            ))
+          ) : (
+            <Button onClick={() => handleInsert('', steps.value, 0, setSteps)}>+</Button>
+          )}
+        </>
 
-          <p>recipe types</p>
-          <LabelSelect
-            options={recipeTypes || []}
-            onSelect={setSelectedRecipeTypes}
-            selected={selecteRecipeTypes}
-            isEdit
-          />
+        <StyledRecipeTitle>recipe types</StyledRecipeTitle>
+        <LabelSelector
+          options={recipeTypes || []}
+          onSelect={setSelectedRecipeTypes}
+          selected={selectedRecipeTypes}
+          isEdit
+        />
 
-          <p>picture</p>
-          <section className='container'>
-            <div {...getRootProps({ className: 'dropzone disabled' })}>
-              <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
-            </div>
-            <aside>
-              <h4>Files</h4>
-              <ul>{files}</ul>
-            </aside>
-          </section>
+        <StyledRecipeTitle>cooking time</StyledRecipeTitle>
+        <Input
+          type='number'
+          placeholder='cooking time'
+          onChange={(e) => handleInputChange(e.target.valueAsNumber, setCookingTime)}
+          value={cookingTime.value}
+          errors={cookingTime.error}
+        />
 
-          <p>cooking time</p>
-          <Field type='number' name='cookingTime' placeholder='Cooking Time' value={values.cookingTime || ''} />
-          <ErrorMessage name='cookingTime' />
-
-          <button type='submit' disabled={isSubmitting}>
-            Submit
-          </button>
-        </Form>
-      )}
-    </Formik>
+        <StyledRecipeTitle>picture</StyledRecipeTitle>
+        <StyledPictureSection>
+          <div {...getRootProps({ className: 'dropzone disabled' })}>
+            <input {...getInputProps()} />
+            <span>drag 'n' drop some files here, or click to select files</span>
+          </div>
+          {picturePath && <span>{`file: ${picturePath}`}</span>}
+        </StyledPictureSection>
+      </StyledRecipeForm>
+    </>
   )
 }

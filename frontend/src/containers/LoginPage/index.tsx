@@ -7,6 +7,9 @@ import { RoutePaths } from '../../routes/routePaths'
 
 import Button from '../../ui-components/Button'
 import { login } from '../../api/auth'
+import { Container } from '../../styles/Container.styled'
+import { StyledLoginPage, StyledTitle } from '../../styles/LoginPage.styled'
+import Input from '../../ui-components/Input'
 
 const LoginPage: FunctionComponent = () => {
   const navigate = useNavigate()
@@ -26,15 +29,29 @@ const LoginPage: FunctionComponent = () => {
     navigate(RoutePaths.HOME)
   }
 
+  const handleKeypress = (e: any) => {
+    if (e.charCode === 13) {
+      handleLogin()
+    }
+  }
+
   return (
-    <div className='LoginPage'>
-      <p>login page</p>
-      <p>email</p>
-      <input value={email} onChange={(e) => setEmail(e.target.value)} />
-      <p>password</p>
-      <input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Button onClick={handleLogin}>log in</Button>
-    </div>
+    <Container>
+      <StyledLoginPage>
+        <StyledTitle>login page</StyledTitle>
+        <div>
+          <Input label={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Input
+            label={'password'}
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onKeyPress={handleKeypress}
+          />
+        </div>
+        <Button onClick={handleLogin}>log in</Button>
+      </StyledLoginPage>
+    </Container>
   )
 }
 

@@ -16,7 +16,7 @@ import allergieRoutes from './routes/allergies.js'
 import dietRoutes from './routes/diets.js'
 import productRoutes from './routes/products.js'
 import measurementTypeRoutes from './routes/measurement_types.js'
-import { createRecipe } from './controllers/recipes.js'
+import { createRecipe, updateRecipe } from './controllers/recipes.js'
 import { verifyToken } from './middleware/auth.js'
 
 /* CONFIGURATIONS */
@@ -40,12 +40,13 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         cb(null, file.originalname)
-    },
+    }
 })
 const upload = multer({ storage })
 
 /* ROUTES WITH FILES */
 app.post('/recipes', verifyToken, upload.single('picture_path'), createRecipe)
+app.patch('/recipes/:id', verifyToken, upload.single('picture_path'), updateRecipe)
 
 /* ROUTES */
 app.use('/auth', authRoutes)
@@ -63,7 +64,7 @@ mongoose.set('strictQuery', false)
 mongoose
     .connect(process.env.HEALTHYGENERATON_DB_URI, {
         useNewUrlParser: true,
-        useUnifiedTopology: true,
+        useUnifiedTopology: true
     })
     .then(() => {
         app.listen(PORT, () => console.log(`Server Port: ${PORT}`))

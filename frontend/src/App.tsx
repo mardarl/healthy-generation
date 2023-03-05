@@ -1,11 +1,16 @@
 import React, { FunctionComponent, lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router-dom'
+import { ThemeProvider } from 'styled-components'
 
 import Header from './components/Header'
 import { withRecipes } from './components/RecipesHOC'
 import { PrivateRoute } from './routes/PrivateRoute'
 
 import { RoutePaths } from './routes/routePaths'
+import GlobalStyles from './styles/Global'
+import { theme } from './styles/theme'
+import LoadingScreen from './components/LoadingScreen'
+import Footer from './components/Footer'
 
 const RecipesPage = lazy(() => import('./containers/RecipesPage'))
 const HomePage = lazy(() => import('./containers/HomePage'))
@@ -19,9 +24,10 @@ const FavouriteRecipesList = withRecipes(RecipesPage, true)
 
 const App: FunctionComponent = () => {
   return (
-    <div className='App'>
-      <Header />
-      <Suspense fallback={<div>Loading...</div>}>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <Suspense fallback={<LoadingScreen />}>
+        <Header />
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path={RoutePaths.LOGIN} element={<LoginPage />} />
@@ -67,8 +73,9 @@ const App: FunctionComponent = () => {
           />
           <Route path='*' element={<HomePage />} />
         </Routes>
+        <Footer />
       </Suspense>
-    </div>
+    </ThemeProvider>
   )
 }
 

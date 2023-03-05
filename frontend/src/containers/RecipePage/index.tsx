@@ -5,11 +5,22 @@ import { getProducts } from '../../api/products'
 import { deleteRecipe, getRecipe, updateRecipe } from '../../api/recipes'
 import { getRecipeTypes } from '../../api/recipeTypes'
 import { updateUser } from '../../api/users'
-import { Ingredient, NameSimple, Product, Recipe } from '../../common/types'
+import { NameSimple, Product, Recipe } from '../../common/types'
 import { RecipeForm } from '../../components/RecipeForm'
-
+import {
+  StyledButtonsContainer,
+  StyledHeader,
+  StyledRecipeStep,
+  StyledRecipeText,
+  StyledRecipeTitle,
+  StyledRecipePage,
+  StyledRecipePageContent,
+} from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
 import { UserContext, useUser } from '../../UserContext'
+import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
+import { LabelSelector } from '../../ui-components/LabelSelector'
+import { calculateTotalNutrient, getRandomInt } from '../../common/helpers'
 
 const RecipePage: FunctionComponent = () => {
   const { user } = useUser()
@@ -21,6 +32,7 @@ const RecipePage: FunctionComponent = () => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [recipeTypes, setRecipeTypes] = useState<Array<NameSimple> | null>(null)
   const [products, setProducts] = useState<Array<Product> | null>(null)
+  const [imgSrc, setImgSrc] = useState<string>('')
 
   const fetchData = async (id: string) => {
     setRecipe(await getRecipe(id))
@@ -40,14 +52,6 @@ const RecipePage: FunctionComponent = () => {
   }
 
   const onSubmit = async (values: Recipe) => {
-    const amount = values.ingredients.reduce(
-      (sum: number, ingredient: Ingredient) => sum + Math.round(ingredient.amount),
-      0
-    )
-    const carbs = values.ingredients.reduce((sum: number, ingredient: Ingredient) => sum + ingredient.carbs, 0)
-    const proteins = values.ingredients.reduce((sum: number, ingredient: Ingredient) => sum + ingredient.proteins, 0)
-    const fats = values.ingredients.reduce((sum: number, ingredient: Ingredient) => sum + ingredient.fats, 0)
-    const calories = values.ingredients.reduce((sum: number, ingredient: Ingredient) => sum + ingredient.calories, 0)
     if (user && recipe) {
       const newRecipe = await updateRecipe({
         id: recipe?.id,
@@ -59,10 +63,10 @@ const RecipePage: FunctionComponent = () => {
         recipeTypes: values.recipeTypes || [],
         picturePath: values.picturePath,
         cookingTime: values.cookingTime,
-        totalCarbs: Math.round((carbs * 100) / amount),
-        totalProteins: Math.round((proteins * 100) / amount),
-        totalFats: Math.round((fats * 100) / amount),
-        totalCalories: Math.round((calories * 100) / amount),
+        totalCarbs: calculateTotalNutrient(values.ingredients, 'carbs'),
+        totalProteins: calculateTotalNutrient(values.ingredients, 'proteins'),
+        totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
+        totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
       })
       fetchData(newRecipe.id)
       setIsEdit(false)
@@ -88,48 +92,73 @@ const RecipePage: FunctionComponent = () => {
     }
   }, [user])
 
+  useEffect(() => {
+    if (recipe?.picturePath) {
+      setImgSrc(`http://localhost:8000/assets/${recipe?.picturePath}`)
+    } else {
+      const randomNumber = getRandomInt(3)
+      setImgSrc(`http://localhost:3001/assets/default-${randomNumber}.jpg`)
+    }
+  }, [recipe])
+
   return (
-    <div className='RecipePage'>
-      <p>recipe page</p>
-      <Button onClick={() => navigate(-1)}>back</Button>
-      <Button onClick={handleDelete}>delete</Button>
-      <Button onClick={() => setIsEdit(true)}>edit</Button>
+    <StyledRecipePage>
       {recipe && (
         <>
-          {isEdit && <Button onClick={() => setIsEdit(false)}>cancel</Button>}
+          <img src={imgSrc} alt='' />
           {isEdit && recipeTypes && products ? (
-            <RecipeForm
-              isNew={false}
-              recipeTypes={recipeTypes}
-              onFormSubmit={onSubmit}
-              products={products}
-              initialRecipeValues={recipe}
-            />
+            <StyledRecipePageContent>
+              <RecipeForm
+                isNew={false}
+                recipeTypes={recipeTypes}
+                onFormSubmit={onSubmit}
+                products={products}
+                initialRecipeValues={recipe}
+                onCancel={() => setIsEdit(false)}
+              />
+            </StyledRecipePageContent>
           ) : (
-            <>
-              <h3>{recipe?.name}</h3>
-              <div>
-                <input type='checkbox' id='fav' name='fav' onClick={handleFavouriteChange} checked={isFavourite} />
-                <label htmlFor='fav'>favourite</label>
-              </div>
-              <h4>nutritions:</h4>
-              <p>{`time: ${recipe?.cookingTime}`}</p>
-              <p>{`calories: ${recipe?.totalCalories}`}</p>
-              <p>{`carbs: ${recipe?.totalCarbs}`}</p>
-              <p>{`proteins: ${recipe?.totalProteins}`}</p>
-              <p>{`fat: ${recipe?.totalFats}`}</p>
-              <h4>ingredients:</h4>
-              {recipe?.ingredients &&
-                recipe?.ingredients.map((ingredient, index) => (
-                  <p key={index}>{`${ingredient?.name} ${ingredient?.amount}g`}</p>
-                ))}
-              <h4>steps:</h4>
-              {recipe?.steps && recipe?.steps.map((step, index) => <li key={index}>{step}</li>)}
-            </>
+            <StyledRecipePageContent>
+              <StyledHeader>
+                <span>{recipe?.name}</span>
+                <StyledButtonsContainer>
+                  {isFavourite ? (
+                    <HiHeart onClick={handleFavouriteChange} />
+                  ) : (
+                    <HiOutlineHeart onClick={handleFavouriteChange} />
+                  )}
+                  <Button onClick={handleDelete}>delete</Button>
+                  <Button onClick={() => setIsEdit(true)}>edit</Button>
+                </StyledButtonsContainer>
+              </StyledHeader>
+              <StyledRecipeTitle>nutritions:</StyledRecipeTitle>
+              <StyledRecipeText>{`time: ${recipe?.cookingTime || 0}m`}</StyledRecipeText>
+              <StyledRecipeText>{`calories: ${recipe?.totalCalories || 0}g`}</StyledRecipeText>
+              <StyledRecipeText>{`carbs: ${recipe?.totalCarbs || 0}g`}</StyledRecipeText>
+              <StyledRecipeText>{`proteins: ${recipe?.totalProteins || 0}g`}</StyledRecipeText>
+              <StyledRecipeText>{`fat: ${recipe?.totalFats || 0}g`}</StyledRecipeText>
+              {recipe?.recipeTypes && recipe?.recipeTypes.length > 0 && (
+                <>
+                  <StyledRecipeTitle>recipe types:</StyledRecipeTitle>
+                  <LabelSelector options={recipeTypes || []} onSelect={() => {}} selected={recipe?.recipeTypes} />
+                </>
+              )}
+              {recipe?.ingredients.length > 0 && (
+                <>
+                  <StyledRecipeTitle>ingredients:</StyledRecipeTitle>
+                  {recipe?.ingredients.map((ingredient, index) => (
+                    <StyledRecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</StyledRecipeText>
+                  ))}
+                </>
+              )}
+              <StyledRecipeTitle>steps:</StyledRecipeTitle>
+              {recipe?.steps &&
+                recipe?.steps.map((step, index) => <StyledRecipeStep key={index}>{step}</StyledRecipeStep>)}
+            </StyledRecipePageContent>
           )}
         </>
       )}
-    </div>
+    </StyledRecipePage>
   )
 }
 

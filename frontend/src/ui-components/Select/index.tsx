@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { NameSimple } from '../../common/types'
+import { StyledSelect, StyledSelectBody } from '../../styles/Select.styled'
 
 type SelectProps = {
   options: Array<NameSimple>
@@ -8,19 +9,14 @@ type SelectProps = {
 }
 
 export const Select = (props: SelectProps) => {
-  const { options, onSelect, selected } = props
-  const [isOpen, setIsOpen] = useState(false)
-  const [value, setValue] = useState(selected)
+  const { options, onSelect, selected = null } = props
+  const [isOpen, setIsOpen] = useState<boolean>(false)
   const ref = useRef<HTMLDivElement>(null)
-
-  // const onSelectOption = (id: string) => {
-  //   selected?.includes(id) ? onSelect([...selected.filter((item) => item !== id)]) : onSelect([...(selected || []), id])
-  // }
 
   const onSelectOption = (item: NameSimple) => {
     if (item) {
-      setValue(item.name)
       onSelect(item.id)
+      toggleSelect()
     }
   }
 
@@ -40,28 +36,20 @@ export const Select = (props: SelectProps) => {
     }
   }, [ref])
 
-  // const value = selected ? options.find((item) => item.id === selected)?.name : 'select'
-  // console.log('selected', selected)
+  const value = selected ? options.find((item) => item.id === selected)?.name : 'select'
 
   return (
-    <div className='dropdown-container' ref={ref}>
-      <p className='dropdown-btn' onClick={toggleSelect}>
-        {value || 'select'}
-      </p>
-      {/* <input value={selected} /> */}
+    <StyledSelect selected={!!selected} ref={ref}>
+      <span onClick={toggleSelect}>{value}</span>
       {isOpen && (
-        <ul className='dropdown-menu' style={{ backgroundColor: 'gray', cursor: 'pointer' }}>
+        <StyledSelectBody>
           {options.map((option) => (
-            <li
-              onClick={() => onSelectOption(option)}
-              key={option.id}
-              // style={{ color: selected && selected.includes(option.id) ? 'red' : 'black' }}
-            >
+            <span onClick={() => onSelectOption(option)} key={option.id}>
               {option.name}
-            </li>
+            </span>
           ))}
-        </ul>
+        </StyledSelectBody>
       )}
-    </div>
+    </StyledSelect>
   )
 }
