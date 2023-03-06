@@ -15,21 +15,21 @@ export const StyledInput = styled.div<InputProps>`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 
   input {
     background: ${({ theme }) => theme.colors.container};
     color: ${({ disabled, theme }) => (disabled ? theme.colors.disabledText : theme.colors.text)};
-    padding: 15px 10px;
+    padding: 0.938rem 0.625rem;
     border: none;
-    border-bottom: 1px solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
+    border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
     outline: none;
-    font-size: 16px;
-    min-width: 50px;
+    font-size: 1rem;
+    min-width: 3.125rem;
     cursor: ${({ disabled }) => (disabled ? 'default' : 'text')};
 
     &:focus {
-      border-bottom: 1px solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.border)};
+      border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.border)};
     }
   }
 
@@ -53,7 +53,7 @@ export const StyledInput = styled.div<InputProps>`
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
     background: #12151a;
-    border-bottom: 1px solid #858585;
+    border-bottom: 0.063rem solid #858585;
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;
   }
@@ -61,16 +61,16 @@ export const StyledInput = styled.div<InputProps>`
 `
 
 export const StyledLabel = styled.span<LabelProps>`
-  font-size: 12px;
+  font-size: 0.75rem;
   display: block;
-  margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}px` : '5px')};
-  margin-top: ${({ marginTop }) => (marginTop ? `${marginTop}px` : 0)};
+  margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}rem` : '0.313rem')};
+  margin-top: ${({ marginTop }) => (marginTop ? `${marginTop}rem` : 0)};
   color: ${({ theme }) => theme.colors.regularText};
 `
 
 export const StyledInputError = styled.span`
-  font-size: 10px;
+  font-size: 0.625rem;
   display: block;
-  margin-top: 5px;
+  margin-top: 0.313rem;
   color: ${({ theme }) => theme.colors.error};
 `

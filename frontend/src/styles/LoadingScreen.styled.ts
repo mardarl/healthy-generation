@@ -2,11 +2,9 @@ import styled from 'styled-components'
 import { rotate360 } from './animatons'
 
 const StyledLoadingScreen = styled.div`
-  background: ${({ theme }) => theme.colors.header};
-  position: absolute;
-  height: 100vh;
+  background: ${({ theme }) => theme.colors.container};
+  height: 100%;
   width: 100%;
-  z-index: 5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,13 +13,13 @@ const StyledLoadingScreen = styled.div`
   > div {
     animation: ${rotate360} 1s linear infinite;
     transform: translateZ(0);
-    border-top: 8px solid ${({ theme }) => theme.colors.body};
-    border-right: 8px solid ${({ theme }) => theme.colors.body};
-    border-bottom: 8px solid ${({ theme }) => theme.colors.body};
-    border-left: 8px solid ${({ theme }) => theme.colors.header};
+    border-top: 0.5rem solid ${({ theme }) => theme.colors.body};
+    border-right: 0.5rem solid ${({ theme }) => theme.colors.body};
+    border-bottom: 0.5rem solid ${({ theme }) => theme.colors.body};
+    border-left: 0.5rem solid ${({ theme }) => theme.colors.header};
     background: transparent;
-    width: 150px;
-    height: 150px;
+    width: 9.375rem;
+    height: 9.375rem;
     border-radius: 50%;
   }
 `

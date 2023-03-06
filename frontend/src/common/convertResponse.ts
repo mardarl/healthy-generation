@@ -145,10 +145,10 @@ export const convertCreateRecipeRequest = (resp: CreateRecipeBody): CreateRecipe
   recipe_types: resp?.recipeTypes?.map((type) => convertNameSimpleRequest(type)) || [],
   picture_path: resp.picturePath || '',
   cooking_time: resp.cookingTime,
-  total_carbs: resp.totalCarbs,
-  total_proteins: resp.totalProteins,
-  total_fats: resp.totalFats,
-  total_calories: resp.totalCalories,
+  total_carbs: resp.totalCarbs || 0,
+  total_proteins: resp.totalProteins || 0,
+  total_fats: resp.totalFats || 0,
+  total_calories: resp.totalCalories || 0,
 })
 
 export const convertRecipeSimpleResponse = (resp: RecipeSimpleResponse): RecipeSimple => ({

@@ -4,7 +4,7 @@ import User from '../models/User.js'
 /* READ */
 export const getRecipes = async (req, res) => {
     try {
-        const { search = '', limit = 10, page = 1, is_favourite = false, user_id = null } = req.query
+        const { search = '', limit = 6, page = 1, is_favourite = false, user_id = null } = req.query
         const regex = new RegExp(`${search}`, 'i')
 
         if (is_favourite && user_id) {
@@ -20,7 +20,10 @@ export const getRecipes = async (req, res) => {
                     recipes,
                     current_page: page,
                     limit,
-                    total_count: await Recipe.countDocuments({ name: { $regex: regex } })
+                    total_count: await Recipe.countDocuments({
+                        _id: { $in: favouriteRecipeIds },
+                        name: { $regex: regex }
+                    })
                 })
             } else {
                 res.status(404).send('User not found')
@@ -60,16 +63,16 @@ export const createRecipe = async (req, res) => {
         const {
             name,
             author_id = 'default',
-            ingredients,
-            steps,
-            posible_allergies,
-            recipe_types,
+            ingredients = [],
+            steps = [],
+            posible_allergies = [],
+            recipe_types = [],
             picture_path = '',
             cooking_time,
-            total_carbs,
-            total_proteins,
-            total_fats,
-            total_calories
+            total_carbs = 0,
+            total_proteins = 0,
+            total_fats = 0,
+            total_calories = 0
         } = req.body
         const newRecipe = new Recipe({
             name,

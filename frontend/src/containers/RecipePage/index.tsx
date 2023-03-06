@@ -21,12 +21,16 @@ import { UserContext, useUser } from '../../UserContext'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
 import { LabelSelector } from '../../ui-components/LabelSelector'
 import { calculateTotalNutrient, getRandomInt } from '../../common/helpers'
+import LoadingScreen from '../../components/LoadingScreen'
+import { RoutePaths } from '../../routes/routePaths'
 
 const RecipePage: FunctionComponent = () => {
   const { user } = useUser()
   const navigate = useNavigate()
   const { recipeId } = useParams()
   const { setUser } = useContext(UserContext)
+
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [recipe, setRecipe] = useState<Recipe | null>(null)
   const [isFavourite, setIsFavourite] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
@@ -38,6 +42,7 @@ const RecipePage: FunctionComponent = () => {
     setRecipe(await getRecipe(id))
     setRecipeTypes(await getRecipeTypes())
     setProducts(await getProducts())
+    setLoading(false)
   }
 
   const handleFavouriteChange = async () => {
@@ -52,6 +57,7 @@ const RecipePage: FunctionComponent = () => {
   }
 
   const onSubmit = async (values: Recipe) => {
+    setLoading(true)
     if (user && recipe) {
       const newRecipe = await updateRecipe({
         id: recipe?.id,
@@ -70,19 +76,21 @@ const RecipePage: FunctionComponent = () => {
       })
       fetchData(newRecipe.id)
       setIsEdit(false)
+      setLoading(false)
     }
   }
 
   const handleDelete = async () => {
     if (user && recipe) {
       await deleteRecipe(recipe.id)
-      navigate(-1)
+      navigate(RoutePaths.ALL_RECIPES)
     }
   }
 
   useEffect(() => {
     if (recipeId) {
       fetchData(recipeId)
+      setLoading(true)
     }
   }, [])
 
@@ -102,63 +110,76 @@ const RecipePage: FunctionComponent = () => {
   }, [recipe])
 
   return (
-    <StyledRecipePage>
-      {recipe && (
-        <>
-          <img src={imgSrc} alt='' />
-          {isEdit && recipeTypes && products ? (
-            <StyledRecipePageContent>
-              <RecipeForm
-                isNew={false}
-                recipeTypes={recipeTypes}
-                onFormSubmit={onSubmit}
-                products={products}
-                initialRecipeValues={recipe}
-                onCancel={() => setIsEdit(false)}
-              />
-            </StyledRecipePageContent>
-          ) : (
-            <StyledRecipePageContent>
-              <StyledHeader>
-                <span>{recipe?.name}</span>
-                <StyledButtonsContainer>
-                  {isFavourite ? (
-                    <HiHeart onClick={handleFavouriteChange} />
-                  ) : (
-                    <HiOutlineHeart onClick={handleFavouriteChange} />
+    <>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <StyledRecipePage>
+          {recipe && (
+            <>
+              <img src={imgSrc} alt='' />
+              {isEdit && recipeTypes && products ? (
+                <StyledRecipePageContent>
+                  <RecipeForm
+                    isNew={false}
+                    recipeTypes={recipeTypes}
+                    onFormSubmit={onSubmit}
+                    products={products}
+                    initialRecipeValues={recipe}
+                    onCancel={() => setIsEdit(false)}
+                  />
+                </StyledRecipePageContent>
+              ) : (
+                <StyledRecipePageContent>
+                  <StyledHeader>
+                    <span>{recipe?.name}</span>
+                    <StyledButtonsContainer>
+                      {isFavourite ? (
+                        <HiHeart onClick={handleFavouriteChange} />
+                      ) : (
+                        <HiOutlineHeart onClick={handleFavouriteChange} />
+                      )}
+                      <Button onClick={handleDelete}>delete</Button>
+                      <Button onClick={() => setIsEdit(true)}>edit</Button>
+                    </StyledButtonsContainer>
+                  </StyledHeader>
+                  <StyledRecipeTitle>nutritions:</StyledRecipeTitle>
+                  <StyledRecipeText>{`time: ${recipe?.cookingTime || 0}m`}</StyledRecipeText>
+                  <StyledRecipeText>{`calories: ${recipe?.totalCalories || 0}g`}</StyledRecipeText>
+                  <StyledRecipeText>{`carbs: ${recipe?.totalCarbs || 0}g`}</StyledRecipeText>
+                  <StyledRecipeText>{`proteins: ${recipe?.totalProteins || 0}g`}</StyledRecipeText>
+                  <StyledRecipeText>{`fat: ${recipe?.totalFats || 0}g`}</StyledRecipeText>
+                  {recipe?.recipeTypes && recipe?.recipeTypes.length > 0 && (
+                    <>
+                      <StyledRecipeTitle>recipe types:</StyledRecipeTitle>
+                      <LabelSelector options={recipeTypes || []} onSelect={() => {}} selected={recipe?.recipeTypes} />
+                    </>
                   )}
-                  <Button onClick={handleDelete}>delete</Button>
-                  <Button onClick={() => setIsEdit(true)}>edit</Button>
-                </StyledButtonsContainer>
-              </StyledHeader>
-              <StyledRecipeTitle>nutritions:</StyledRecipeTitle>
-              <StyledRecipeText>{`time: ${recipe?.cookingTime || 0}m`}</StyledRecipeText>
-              <StyledRecipeText>{`calories: ${recipe?.totalCalories || 0}g`}</StyledRecipeText>
-              <StyledRecipeText>{`carbs: ${recipe?.totalCarbs || 0}g`}</StyledRecipeText>
-              <StyledRecipeText>{`proteins: ${recipe?.totalProteins || 0}g`}</StyledRecipeText>
-              <StyledRecipeText>{`fat: ${recipe?.totalFats || 0}g`}</StyledRecipeText>
-              {recipe?.recipeTypes && recipe?.recipeTypes.length > 0 && (
-                <>
-                  <StyledRecipeTitle>recipe types:</StyledRecipeTitle>
-                  <LabelSelector options={recipeTypes || []} onSelect={() => {}} selected={recipe?.recipeTypes} />
-                </>
+                  {recipe?.ingredients.length > 0 && (
+                    <>
+                      <StyledRecipeTitle>ingredients:</StyledRecipeTitle>
+                      {recipe?.ingredients.map((ingredient, index) => (
+                        <StyledRecipeText
+                          key={index}
+                        >{`${ingredient?.name} - ${ingredient?.amount}g`}</StyledRecipeText>
+                      ))}
+                    </>
+                  )}
+                  {recipe?.steps && recipe?.steps.length > 0 && (
+                    <>
+                      <StyledRecipeTitle>steps:</StyledRecipeTitle>
+                      {recipe?.steps.map((step, index) => (
+                        <StyledRecipeStep key={index}>{step}</StyledRecipeStep>
+                      ))}
+                    </>
+                  )}
+                </StyledRecipePageContent>
               )}
-              {recipe?.ingredients.length > 0 && (
-                <>
-                  <StyledRecipeTitle>ingredients:</StyledRecipeTitle>
-                  {recipe?.ingredients.map((ingredient, index) => (
-                    <StyledRecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</StyledRecipeText>
-                  ))}
-                </>
-              )}
-              <StyledRecipeTitle>steps:</StyledRecipeTitle>
-              {recipe?.steps &&
-                recipe?.steps.map((step, index) => <StyledRecipeStep key={index}>{step}</StyledRecipeStep>)}
-            </StyledRecipePageContent>
+            </>
           )}
-        </>
+        </StyledRecipePage>
       )}
-    </StyledRecipePage>
+    </>
   )
 }
 

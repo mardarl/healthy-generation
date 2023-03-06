@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react'
 import { useNavigate } from 'react-router'
 import { convertRecipeName, getRandomInt, routeWithParams } from '../../common/helpers'
 import { RecipePageProps } from '../../common/types'
-
 import { RoutePaths } from '../../routes/routePaths'
 import {
   StyledRecipeList,
@@ -16,13 +15,16 @@ import {
   StyledRecipeCal,
 } from '../../styles/RecipeList.styled'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
-
 import Button from '../../ui-components/Button'
 import { useUser } from '../../UserContext'
+import Pagination from '../../components/Pagination'
 
 const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePageProps) => {
   const {
-    recipes: { recipes },
+    recipes: { recipes, limit, totalCount },
+    handleFavouriteChange,
+    currentPage,
+    setCurrentPage,
   } = props
   const navigate = useNavigate()
   const { user } = useUser()
@@ -53,7 +55,11 @@ const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePagePro
                       <p>{convertRecipeName(recipe.name)[0]}</p>
                       <span>{convertRecipeName(recipe.name)[1]}</span>
                     </StyledRecipeName>
-                    {user.favouriteRecipes.includes(recipe.id) ? <HiHeart /> : <HiOutlineHeart />}
+                    {user.favouriteRecipes.includes(recipe.id) ? (
+                      <HiHeart onClick={(e) => handleFavouriteChange(e, recipe.id)} />
+                    ) : (
+                      <HiOutlineHeart onClick={(e) => handleFavouriteChange(e, recipe.id)} />
+                    )}
                   </StyledRecipeHeader>
                   <StyledRecipeTime>{`time ${recipe.cookingTime}m`}</StyledRecipeTime>
                   <StyledRecipeCal>{`${recipe.totalCalories} cal`}</StyledRecipeCal>
@@ -62,6 +68,7 @@ const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePagePro
             )
           })}
       </StyledRecipeList>
+      <Pagination pagesCount={Math.ceil(totalCount / limit)} currentPage={currentPage} onChange={setCurrentPage} />
     </StyledRecipeListContainer>
   )
 }

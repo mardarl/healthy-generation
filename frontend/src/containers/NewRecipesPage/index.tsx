@@ -5,6 +5,7 @@ import { createRecipe } from '../../api/recipes'
 import { getRecipeTypes } from '../../api/recipeTypes'
 import { calculateTotalNutrient, routeWithParams } from '../../common/helpers'
 import { NameSimple, Product, Recipe } from '../../common/types'
+import LoadingScreen from '../../components/LoadingScreen'
 import { RecipeForm } from '../../components/RecipeForm'
 import { RoutePaths } from '../../routes/routePaths'
 import { StyledNewRecipePage } from '../../styles/NewRecipePage.styled'
@@ -13,16 +14,20 @@ import { useUser } from '../../UserContext'
 const NewRecipesPage: FunctionComponent = () => {
   const navigate = useNavigate()
   const { user } = useUser()
+
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [recipeTypes, setRecipeTypes] = useState<Array<NameSimple> | null>(null)
   const [products, setProducts] = useState<Array<Product> | null>(null)
 
   const fetchRecipeData = async () => {
     setRecipeTypes(await getRecipeTypes())
     setProducts(await getProducts())
+    setLoading(false)
   }
 
   const onSubmit = async (values: Recipe) => {
     if (user) {
+      setLoading(true)
       const newRecipe = await createRecipe({
         name: values.name,
         authorId: user.id,
@@ -37,26 +42,34 @@ const NewRecipesPage: FunctionComponent = () => {
         totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
         totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
       })
+      setLoading(false)
       navigate(routeWithParams(RoutePaths.RECIPE, { recipeId: newRecipe.id }))
     }
   }
 
   useEffect(() => {
     fetchRecipeData()
+    setLoading(true)
   }, [])
 
   return (
-    <StyledNewRecipePage>
-      {recipeTypes && products && (
-        <RecipeForm
-          isNew
-          recipeTypes={recipeTypes}
-          onFormSubmit={onSubmit}
-          products={products}
-          onCancel={() => navigate(RoutePaths.ALL_RECIPES)}
-        />
+    <>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <StyledNewRecipePage>
+          {recipeTypes && products && (
+            <RecipeForm
+              isNew
+              recipeTypes={recipeTypes}
+              onFormSubmit={onSubmit}
+              products={products}
+              onCancel={() => navigate(RoutePaths.ALL_RECIPES)}
+            />
+          )}
+        </StyledNewRecipePage>
       )}
-    </StyledNewRecipePage>
+    </>
   )
 }
 

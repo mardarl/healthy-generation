@@ -8,12 +8,12 @@ export const StyledLoginPage = styled.div`
   height: 100%;
 
   div {
-    width: 550px;
+    width: 34.375rem;
   }
 `
 
 export const StyledTitle = styled.span`
-  font-size: 24px;
+  font-size: 1.5rem;
   display: block;
-  margin-bottom: 70px;
+  margin-bottom: 4.375rem;
 `

@@ -4,7 +4,7 @@ import { Container } from './Container.styled'
 
 export const StyledRecipeListContainer = styled(Container)`
   background-color: ${({ theme }) => theme.colors.container};
-  padding: 40px;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   height: fit-content;
@@ -14,11 +14,11 @@ export const StyledRecipeTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   animation: 2s ${fadeIn};
 
   span {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 `
 
@@ -26,12 +26,12 @@ export const StyledRecipeList = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 58px;
+  gap: 3.625rem;
   animation: 3s ${lineUpNoOpacity} ease-out;
 `
 export const StyledRecipe = styled.div`
   width: 30%;
-  height: 450px;
+  height: 28.125rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -56,9 +56,9 @@ export const StyledRecipe = styled.div`
 
 export const StyledRecipeContent = styled.div`
   background-color: ${({ theme }) => theme.colors.recipePreview};
-  height: 200px;
-  bottom: 17px;
-  left: 17px;
+  height: 12.5rem;
+  bottom: 1.063rem;
+  left: 1.063rem;
   position: absolute;
   width: 90%;
   color: ${({ theme }) => theme.colors.regularText};
@@ -74,22 +74,22 @@ export const StyledRecipeHeader = styled.div`
 
   svg {
     position: absolute;
-    right: 15px;
-    top: 10px;
-    width: 25px;
-    height: 25px;
+    right: 0.938rem;
+    top: 0.625rem;
+    width: 1.563rem;
+    height: 1.563rem;
   }
 `
 
 export const StyledRecipeName = styled.div`
   position: absolute;
-  font-size: 42px;
-  max-height: 100px;
+  font-size: 2.625rem;
+  max-height: 6.25rem;
   display: flex;
   flex-direction: column;
   width: 90%;
-  left: 20px;
-  top: -65px;
+  left: 1.25rem;
+  top: -4.063rem;
 
   p {
     color: ${({ theme }) => theme.colors.text};
@@ -99,21 +99,21 @@ export const StyledRecipeName = styled.div`
   span {
     display: block;
     width: 85%;
-    font-size: 32px;
+    font-size: 2rem;
   }
 `
 export const StyledRecipeTime = styled.div`
   color: ${({ theme }) => theme.colors.body};
   position: absolute;
-  bottom: 10px;
-  left: 15px;
-  font-size: 14px;
+  bottom: 0.625rem;
+  left: 0.938rem;
+  font-size: 0.875rem;
 `
 
 export const StyledRecipeCal = styled.div`
   color: ${({ theme }) => theme.colors.body};
   position: absolute;
-  bottom: 10px;
-  right: 15px;
-  font-size: 14px;
+  bottom: 0.625rem;
+  right: 0.938rem;
+  font-size: 0.875rem;
 `

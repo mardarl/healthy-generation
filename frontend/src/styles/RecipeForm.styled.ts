@@ -19,36 +19,36 @@ export const StyledRecipeForm = styled.div`
   }
 `
 export const StyledRecipeTitle = styled.h4`
-  font-size: 18px;
+  font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.regularText};
 `
 
 export const StyledSelectorRow = styled.div`
   display: flex;
   width: 100%;
-  gap: 10px;
+  gap: 0.625rem;
 
   button {
-    height: 54px;
+    height: 3.375rem;
   }
 `
 
 export const StyledPictureSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  font-size: 12px;
+  gap: 0.938rem;
+  font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.regularText};
 
   > div {
-    border: 1px solid ${({ theme }) => theme.colors.disabled};
-    padding: 40px;
+    border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+    padding: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
 
     span {
-      font-size: 10px;
+      font-size: 0.625rem;
       display: block;
       color: ${({ theme }) => theme.colors.disabledText};
     }

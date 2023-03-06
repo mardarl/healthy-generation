@@ -9,7 +9,6 @@ import { PrivateRoute } from './routes/PrivateRoute'
 import { RoutePaths } from './routes/routePaths'
 import GlobalStyles from './styles/Global'
 import { theme } from './styles/theme'
-import LoadingScreen from './components/LoadingScreen'
 import Footer from './components/Footer'
 
 const RecipesPage = lazy(() => import('./containers/RecipesPage'))
@@ -26,7 +25,7 @@ const App: FunctionComponent = () => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense>
         <Header />
         <Routes>
           <Route path='/' element={<HomePage />} />

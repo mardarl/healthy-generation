@@ -1,9 +1,12 @@
+import React from 'react'
+
 export type QueryParams = {
   [key: string]: string | number | boolean
 }
 
 export type RecipePageProps = {
   recipes: RecipeList
+  handleFavouriteChange: (e: React.MouseEvent<SVGElement, MouseEvent>, recipeId: string) => void
   [key: string]: any
 }
 

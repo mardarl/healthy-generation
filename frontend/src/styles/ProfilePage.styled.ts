@@ -4,7 +4,7 @@ import { Container } from './Container.styled'
 
 export const StyledProfilePage = styled(Container)`
   display: flex;
-  padding-top: 40px;
+  padding-top: 2.5rem;
   height: 100%;
 
   img {
@@ -23,7 +23,7 @@ export const StyledProfilePageContent = styled.div`
   flex-direction: column;
   width: 70%;
   height: 100%;
-  margin-right: 30px;
+  margin-right: 1.875rem;
   animation: 2s ${lineUpNoOpacity} ease-out;
 `
 
@@ -31,16 +31,16 @@ export const StyledHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
 
   span {
-    font-size: 24px;
+    font-size: 1.5rem;
   }
 `
 
 export const StyledButtonsContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1.25rem;
   justify-content: flex-end;
 `

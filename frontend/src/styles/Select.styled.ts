@@ -8,31 +8,31 @@ type InputProps = {
 
 export const StyledSelect = styled.div<InputProps>`
   width: 100%;
-  margin-bottom: 30px;
+  margin-bottom: 1.875rem;
   cursor: pointer;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.disabled};
+  border-bottom: 0.063rem solid ${({ theme }) => theme.colors.disabled};
   position: relative;
 
   span {
-    font-size: 16px;
+    font-size: 1rem;
     display: block;
-    padding: 15px 10px;
+    padding: 0.938rem 0.625rem;
     color: ${({ selected, theme }) => (selected ? theme.colors.text : theme.colors.placeholder)};
   }
 
   input {
     background: ${({ theme }) => theme.colors.container};
     color: ${({ disabled, theme }) => (disabled ? theme.colors.disabledText : theme.colors.text)};
-    padding: 15px 10px;
+    padding: 0.938rem 0.625rem;
     border: none;
-    border-bottom: 1px solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
+    border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
     outline: none;
-    font-size: 16px;
-    min-width: 50px;
+    font-size: 1rem;
+    min-width: 3.125rem;
     cursor: ${({ disabled }) => (disabled ? 'default' : 'text')};
 
     &:focus {
-      border-bottom: 1px solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.border)};
+      border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.border)};
     }
   }
 
@@ -56,7 +56,7 @@ export const StyledSelect = styled.div<InputProps>`
     select:-webkit-autofill:hover,
     select:-webkit-autofill:focus {
     background: #12151a;
-    border-bottom: 1px solid #858585;
+    border-bottom: 0.063rem solid #858585;
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;
   }
@@ -64,16 +64,16 @@ export const StyledSelect = styled.div<InputProps>`
 `
 
 export const StyledLabel = styled.span`
-  font-size: 12px;
+  font-size: 0.75rem;
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 0.313rem;
   color: ${({ theme }) => theme.colors.regularText};
 `
 
 export const StyledInputError = styled.span`
-  font-size: 10px;
+  font-size: 0.625rem;
   display: block;
-  margin-top: 5px;
+  margin-top: 0.313rem;
   color: ${({ theme }) => theme.colors.error};
 `
 
@@ -81,15 +81,15 @@ export const StyledSelectBody = styled.div`
   position: absolute;
   width: 100%;
   background: ${({ theme }) => theme.colors.body};
-  top: 60px;
+  top: 3.75rem;
   z-index: 1;
 
   span {
-    font-size: 14px;
+    font-size: 0.875rem;
     display: block;
     color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.active};
-    margin: 10px;
+    border: 0.063rem solid ${({ theme }) => theme.colors.active};
+    margin: 0.625rem;
 
     &:hover {
       background: ${({ theme }) => theme.colors.active};

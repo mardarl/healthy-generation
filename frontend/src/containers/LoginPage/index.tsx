@@ -19,7 +19,7 @@ const LoginPage: FunctionComponent = () => {
 
   useEffect(() => {
     user?.id && navigate(RoutePaths.HOME)
-  }, [])
+  }, [user])
 
   const handleLogin = async () => {
     const { token, user } = await login({ email, password })

@@ -89,16 +89,29 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     setPicturePath(acceptedFiles[0]?.name)
   }, [acceptedFiles])
 
+  const validate = () => {
+    !name.value && setName({ ...name, error: 'this field is required' })
+    !cookingTime.value && setCookingTime({ ...cookingTime, error: 'this field is required' })
+
+    return !!name.value && !!cookingTime.value
+  }
+
   const onSubmit = async () => {
-    onFormSubmit({
-      ...initialRecipeValues,
-      name: name.value,
-      ingredients: recalculateIngredients(ingredients.value),
-      steps: steps.value.filter((step) => step.length > 0),
-      recipeTypes: selectedRecipeTypes,
-      picturePath: picturePath || initialRecipeValues.picturePath,
-      cookingTime: cookingTime.value,
-    })
+    const isValid = validate()
+
+    if (!isValid) {
+      return
+    } else {
+      onFormSubmit({
+        ...initialRecipeValues,
+        name: name.value,
+        ingredients: recalculateIngredients(ingredients.value),
+        steps: steps.value.filter((step) => step.length > 0),
+        recipeTypes: selectedRecipeTypes,
+        picturePath: picturePath || initialRecipeValues.picturePath,
+        cookingTime: cookingTime.value,
+      })
+    }
   }
 
   const handleProductSelect = (id: string, index: number) => {
@@ -171,9 +184,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         <span>{isNew ? 'new recipe' : 'edit recipe'}</span>
         <StyledButtonsContainer>
           <Button onClick={onCancel}>cancel</Button>
-          <Button disabled={!!name.error || !!cookingTime.error} onClick={onSubmit}>
-            save
-          </Button>
+          <Button onClick={onSubmit}>save</Button>
         </StyledButtonsContainer>
       </StyledHeader>
       <StyledRecipeForm>

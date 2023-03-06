@@ -12,27 +12,27 @@ export const StyledHomePage = styled.div`
   img {
     position: absolute;
     z-index: 1;
-    right: 0px;
-    bottom: 80px;
-    width: 1000px;
+    right: 0;
+    bottom: 5rem;
+    width: 62.5rem;
     animation: 4s ${lineSideNoOpacity} ease-out;
   }
 
   h1 {
     position: absolute;
-    font-size: 120px;
+    font-size: 7.5rem;
     margin: 0;
     line-height: 0.9;
     animation: 3s ${lineUpNoOpacity} ease-out;
     z-index: 3;
-    left: 350px;
-    width: 1000px;
+    left: 21.875rem;
+    width: 62.5rem;
   }
 
   button {
     position: absolute;
-    left: 350px;
-    bottom: 100px;
+    left: 21.875rem;
+    bottom: 6.25rem;
   }
 `
 
@@ -41,26 +41,26 @@ export const StyledHomePageBox = styled.div`
   position: absolute;
   z-index: 1;
   right: 0;
-  bottom: -7px;
-  width: 1305px;
+  bottom: -0.438rem;
+  width: 81.563rem;
   animation: 3s ${lineSide} ease-out;
-  height: 450px;
+  height: 28.125rem;
   opacity: 0.5;
 `
 export const StyledHomePageGreating = styled.span`
   position: absolute;
-  margin: 30px 0 0 5px;
+  margin: 1.875rem 0 0 0.313rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
-  left: 350px;
-  top: 190px;
+  left: 21.875rem;
+  top: 11.875rem;
 }`
 
 export const StyledHomePageInfo = styled.span`
   position: absolute;
-  margin: 30px 0 0 5px;
+  margin: 1.875rem 0 0 0.313rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
-  left: 350px;
-  bottom: 190px;
+  left: 21.875rem;
+  bottom: 11.875rem;
 `

@@ -4,6 +4,7 @@ import { getAllergies } from '../../api/allergies'
 import { getDiets } from '../../api/diets'
 import { changeUserPassword, getUser, updateUser } from '../../api/users'
 import { NameSimple, User } from '../../common/types'
+import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
 import { StyledLabel } from '../../styles/Input.styled'
 import {
@@ -27,6 +28,8 @@ const ProfilePage: FunctionComponent = () => {
   const { user } = useUser()
   const navigate = useNavigate()
   const { setUser } = useContext(UserContext)
+
+  const [isLoading, setLoading] = useState<boolean>(false)
   const [userData, setUserData] = useState<User | null>(null)
   const [allergies, setAllergies] = useState<Array<NameSimple> | null>(null)
   const [selectedAllergies, setSelectedAllergies] = useState<Array<NameSimple> | null>(null)
@@ -47,6 +50,7 @@ const ProfilePage: FunctionComponent = () => {
     setNewUserData(data)
     setSelectedAllergies(data.allergies)
     setSelectedDiets(data.diets)
+    setLoading(false)
   }
 
   const fetchAllData = async () => {
@@ -110,6 +114,7 @@ const ProfilePage: FunctionComponent = () => {
     if (user) {
       fetchUserData(user.id)
       fetchAllData()
+      setLoading(true)
     }
   }, [user?.id])
 
@@ -123,88 +128,94 @@ const ProfilePage: FunctionComponent = () => {
   }, [password.newPassword, password.repeatPassword])
 
   return (
-    <StyledProfilePage>
-      <StyledProfilePageContent>
-        <StyledHeader>
-          <span>profile</span>
-          <StyledButtonsContainer>
-            {isEdit ? (
+    <>
+      {isLoading ? (
+        <LoadingScreen />
+      ) : (
+        <StyledProfilePage>
+          <StyledProfilePageContent>
+            <StyledHeader>
+              <span>profile</span>
+              <StyledButtonsContainer>
+                {isEdit ? (
+                  <>
+                    <Button onClick={handleEditChange}>cancel</Button>
+                    <Button onClick={handleSave}>save</Button>
+                  </>
+                ) : (
+                  <Button onClick={handleEditChange}>edit</Button>
+                )}
+                {user?.id && <Button onClick={handleLogout}>log out</Button>}
+              </StyledButtonsContainer>
+            </StyledHeader>
+
+            {newUserData && (
               <>
-                <Button onClick={handleEditChange}>cancel</Button>
-                <Button onClick={handleSave}>save</Button>
+                <Input
+                  label='first name'
+                  value={newUserData?.firstName}
+                  onChange={(e) => handleChange(e, 'firstName')}
+                  disabled={!isEdit}
+                />
+                <Input
+                  label='last name'
+                  value={newUserData?.lastName}
+                  onChange={(e) => handleChange(e, 'lastName')}
+                  disabled={!isEdit}
+                />
+                <Input
+                  label='email'
+                  value={newUserData?.email}
+                  onChange={(e) => handleChange(e, 'email')}
+                  disabled={!isEdit}
+                />
               </>
-            ) : (
-              <Button onClick={handleEditChange}>edit</Button>
             )}
-            {user?.id && <Button onClick={handleLogout}>log out</Button>}
-          </StyledButtonsContainer>
-        </StyledHeader>
+            <StyledLabel marginBottom={1.813}>allergies</StyledLabel>
+            <LabelSelector
+              options={allergies || []}
+              onSelect={setSelectedAllergies}
+              selected={selectedAllergies}
+              isEdit={isEdit}
+            />
+            <StyledLabel marginBottom={1.813}>diets</StyledLabel>
+            <LabelSelector options={diets || []} onSelect={setSelectedDiets} selected={selectedDiets} isEdit={isEdit} />
 
-        {newUserData && (
-          <>
-            <Input
-              label='first name'
-              value={newUserData?.firstName}
-              onChange={(e) => handleChange(e, 'firstName')}
-              disabled={!isEdit}
-            />
-            <Input
-              label='last name'
-              value={newUserData?.lastName}
-              onChange={(e) => handleChange(e, 'lastName')}
-              disabled={!isEdit}
-            />
-            <Input
-              label='email'
-              value={newUserData?.email}
-              onChange={(e) => handleChange(e, 'email')}
-              disabled={!isEdit}
-            />
-          </>
-        )}
-        <StyledLabel marginBottom={20}>allergies</StyledLabel>
-        <LabelSelector
-          options={allergies || []}
-          onSelect={setSelectedAllergies}
-          selected={selectedAllergies}
-          isEdit={isEdit}
-        />
-        <StyledLabel marginBottom={20}>diets</StyledLabel>
-        <LabelSelector options={diets || []} onSelect={setSelectedDiets} selected={selectedDiets} isEdit={isEdit} />
+            <StyledButtonsContainer>
+              {isChangePassword ? (
+                <>
+                  <Button onClick={handlePasswordChangeTrigger}>cancel</Button>
+                  <Button onClick={handlePasswordSave}>save</Button>
+                </>
+              ) : (
+                <Button onClick={() => setIsChangePassword(!isChangePassword)}>change password</Button>
+              )}
+            </StyledButtonsContainer>
 
-        <StyledButtonsContainer>
-          {isChangePassword ? (
-            <>
-              <Button onClick={handlePasswordChangeTrigger}>cancel</Button>
-              <Button onClick={handlePasswordSave}>save</Button>
-            </>
-          ) : (
-            <Button onClick={() => setIsChangePassword(!isChangePassword)}>change password</Button>
-          )}
-        </StyledButtonsContainer>
-
-        {isChangePassword && (
-          <>
-            <Input
-              label='new password'
-              value={password.newPassword}
-              onChange={(e) => handlePasswordChange(e, 'newPassword')}
-              type='password'
-              autoComplete='new-password'
-            />
-            <Input
-              label='repeat password'
-              value={password.repeatPassword}
-              onChange={(e) => handlePasswordChange(e, 'repeatPassword')}
-              type='password'
-              autoComplete='new-password'
-              errors={password.repeatPassword && password.error && password.error}
-            />
-          </>
-        )}
-      </StyledProfilePageContent>
-      <img src={'assets/Lesik.jpg'} alt='' />
-    </StyledProfilePage>
+            {isChangePassword && (
+              <>
+                <Input
+                  label='new password'
+                  value={password.newPassword}
+                  onChange={(e) => handlePasswordChange(e, 'newPassword')}
+                  type='password'
+                  autoComplete='new-password'
+                />
+                <Input
+                  label='repeat password'
+                  value={password.repeatPassword}
+                  onChange={(e) => handlePasswordChange(e, 'repeatPassword')}
+                  type='password'
+                  autoComplete='new-password'
+                  errors={password.repeatPassword && password.error && password.error}
+                />
+              </>
+            )}
+          </StyledProfilePageContent>
+          <img src={'assets/Lesik.jpg'} alt='' />
+        </StyledProfilePage>
+      )}
+    </>
   )
 }
 
