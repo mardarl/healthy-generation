@@ -18,6 +18,10 @@ export const StyledSelect = styled.div<InputProps>`
     display: block;
     padding: 0.938rem 0.625rem;
     color: ${({ selected, theme }) => (selected ? theme.colors.text : theme.colors.placeholder)};
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      padding: 0.3rem 0.7rem;
+    }
   }
 
   input {

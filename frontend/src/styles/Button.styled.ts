@@ -26,4 +26,8 @@ export const StyledButton = styled.button`
     opacity: 0.5;
     pointer-events: none;
   }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding: 0.5rem 0.7rem;
+  }
 `

@@ -16,6 +16,19 @@ export const StyledRecipePage = styled(Container)`
     overflow: hidden;
     animation: 2s ${fadeIn} ease-out;
   }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    margin-top: 0;
+    img {
+      display: none;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    img {
+      display: none;
+    }
+  }
 `
 
 export const StyledRecipePageContent = styled.div`
@@ -25,6 +38,11 @@ export const StyledRecipePageContent = styled.div`
   height: 100%;
   padding-left: 1.875rem;
   animation: 2s ${lineUpNoOpacity} ease-out;
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    width: 100%;
+    padding: 0;
+  }
 `
 
 export const StyledHeader = styled.div`
@@ -42,6 +60,23 @@ export const StyledHeader = styled.div`
     width: 1.875rem;
     height: 1.875rem;
   }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    span {
+      margin-right: 1.875rem;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+    flex-direction: column;
+
+    span {
+      width: 100%;
+      text-align: right;
+      margin-right: 0;
+    }
+  }
 `
 
 export const StyledButtonsContainer = styled.div`
@@ -49,6 +84,11 @@ export const StyledButtonsContainer = styled.div`
   align-items: center;
   gap: 1.25rem;
   justify-content: flex-end;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+    margin-top: 1.875rem;
+  }
 `
 
 export const StyledRecipeText = styled.span`

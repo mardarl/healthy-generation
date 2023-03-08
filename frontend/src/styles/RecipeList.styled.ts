@@ -4,11 +4,14 @@ import { Container } from './Container.styled'
 
 export const StyledRecipeListContainer = styled(Container)`
   background-color: ${({ theme }) => theme.colors.container};
-  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   height: fit-content;
   min-height: 80%;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+  }
 `
 export const StyledRecipeTitle = styled.div`
   display: flex;
@@ -26,8 +29,13 @@ export const StyledRecipeList = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 3.625rem;
+  row-gap: 3.625rem;
+  column-gap: 5%;
   animation: 3s ${lineUpNoOpacity} ease-out;
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    column-gap: 10%;
+  }
 `
 export const StyledRecipe = styled.div`
   width: 30%;
@@ -37,6 +45,7 @@ export const StyledRecipe = styled.div`
   justify-content: space-between;
   position: relative;
   cursor: pointer;
+  transition: all ease-in-out 0.3s;
 
   img {
     filter: grayscale(100%);
@@ -52,6 +61,14 @@ export const StyledRecipe = styled.div`
       opacity: 1;
     }
   }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    width: 45%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+  }
 `
 
 export const StyledRecipeContent = styled.div`
@@ -63,6 +80,11 @@ export const StyledRecipeContent = styled.div`
   width: 90%;
   color: ${({ theme }) => theme.colors.regularText};
   opacity: 0.8;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    bottom: 1.5rem;
+    left: 1.5rem;
+  }
 `
 
 export const StyledRecipeHeader = styled.div`

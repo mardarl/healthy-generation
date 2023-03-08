@@ -61,7 +61,7 @@ export const StyledCounterEmptyItem = styled(StyledCounterItem)`
 `
 
 export const StyledCounterItemSelected = styled(StyledCounterItem)`
-  background-color: ${({ theme }) => theme.colors.active};
-  color: ${({ theme }) => theme.colors.container};
-  border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  background-color: ${({ theme }) => theme.colors.container};
+  color: ${({ theme }) => theme.colors.active};
+  border: 0.063rem solid ${({ theme }) => theme.colors.border};
 `

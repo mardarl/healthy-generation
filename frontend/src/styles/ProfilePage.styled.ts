@@ -5,16 +5,22 @@ import { Container } from './Container.styled'
 export const StyledProfilePage = styled(Container)`
   display: flex;
   padding-top: 2.5rem;
-  height: 100%;
 
   img {
     filter: grayscale(100%) brightness(60%);
-    height: 100%;
     width: 30%;
     object-fit: cover;
-    position: relative;
     overflow: hidden;
     animation: 2s ${fadeIn} ease-out;
+  }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    height: fit-content;
+    padding-top: 0;
+
+    img {
+      height: auto;
+    }
   }
 `
 
@@ -36,6 +42,17 @@ export const StyledHeader = styled.div`
   span {
     font-size: 1.5rem;
   }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    width: 100%;
+    flex-direction: column;
+
+    span {
+      width: 100%;
+      text-align: right;
+      margin-right: 0;
+    }
+  }
 `
 
 export const StyledButtonsContainer = styled.div`
@@ -43,4 +60,10 @@ export const StyledButtonsContainer = styled.div`
   align-items: center;
   gap: 1.25rem;
   justify-content: flex-end;
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 1rem 0 1.5rem 0;
+  }
 `

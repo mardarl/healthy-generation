@@ -8,6 +8,8 @@ import {
   StyledRecipeForm,
   StyledRecipeTitle,
   StyledSelectorRow,
+  StyledTextareaRow,
+  StyledTextareaRowButtons,
 } from '../../styles/RecipeForm.styled'
 import Input from '../../ui-components/Input'
 import { StyledTextarea } from '../../styles/TextArea.styled'
@@ -231,19 +233,21 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         <>
           {steps && steps.value.length > 0 ? (
             steps.value.map((step: string, index: number) => (
-              <StyledSelectorRow key={index}>
+              <StyledTextareaRow key={index}>
                 <StyledTextarea
                   placeholder='step'
                   onChange={(e) => handleStepChange(e.target.value, index, e.target.scrollHeight)}
                   value={step || ''}
-                  height={stepHeights[index]}
+                  height={stepHeights[index] * 0.063}
                 />
 
-                <Button onClick={() => handleRemove(steps.value, index, setSteps)}>-</Button>
-                {index === steps.value.length - 1 && (
-                  <Button onClick={() => handleInsert('', steps.value, index + 1, setSteps)}>+</Button>
-                )}
-              </StyledSelectorRow>
+                <StyledTextareaRowButtons>
+                  <Button onClick={() => handleRemove(steps.value, index, setSteps)}>-</Button>
+                  {index === steps.value.length - 1 && (
+                    <Button onClick={() => handleInsert('', steps.value, index + 1, setSteps)}>+</Button>
+                  )}
+                </StyledTextareaRowButtons>
+              </StyledTextareaRow>
             ))
           ) : (
             <Button onClick={() => handleInsert('', steps.value, 0, setSteps)}>+</Button>

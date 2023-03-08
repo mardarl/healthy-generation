@@ -19,5 +19,7 @@ declare module 'styled-components' {
       placeholder: string
     }
     mobile: string
+    tablets: string
+    laptop: string
   }
 }

@@ -16,6 +16,7 @@ export const StyledInput = styled.div<InputProps>`
   justify-content: center;
   flex-direction: column;
   margin-bottom: 1.875rem;
+  height: fit-content;
 
   input {
     background: ${({ theme }) => theme.colors.container};
@@ -30,6 +31,11 @@ export const StyledInput = styled.div<InputProps>`
 
     &:focus {
       border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.border)};
+    }
+    
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      width: 100%;
+      padding: 0.3rem 0.7rem;
     }
   }
 

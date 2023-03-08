@@ -20,7 +20,7 @@ type Range = {
   end: number
 }
 
-const DEFAULT_RANGE_SIZE = 6 // we don't count currentPage here
+const DEFAULT_RANGE_SIZE = 6
 const EMPTY_VALUE = '...'
 
 const getRange = (currentPage = 0, pageCount: number): Range => {

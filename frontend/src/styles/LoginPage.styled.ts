@@ -9,6 +9,10 @@ export const StyledLoginPage = styled.div`
 
   div {
     width: 34.375rem;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      width: 100%;
+    }
   }
 `
 
@@ -16,4 +20,8 @@ export const StyledTitle = styled.span`
   font-size: 1.5rem;
   display: block;
   margin-bottom: 4.375rem;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    margin-bottom: 3rem;
+  }
 `

@@ -17,5 +17,7 @@ export const theme: DefaultTheme = {
     disabledText: '#A4A4A4',
     placeholder: '#7C7C7C',
   },
-  mobile: '768px',
+  mobile: '767px',
+  tablets: '1024px',
+  laptop: '1500px',
 }

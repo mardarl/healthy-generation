@@ -25,14 +25,61 @@ export const StyledHomePage = styled.div`
     line-height: 0.9;
     animation: 3s ${lineUpNoOpacity} ease-out;
     z-index: 3;
-    left: 21.875rem;
+    left: 16.875rem;
     width: 62.5rem;
   }
 
   button {
     position: absolute;
-    left: 21.875rem;
+    left: 16.875rem;
     bottom: 6.25rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.laptop}) {
+    padding: 0 10%;
+    background: ${({ theme }) => theme.colors.homeBox};
+    animation: 3s ${lineSideNoOpacity} ease-out;
+
+    img {
+      display: none;
+    }
+
+    h1 {
+      position: relative;
+      display: flex;
+      left: 0;
+      font-size: 5.5rem;
+      width: 100%;
+    }
+
+    span,
+    button {
+      position: relative;
+      display: flex;
+      top: 0;
+      left: 0;
+      bottom: 0;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    h1 {
+      font-size: 3.5rem;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    gap: 0.5rem;
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.3;
+    }
+
+    span {
+      font-size: 0.5rem;
+      margin: 0;
+    }
   }
 `
 
@@ -46,14 +93,22 @@ export const StyledHomePageBox = styled.div`
   animation: 3s ${lineSide} ease-out;
   height: 28.125rem;
   opacity: 0.5;
+
+  @media (max-width: ${({ theme }) => theme.laptop}) {
+    display: none;
+  }
 `
 export const StyledHomePageGreating = styled.span`
   position: absolute;
   margin: 1.875rem 0 0 0.313rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
-  left: 21.875rem;
+  left: 16.875rem;
   top: 11.875rem;
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    margin-bottom: 1rem;
+  }
 }`
 
 export const StyledHomePageInfo = styled.span`
@@ -61,6 +116,6 @@ export const StyledHomePageInfo = styled.span`
   margin: 1.875rem 0 0 0.313rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
-  left: 21.875rem;
+  left: 16.875rem;
   bottom: 11.875rem;
 `

@@ -13,7 +13,6 @@ export const StyledRecipeForm = styled.div`
     height: 100%;
     width: 30%;
     object-fit: cover;
-    position: relative;
     overflow: hidden;
     animation: 2s ${lineUpNoOpacity} ease-out;
   }
@@ -25,11 +24,49 @@ export const StyledRecipeTitle = styled.h4`
 
 export const StyledSelectorRow = styled.div`
   display: flex;
+  justify-content: space-between;
   width: 100%;
   gap: 0.625rem;
 
   button {
     height: 3.375rem;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      height: 2rem;
+      margin-bottom: 1.875rem;
+    }
+  }
+`
+
+export const StyledTextareaRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.625rem;
+
+  button {
+    height: 3.375rem;
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      height: 2rem;
+      margin-bottom: 1.875rem;
+    }
+  }
+`
+
+export const StyledTextareaRowButtons = styled.div`
+  display: flex;
+  gap: 0.625rem;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    button {
+      margin-bottom: 0.625rem;
+      width: 2.071rem;
+    }
   }
 `
 

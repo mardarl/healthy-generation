@@ -7,4 +7,8 @@ export const StyledNewRecipePage = styled(Container)`
   margin-top: 2.5rem;
   height: fit-content;
   min-height: 100%;
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    margin-top: 0;
+  }
 `

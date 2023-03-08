@@ -33,7 +33,6 @@ export const StyledLabelOption = styled.div<LabelOptionProps>`
   }
 
   &:hover {
-    background: ${({ selected, theme, isEdit }) => (selected && isEdit ? 'transparent' : theme.colors.border)};
-    color: ${({ selected, theme, isEdit }) => (selected && isEdit ? theme.colors.regularText : theme.colors.container)};
+    box-shadow: ${({ isEdit, theme }) => (isEdit ? `0 0 50px 3px ${theme.colors.regularText}` : 'none')};
   }
 `

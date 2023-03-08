@@ -7,6 +7,7 @@ type TextareaProps = {
 export const StyledTextarea = styled.textarea<TextareaProps>`
   width: 100%;
   height: ${({ height }) => (height ? `${height}rem` : 'fit-content')};
+  min-height: 3.375rem;
   overflow: scroll;
   resize: vertical;
   margin-bottom: 1.875rem;
@@ -18,4 +19,8 @@ export const StyledTextarea = styled.textarea<TextareaProps>`
   outline: none;
   font-size: 0.875rem;
   cursor: ${({ disabled }) => (disabled ? 'default' : 'text')};
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    min-height: 4rem;
+  }
 `
