@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { fadeIn, lineUpNoOpacity } from './animatons'
+import { fadeIn, lineSideNoOpacity, lineUpNoOpacity } from './animatons'
 import { Container } from './Container.styled'
 
 export const StyledRecipeListContainer = styled(Container)`
@@ -22,6 +22,58 @@ export const StyledRecipeTitle = styled.div`
 
   span {
     font-size: 1.5rem;
+    min-width: fit-content;
+  }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+    margin: 1rem 0 1.5rem 0;
+  }
+`
+
+export const StyledButtonsContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  justify-content: flex-end;
+  width: -webkit-fill-available;
+
+  svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.disabledText};
+    animation: 1s ${fadeIn};
+  }
+
+  div {
+    max-width: 20rem;
+    margin-bottom: 0.1rem;
+    height: 3.125rem;
+
+    input {
+      animation: 1s ${lineSideNoOpacity} ease-out;
+      background: transparent;
+      padding-right: 2.5rem;
+    }
+  }
+
+  @media (max-width: ${({ theme }) => theme.tablets}) {
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 1rem 0 1.5rem 0;
+  }
+`
+
+export const StyledSearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0;
+
+  svg {
+    margin-left: -2rem;
   }
 `
 

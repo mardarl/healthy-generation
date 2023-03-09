@@ -75,18 +75,44 @@ export const StyledLabel = styled.span`
 `
 
 export const StyledInputError = styled.span`
-  font-size: 0.625rem;
+  font-size: 0.875rem;
   display: block;
   margin-top: 0.313rem;
   color: ${({ theme }) => theme.colors.error};
 `
 
+export const NoResults = styled.p`
+  font-size: 0.875rem;
+  display: block;
+  margin-bottom: 1.5rem;
+  color: ${({ theme }) => theme.colors.regularText};
+  border: none;
+  text-align: center;
+`
+
 export const StyledSelectBody = styled.div`
   position: absolute;
   width: 100%;
-  background: ${({ theme }) => theme.colors.body};
+  background: ${({ theme }) => theme.colors.container};
   top: 3.75rem;
   z-index: 1;
+  border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  cursor: default;
+  box-shadow: ${({ theme }) => `0 0 50px 3px ${theme.colors.header}`};
+
+  > div {
+    margin-bottom: 1rem;
+
+    input {
+      margin: 0.625rem;
+      border: 0.063rem solid ${({ theme }) => theme.colors.active};
+      font-size: 0.8rem;
+
+      &:focus {
+        border: 0.063rem solid ${({ theme }) => theme.colors.active};
+      }
+    }
+  }
 
   span {
     font-size: 0.875rem;
@@ -94,6 +120,7 @@ export const StyledSelectBody = styled.div`
     color: ${({ theme }) => theme.colors.text};
     border: 0.063rem solid ${({ theme }) => theme.colors.active};
     margin: 0.625rem;
+    cursor: pointer;
 
     &:hover {
       background: ${({ theme }) => theme.colors.active};

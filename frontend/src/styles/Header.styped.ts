@@ -51,10 +51,11 @@ export const Nav = styled.nav`
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.disabledText};
   width: fill-content;
   margin-right: 1.875rem;
   cursor: pointer;
+  font-size: 1.5rem;
 
   &:hover {
     transform: scale(0.98);

@@ -208,6 +208,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                   options={products}
                   onSelect={(id) => handleProductSelect(id, index)}
                   selected={ingredient.productId}
+                  withSearch
                 />
                 <Input
                   type='number'

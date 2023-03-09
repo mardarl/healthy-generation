@@ -3,7 +3,7 @@ import { rotate360 } from './animatons'
 
 const StyledLoadingScreen = styled.div`
   background: ${({ theme }) => theme.colors.container};
-  height: 100%;
+  height: 60vh;
   width: 100%;
   display: flex;
   align-items: center;

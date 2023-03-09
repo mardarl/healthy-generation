@@ -5,8 +5,6 @@ import { RecipePageProps } from '../../common/types'
 import { RoutePaths } from '../../routes/routePaths'
 import {
   StyledRecipeList,
-  StyledRecipeTitle,
-  StyledRecipeListContainer,
   StyledRecipe,
   StyledRecipeName,
   StyledRecipeHeader,
@@ -15,7 +13,6 @@ import {
   StyledRecipeCal,
 } from '../../styles/RecipeList.styled'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
-import Button from '../../ui-components/Button'
 import { useUser } from '../../UserContext'
 import Pagination from '../../components/Pagination'
 
@@ -30,11 +27,7 @@ const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePagePro
   const { user } = useUser()
 
   return (
-    <StyledRecipeListContainer>
-      <StyledRecipeTitle>
-        <span>all recipes</span>
-        <Button onClick={() => navigate(RoutePaths.NEW_RECIPE)}>add new one</Button>
-      </StyledRecipeTitle>
+    <>
       <StyledRecipeList>
         {user &&
           recipes.length > 0 &&
@@ -69,7 +62,7 @@ const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePagePro
           })}
       </StyledRecipeList>
       <Pagination pagesCount={Math.ceil(totalCount / limit)} currentPage={currentPage} onChange={setCurrentPage} />
-    </StyledRecipeListContainer>
+    </>
   )
 }
 
