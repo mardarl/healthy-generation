@@ -6,51 +6,55 @@ const RecipeSchema = new mongoose.Schema(
             type: String,
             required: true,
             min: 2,
-            max: 50,
+            max: 50
         },
         author_id: {
-            type: String,
+            type: String
         },
         ingredients: {
             type: Array,
-            default: [],
+            default: []
         },
         steps: {
             type: Array,
-            default: [],
+            default: []
         },
         posible_allergies: {
             type: Array,
-            default: [],
+            default: []
         },
         recipe_types: {
             type: Array,
-            default: [],
+            default: []
         },
         picture_path: {
             type: String,
-            default: '',
+            default: ''
         },
         cooking_time: {
             type: Number,
-            required: true,
+            required: true
         },
         total_carbs: {
             type: Number,
-            required: true,
+            required: true
         },
         total_proteins: {
             type: Number,
-            required: true,
+            required: true
         },
         total_fats: {
             type: Number,
-            required: true,
+            required: true
         },
         total_calories: {
             type: Number,
-            required: true,
+            required: true
         },
+        is_ingredient: {
+            type: Boolean,
+            default: false
+        }
     },
     { timestamps: true }
 )

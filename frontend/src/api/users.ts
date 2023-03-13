@@ -1,5 +1,5 @@
 import { AxiosError, AxiosRequestConfig } from 'axios'
-import { convertUserRequest, convertUserResponse, convertUserSimpleResponse } from '../common/convertResponse'
+import { convertUserRequest, convertUserResponse, convertUserSimpleResponse } from '../common/convert'
 import { User, UserResponse } from '../common/types'
 import { API } from './axios'
 

@@ -28,6 +28,27 @@ export const StyledSelectorRow = styled.div`
   width: 100%;
   gap: 0.625rem;
 
+  > div {
+    width: 49%;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    flex-direction: column;
+
+    > div {
+      width: 100%;
+    }
+  }
+`
+
+export const StyledSelectorRowGroup = styled.div`
+  display: flex;
+  gap: 0.625rem;
+
+  input {
+    width: 100%;
+  }
+
   button {
     height: 3.375rem;
 

@@ -6,8 +6,15 @@ type InputProps = {
   selected?: boolean
 }
 
+type BodyProps = {
+  withSearch?: boolean
+}
+
+type SearchProps = {
+  withButton?: boolean
+}
+
 export const StyledSelect = styled.div<InputProps>`
-  width: 100%;
   margin-bottom: 1.875rem;
   cursor: pointer;
   border-bottom: 0.063rem solid ${({ theme }) => theme.colors.disabled};
@@ -18,10 +25,14 @@ export const StyledSelect = styled.div<InputProps>`
     display: block;
     padding: 0.938rem 0.625rem;
     color: ${({ selected, theme }) => (selected ? theme.colors.text : theme.colors.placeholder)};
-
-    @media (max-width: ${({ theme }) => theme.mobile}) {
-      padding: 0.3rem 0.7rem;
-    }
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
   }
 
   input {
@@ -88,6 +99,7 @@ export const NoResults = styled.p`
   color: ${({ theme }) => theme.colors.regularText};
   border: none;
   text-align: center;
+  margin-top: 1rem;
 `
 
 export const StyledSelectBody = styled.div`
@@ -99,32 +111,94 @@ export const StyledSelectBody = styled.div`
   border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
   cursor: default;
   box-shadow: ${({ theme }) => `0 0 50px 3px ${theme.colors.header}`};
+`
 
-  > div {
-    margin-bottom: 1rem;
+export const StyledInfiniteScroll = styled.div<BodyProps>`
+  position: absolute;
+  width: 100%;
+  background: ${({ theme }) => theme.colors.container};
+  top: 3.75rem;
+  top: ${({ withSearch }) => (withSearch ? '9rem' : '3.75rem')};
+  z-index: 1;
+  border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  cursor: default;
+  box-shadow: ${({ theme }) => `0 0 50px 3px ${theme.colors.header}`};
+  max-height: 20.85rem;
+  overflow: scroll;
 
-    input {
-      margin: 0.625rem;
-      border: 0.063rem solid ${({ theme }) => theme.colors.active};
-      font-size: 0.8rem;
-
-      &:focus {
-        border: 0.063rem solid ${({ theme }) => theme.colors.active};
-      }
-    }
+  p {
+    font-size: 0.5rem;
+    text-align: center;
+    color: ${({ theme }) => theme.colors.disabledText};
   }
+`
+
+export const StyledSelectBodyItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.625rem;
 
   span {
+    width: 100%;
     font-size: 0.875rem;
     display: block;
     color: ${({ theme }) => theme.colors.text};
     border: 0.063rem solid ${({ theme }) => theme.colors.active};
-    margin: 0.625rem;
     cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &:hover {
       background: ${({ theme }) => theme.colors.active};
       color: ${({ theme }) => theme.colors.container};
     }
+  }
+`
+
+export const StyledIconsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+
+  svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: ${({ theme }) => theme.colors.disabled};
+    cursor: pointer;
+  }
+`
+
+export const StyledSearchContainer = styled.div<SearchProps>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.625rem;
+  gap: 0.625rem;
+
+  > div {
+    margin-bottom: 0;
+    width: ${({ withButton }) => (withButton ? 'calc(100% - 4.375rem)' : '100%')};
+
+    @media (max-width: ${({ theme }) => theme.mobile}) {
+      width: 100%;
+    }
+  }
+
+  input {
+    border: 0.063rem solid ${({ theme }) => theme.colors.active};
+    font-size: 0.8rem;
+
+    &:focus {
+      border: 0.063rem solid ${({ theme }) => theme.colors.active};
+    }
+  }
+
+  button {
+    width: 3.125rem;
+    height: 3.125rem;
+    border: 0.063rem solid ${({ theme }) => theme.colors.active};
   }
 `

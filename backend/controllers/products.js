@@ -16,7 +16,7 @@ export const getProducts = async (req, res) => {
             products,
             current_page: page,
             limit,
-            total_count: await Product.countDocuments({ name: { $regex: regex } }),
+            total_count: await Product.countDocuments({ name: { $regex: regex } })
         })
     } catch (err) {
         res.status(404).json({ message: err.message })
@@ -44,7 +44,7 @@ export const createProduct = async (req, res) => {
             proteins,
             fats,
             calories,
-            recipe_id,
+            recipe_id
         })
         await newProduct.save()
 
@@ -69,7 +69,7 @@ export const updateProduct = async (req, res) => {
                 proteins: req.body.proteins || product.proteins,
                 fats: req.body.fats || product.fats,
                 calories: req.body.calories || product.calories,
-                recipe_id: req.body.recipe_id || product.recipe_id,
+                recipe_id: req.body.recipe_id || product.recipe_id
             },
             { new: true }
         )

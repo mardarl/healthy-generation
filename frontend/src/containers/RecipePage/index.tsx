@@ -15,6 +15,7 @@ import {
   StyledRecipeTitle,
   StyledRecipePage,
   StyledRecipePageContent,
+  StyledNestedText,
 } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
 import { UserContext, useUser } from '../../UserContext'
@@ -41,7 +42,8 @@ const RecipePage: FunctionComponent = () => {
   const fetchData = async (id: string) => {
     setRecipe(await getRecipe(id))
     setRecipeTypes(await getRecipeTypes())
-    setProducts(await getProducts())
+    const productsList = await getProducts()
+    setProducts(productsList.products)
     setLoading(false)
   }
 
@@ -73,7 +75,9 @@ const RecipePage: FunctionComponent = () => {
         totalProteins: calculateTotalNutrient(values.ingredients, 'proteins'),
         totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
         totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
+        isIngredient: values.isIngredient,
       })
+
       fetchData(newRecipe.id)
       setIsEdit(false)
       setLoading(false)
@@ -89,8 +93,8 @@ const RecipePage: FunctionComponent = () => {
 
   useEffect(() => {
     if (recipeId) {
-      fetchData(recipeId)
       setLoading(true)
+      fetchData(recipeId)
     }
   }, [])
 
@@ -159,12 +163,22 @@ const RecipePage: FunctionComponent = () => {
                     <>
                       <StyledRecipeTitle>ingredients:</StyledRecipeTitle>
                       {recipe?.ingredients.map((ingredient, index) => (
-                        <StyledRecipeText
-                          key={index}
-                        >{`${ingredient?.name} - ${ingredient?.amount}g`}</StyledRecipeText>
+                        <>
+                          <StyledRecipeText key={index}>
+                            {`${ingredient?.name} - ${ingredient?.amount}g`}
+                          </StyledRecipeText>
+                          <>
+                            {ingredient?.recipe &&
+                              ingredient?.recipe?.ingredients &&
+                              ingredient?.recipe?.ingredients.map((i, index) => (
+                                <StyledNestedText key={index}>{`${i?.name} - ${i?.amount}g`}</StyledNestedText>
+                              ))}
+                          </>
+                        </>
                       ))}
                     </>
                   )}
+
                   {recipe?.steps && recipe?.steps.length > 0 && (
                     <>
                       <StyledRecipeTitle>steps:</StyledRecipeTitle>

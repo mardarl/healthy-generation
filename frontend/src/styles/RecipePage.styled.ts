@@ -97,6 +97,12 @@ export const StyledRecipeText = styled.span`
   color: ${({ theme }) => theme.colors.disabledText};
 `
 
+export const StyledNestedText = styled.span`
+  font-size: 0.75rem;
+  margin: 0 0 0.625rem 1rem;
+  color: ${({ theme }) => theme.colors.disabledText};
+`
+
 export const StyledRecipeStep = styled.li`
   font-size: 0.875rem;
   margin-bottom: 0.938rem;

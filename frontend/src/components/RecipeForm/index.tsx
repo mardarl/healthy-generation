@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { Ingredient, NameSimple, Product, Recipe } from '../../common/types'
+import { Ingredient, InputProps, NameSimple, Product, Recipe } from '../../common/types'
 import { Select } from '../../ui-components/Select'
 import { LabelSelector } from '../../ui-components/LabelSelector'
 import {
@@ -8,6 +8,7 @@ import {
   StyledRecipeForm,
   StyledRecipeTitle,
   StyledSelectorRow,
+  StyledSelectorRowGroup,
   StyledTextareaRow,
   StyledTextareaRowButtons,
 } from '../../styles/RecipeForm.styled'
@@ -16,6 +17,10 @@ import { StyledTextarea } from '../../styles/TextArea.styled'
 import { recalculateIngredients } from '../../common/helpers'
 import { StyledButtonsContainer, StyledHeader } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
+import Checkbox from '../../ui-components/Checkbox'
+import Modal from '../../ui-components/Modal'
+import { ProductForm } from '../ProductForm'
+import { deleteProduct, getProducts } from '../../api/products'
 
 type PecipeFormProps = {
   isNew: Boolean
@@ -24,11 +29,6 @@ type PecipeFormProps = {
   recipeTypes: NameSimple[]
   products: Product[]
   onCancel: () => void
-}
-
-type InputProps<T> = {
-  value: T
-  error?: string
 }
 
 const initialValues: Recipe = {
@@ -45,6 +45,7 @@ const initialValues: Recipe = {
   id: '',
   authorId: null,
   posibleAllergies: null,
+  isIngredient: false,
 }
 
 const initialIngredient: Ingredient = {
@@ -57,6 +58,7 @@ const initialIngredient: Ingredient = {
   recipeId: null,
   amount: 0,
   measurementType: 'g',
+  recipe: null,
 }
 
 export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
@@ -80,6 +82,10 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     error: '',
   })
   const [picturePath, setPicturePath] = useState<string | null>(initialRecipeValues.picturePath)
+  const [isIngredient, setIsIngredient] = useState<boolean>(initialRecipeValues.isIngredient)
+
+  const [open, setOpen] = useState<boolean>(false)
+  const [editProduct, setEditProduct] = useState<Product | undefined>(undefined)
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: { 'image/*': [] },
@@ -112,6 +118,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         recipeTypes: selectedRecipeTypes,
         picturePath: picturePath || initialRecipeValues.picturePath,
         cookingTime: cookingTime.value,
+        isIngredient,
       })
     }
   }
@@ -127,7 +134,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         proteins: product?.proteins,
         fats: product?.fats,
         calories: product?.calories,
-        recipeId: null,
+        recipeId: product?.recipeId,
         measurementType: 'g',
       }
       const updatedIngredients = ingredients.value
@@ -139,7 +146,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
 
   const handleAmountChange = (amount: number, index: number) => {
     const product = products.find((item) => item.id === ingredients.value[index].productId)
-    if (ingredients.value && amount && product) {
+    if (ingredients.value && product) {
       const updatedIngredient = {
         ...ingredients.value[index],
         amount: amount,
@@ -180,6 +187,12 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     handleChange({ value: array.filter((item: any, i: number) => i !== index && item), error: '' })
   }
 
+  const handleDelete = async (id: string) => {
+    if (id) {
+      await deleteProduct(id)
+    }
+  }
+
   return (
     <>
       <StyledHeader>
@@ -209,20 +222,31 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                   onSelect={(id) => handleProductSelect(id, index)}
                   selected={ingredient.productId}
                   withSearch
+                  withAddButton
+                  onAdd={() => setOpen(true)}
+                  withButtons
+                  onEdit={(product) => setEditProduct(product)}
+                  onDelete={(id) => handleDelete(id)}
+                  getOptions={getProducts}
+                  arrayName={'products'}
                 />
-                <Input
-                  type='number'
-                  placeholder='amount'
-                  onChange={(e) => handleAmountChange(e.target.valueAsNumber, index)}
-                  value={ingredients.value[index].amount || ''}
-                />
+                <StyledSelectorRowGroup>
+                  <Input
+                    type='number'
+                    placeholder='amount'
+                    onChange={(e) => handleAmountChange(e.target.valueAsNumber, index)}
+                    value={ingredients.value[index].amount || ''}
+                  />
 
-                <Button onClick={() => handleRemove(ingredients.value, index, setIngredients)}>-</Button>
-                {index === ingredients.value.length - 1 && (
-                  <Button onClick={() => handleInsert(initialIngredient, ingredients.value, index + 1, setIngredients)}>
-                    +
-                  </Button>
-                )}
+                  <Button onClick={() => handleRemove(ingredients.value, index, setIngredients)}>-</Button>
+                  {index === ingredients.value.length - 1 && (
+                    <Button
+                      onClick={() => handleInsert(initialIngredient, ingredients.value, index + 1, setIngredients)}
+                    >
+                      +
+                    </Button>
+                  )}
+                </StyledSelectorRowGroup>
               </StyledSelectorRow>
             ))
           ) : (
@@ -280,7 +304,19 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           </div>
           {picturePath && <span>{`file: ${picturePath}`}</span>}
         </StyledPictureSection>
+
+        <Checkbox
+          label={'it could be an ingredient'}
+          checked={isIngredient}
+          onChange={() => setIsIngredient(!isIngredient)}
+        />
       </StyledRecipeForm>
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <ProductForm isNew onClose={() => setOpen(false)} />
+      </Modal>
+      <Modal open={!!editProduct} onClose={() => setEditProduct(undefined)}>
+        <ProductForm isNew={false} onClose={() => setEditProduct(undefined)} initialProductValues={editProduct} />
+      </Modal>
     </>
   )
 }

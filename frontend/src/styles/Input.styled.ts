@@ -58,7 +58,7 @@ export const StyledInput = styled.div<InputProps>`
   select:-webkit-autofill,
   select:-webkit-autofill:hover,
   select:-webkit-autofill:focus {
-    background: #12151a;
+    background: #12151A;
     border-bottom: 0.063rem solid #858585;
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;

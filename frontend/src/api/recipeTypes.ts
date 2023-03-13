@@ -1,5 +1,5 @@
 import { AxiosError, AxiosRequestConfig } from 'axios'
-import { convertNameSimpleListResponse } from '../common/convertResponse'
+import { convertNameSimpleListResponse } from '../common/convert'
 import { NameSimple, NameSimpleResponse } from '../common/types'
 import { API } from './axios'
 

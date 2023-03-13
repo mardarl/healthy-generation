@@ -55,7 +55,14 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
         fetchData()
         setLoading(true)
       }
-    }, [user, currentPage, searchText])
+    }, [user, currentPage])
+
+    useEffect(() => {
+      if (searchText.length > 0) {
+        fetchData()
+        setLoading(true)
+      }
+    }, [searchText])
 
     return (
       <StyledRecipeListContainer>

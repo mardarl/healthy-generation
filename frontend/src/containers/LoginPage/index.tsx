@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { UserContext } from '../../UserContext'
-import { convertUserResponse, convertUserSimpleResponse } from '../../common/convertResponse'
+import { convertUserResponse, convertUserSimpleResponse } from '../../common/convert'
 
 import { RoutePaths } from '../../routes/routePaths'
 

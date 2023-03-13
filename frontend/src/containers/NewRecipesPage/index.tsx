@@ -21,7 +21,8 @@ const NewRecipesPage: FunctionComponent = () => {
 
   const fetchRecipeData = async () => {
     setRecipeTypes(await getRecipeTypes())
-    setProducts(await getProducts())
+    const productsList = await getProducts()
+    setProducts(productsList.products)
     setLoading(false)
   }
 
@@ -41,6 +42,7 @@ const NewRecipesPage: FunctionComponent = () => {
         totalProteins: calculateTotalNutrient(values.ingredients, 'proteins'),
         totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
         totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
+        isIngredient: values.isIngredient,
       })
       setLoading(false)
       navigate(routeWithParams(RoutePaths.RECIPE, { recipeId: newRecipe.id }))

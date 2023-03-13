@@ -1,10 +1,11 @@
 import { AxiosError, AxiosRequestConfig } from 'axios'
 import {
   convertCreateRecipeRequest,
+  convertIngredientResponse,
   convertRecipeListResponse,
   convertRecipeRequest,
   convertRecipeResponse,
-} from '../common/convertResponse'
+} from '../common/convert'
 import { generateQuery } from '../common/helpers'
 import { CreateRecipeBody, QueryParams, Recipe, RecipeList, RecipeListResponse, RecipeResponse } from '../common/types'
 import { API } from './axios'
@@ -22,6 +23,19 @@ export const getRecipes = async (params?: QueryParams, config?: AxiosRequestConf
 export const getRecipe = async (id: string, config?: AxiosRequestConfig): Promise<Recipe> => {
   try {
     const response = await API.get<RecipeResponse>(`/recipes/${id}`, config)
+
+    if (response.data.ingredients) {
+      const ingredients = await Promise.all(
+        response.data.ingredients.map(async (ingredient) => {
+          if (ingredient.recipe_id) {
+            const recipe = await getRecipe(ingredient.recipe_id)
+            return { ...ingredient, recipe }
+          } else return ingredient
+        })
+      )
+
+      response.data.ingredients = ingredients
+    }
     return convertRecipeResponse(response.data)
   } catch (error) {
     const axiosError = error as AxiosError

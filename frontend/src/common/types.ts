@@ -1,5 +1,10 @@
 import React from 'react'
 
+export type InputProps<T> = {
+  value: T
+  error?: string
+}
+
 export type QueryParams = {
   [key: string]: string | number | boolean
 }
@@ -68,18 +73,18 @@ export type User = {
   productAllergies: Array<NameSimple> | null
 }
 
-export type ProductResponse = {
-  _id: string
+export type CreateProductResponse = {
   name: string
   carbs: number
   proteins: number
   fats: number
   calories: number
-  recipe_id?: string
+  recipe_id: string | null
 }
 
-export type Product = {
-  id: string
+export type ProductResponse = CreateProductResponse & { _id: string }
+
+export type CreateProductBody = {
   name: string
   carbs: number
   proteins: number
@@ -88,11 +93,26 @@ export type Product = {
   recipeId: string | null
 }
 
-export type ProductListResponse = {
-  products: Array<ProductResponse>
+export type Product = CreateProductBody & { id: string }
+
+export type ListResponse = {
   current_page: number
   limit: number
   total_count: number
+}
+
+export type List = {
+  currentPage: number
+  limit: number
+  totalCount: number
+}
+
+export type ProductListResponse = ListResponse & {
+  products: Array<ProductResponse>
+}
+
+export type ProductList = List & {
+  products: Array<Product>
 }
 
 export type IngredientResponse = {
@@ -105,6 +125,7 @@ export type IngredientResponse = {
   recipe_id: string | null
   amount: number
   measurement_type: string
+  recipe: Recipe | null
 }
 
 export type Ingredient = {
@@ -117,23 +138,18 @@ export type Ingredient = {
   recipeId: string | null
   amount: number
   measurementType: string
+  recipe: Recipe | null
 }
 
-export type RecipeResponse = {
-  _id: string
+export type Ingredients = Array<{
   name: string
-  author_id: string
-  ingredients: Array<IngredientResponse>
-  steps?: Array<string>
-  posible_allergies?: Array<NameSimpleResponse>
-  recipe_types?: Array<NameSimpleResponse>
-  picture_path?: string
-  cooking_time: number
-  total_carbs: number
-  total_proteins: number
-  total_fats: number
-  total_calories: number
-}
+  carbs: number
+  proteins: number
+  fats: number
+  calories: number
+  amount: number
+  ingredients: Array<Ingredient>
+}>
 
 export type CreateRecipeResponse = {
   name: string
@@ -148,7 +164,10 @@ export type CreateRecipeResponse = {
   total_proteins: number
   total_fats: number
   total_calories: number
+  is_ingredient: boolean
 }
+
+export type RecipeResponse = CreateRecipeResponse & { _id: string }
 
 export type Recipe = {
   id: string
@@ -164,6 +183,7 @@ export type Recipe = {
   totalProteins: number
   totalFats: number
   totalCalories: number
+  isIngredient: boolean
 }
 
 export type CreateRecipeBody = {
@@ -179,6 +199,7 @@ export type CreateRecipeBody = {
   totalProteins: number
   totalFats: number
   totalCalories: number
+  isIngredient: boolean
 }
 
 export type RecipeSimpleResponse = {

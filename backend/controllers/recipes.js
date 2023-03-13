@@ -1,3 +1,4 @@
+import Product from '../models/Product.js'
 import Recipe from '../models/Recipe.js'
 import User from '../models/User.js'
 
@@ -72,7 +73,8 @@ export const createRecipe = async (req, res) => {
             total_carbs = 0,
             total_proteins = 0,
             total_fats = 0,
-            total_calories = 0
+            total_calories = 0,
+            is_ingredient = false
         } = req.body
         const newRecipe = new Recipe({
             name,
@@ -86,11 +88,23 @@ export const createRecipe = async (req, res) => {
             total_carbs,
             total_proteins,
             total_fats,
-            total_calories
+            total_calories,
+            is_ingredient
         })
         await newRecipe.save()
 
-        await Recipe.find()
+        if (is_ingredient) {
+            const newProduct = new Product({
+                name,
+                carbs,
+                proteins,
+                fats,
+                calories,
+                recipe_id
+            })
+            await newProduct.save()
+        }
+
         res.status(201).json(newRecipe)
     } catch (err) {
         res.status(409).json({ message: err.message })
@@ -101,26 +115,36 @@ export const createRecipe = async (req, res) => {
 export const updateRecipe = async (req, res) => {
     try {
         const { id } = req.params
-        const recipe = await Recipe.findById(id)
 
-        const updatedRecipe = await Recipe.findByIdAndUpdate(
-            id,
-            {
-                name: req.body.name || recipe.name,
-                author_id: req.body.author_id || recipe.author_id,
-                ingredients: req.body.ingredients || recipe.ingredients,
-                steps: req.body.steps || recipe.steps,
-                posible_allergies: req.body.posible_allergies || recipe.posible_allergies,
-                recipe_types: req.body.recipe_types || recipe.recipe_types,
-                picture_path: req.body.picture_path || recipe.picture_path,
-                cooking_time: req.body.cooking_time || recipe.cooking_time,
-                total_carbs: req.body.total_carbs || recipe.total_carbs,
-                total_proteins: req.body.total_proteins || recipe.total_proteins,
-                total_fats: req.body.total_fats || recipe.total_fats,
-                total_calories: req.body.total_calories || recipe.total_calories
-            },
-            { new: true }
-        )
+        const updatedRecipe = await Recipe.findByIdAndUpdate(id, req.body, { new: true })
+
+        if (req.body.is_ingredient) {
+            const product = await Product.findOne({ recipe_id: id })
+            if (product) {
+                await Product.findByIdAndUpdate(
+                    product._id,
+                    {
+                        name: req.body.name,
+                        carbs: req.body.total_carbs,
+                        proteins: req.body.total_proteins,
+                        fats: req.body.total_fats,
+                        calories: req.body.total_calories,
+                        recipe_id: id
+                    },
+                    { new: true }
+                )
+            } else {
+                const newProduct = new Product({
+                    name: req.body.name,
+                    carbs: req.body.total_carbs,
+                    proteins: req.body.total_proteins,
+                    fats: req.body.total_fats,
+                    calories: req.body.total_calories,
+                    recipe_id: id
+                })
+                await newProduct.save()
+            }
+        }
 
         res.status(200).json(updatedRecipe)
     } catch (err) {
