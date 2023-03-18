@@ -21,6 +21,7 @@ import Checkbox from '../../ui-components/Checkbox'
 import Modal from '../../ui-components/Modal'
 import { ProductForm } from '../ProductForm'
 import { deleteProduct, getProducts } from '../../api/products'
+import DeleteModal from '../DeleteModal'
 
 type PecipeFormProps = {
   isNew: Boolean
@@ -86,6 +87,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
 
   const [open, setOpen] = useState<boolean>(false)
   const [editProduct, setEditProduct] = useState<Product | undefined>(undefined)
+  const [deleteProductId, setDeleteProductId] = useState<string | null>(null)
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
     accept: { 'image/*': [] },
@@ -187,9 +189,10 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     handleChange({ value: array.filter((item: any, i: number) => i !== index && item), error: '' })
   }
 
-  const handleDelete = async (id: string) => {
-    if (id) {
-      await deleteProduct(id)
+  const handleDelete = async () => {
+    if (deleteProductId) {
+      await deleteProduct(deleteProductId)
+      setDeleteProductId(null)
     }
   }
 
@@ -226,7 +229,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                   onAdd={() => setOpen(true)}
                   withButtons
                   onEdit={(product) => setEditProduct(product)}
-                  onDelete={(id) => handleDelete(id)}
+                  onDelete={(id) => setDeleteProductId(id)}
                   getOptions={getProducts}
                   arrayName={'products'}
                 />
@@ -317,6 +320,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
       <Modal open={!!editProduct} onClose={() => setEditProduct(undefined)}>
         <ProductForm isNew={false} onClose={() => setEditProduct(undefined)} initialProductValues={editProduct} />
       </Modal>
+      <DeleteModal open={!!deleteProductId} onClose={() => setDeleteProductId(null)} onDelete={handleDelete} />
     </>
   )
 }

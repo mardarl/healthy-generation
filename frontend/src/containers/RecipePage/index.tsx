@@ -24,6 +24,7 @@ import { LabelSelector } from '../../ui-components/LabelSelector'
 import { calculateTotalNutrient, getRandomInt } from '../../common/helpers'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
+import DeleteModal from '../../components/DeleteModal'
 
 const RecipePage: FunctionComponent = () => {
   const { user } = useUser()
@@ -38,6 +39,7 @@ const RecipePage: FunctionComponent = () => {
   const [recipeTypes, setRecipeTypes] = useState<Array<NameSimple> | null>(null)
   const [products, setProducts] = useState<Array<Product> | null>(null)
   const [imgSrc, setImgSrc] = useState<string>('')
+  const [open, setOpen] = useState<boolean>(false)
 
   const fetchData = async (id: string) => {
     setRecipe(await getRecipe(id))
@@ -143,7 +145,7 @@ const RecipePage: FunctionComponent = () => {
                       ) : (
                         <HiOutlineHeart onClick={handleFavouriteChange} />
                       )}
-                      <Button onClick={handleDelete}>delete</Button>
+                      <Button onClick={() => setOpen(true)}>delete</Button>
                       <Button onClick={() => setIsEdit(true)}>edit</Button>
                     </StyledButtonsContainer>
                   </StyledHeader>
@@ -178,7 +180,6 @@ const RecipePage: FunctionComponent = () => {
                       ))}
                     </>
                   )}
-
                   {recipe?.steps && recipe?.steps.length > 0 && (
                     <>
                       <StyledRecipeTitle>steps:</StyledRecipeTitle>
@@ -193,6 +194,7 @@ const RecipePage: FunctionComponent = () => {
           )}
         </StyledRecipePage>
       )}
+      <DeleteModal open={open} onClose={() => setOpen(false)} onDelete={handleDelete} />
     </>
   )
 }
