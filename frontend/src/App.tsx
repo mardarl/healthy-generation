@@ -10,6 +10,7 @@ import { RoutePaths } from './routes/routePaths'
 import GlobalStyles from './styles/Global'
 import { theme } from './styles/theme'
 import Footer from './components/Footer'
+import { APIErrorNotificationModal } from './components/APIErrorNotificationModal'
 
 const RecipesPage = lazy(() => import('./containers/RecipesPage'))
 const HomePage = lazy(() => import('./containers/HomePage'))
@@ -74,6 +75,7 @@ const App: FunctionComponent = () => {
         </Routes>
         <Footer />
       </Suspense>
+      <APIErrorNotificationModal />
     </ThemeProvider>
   )
 }

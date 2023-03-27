@@ -11,6 +11,7 @@ export const StyledModal = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 5;
 
   @media (max-width: ${({ theme }) => theme.mobile}) {
     align-items: flex-end;
@@ -26,7 +27,7 @@ export const StyledModalBox = styled.div`
   overflow: scroll;
   padding: 0 1rem 1rem 1rem;
   border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
-  box-shadow: ${({ theme }) => `0 0 50px 3px ${theme.colors.header}`};
+  box-shadow: ${({ theme }) => `0 0 8rem 1.5rem ${theme.colors.header}`};
   animation: 2s ${lineUpNoOpacity} ease-out;
   position: relative;
 

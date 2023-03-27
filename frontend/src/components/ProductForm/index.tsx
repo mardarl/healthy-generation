@@ -7,6 +7,8 @@ import { StyledProductForm, StyledProductTitle, StyledHeader } from '../../style
 import { createProduct, updateProduct } from '../../api/products'
 import LoadingScreen from '../LoadingScreen'
 import { getRecipe } from '../../api/recipes'
+import { useMutation, useQuery } from 'react-query'
+import { useAPIError } from '../../common/hooks/useAPIError'
 
 type PecipeFormProps = {
   isNew: Boolean
@@ -26,6 +28,8 @@ const initialValues: Product = {
 
 export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
   const { isNew = true, onClose, initialProductValues = initialValues } = props
+  const { addError } = useAPIError()
+
   const [isLoading, setLoading] = useState<boolean>(false)
 
   const [name, setName] = useState<InputProps<string>>({ value: '', error: '' })
@@ -45,7 +49,22 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
     value: '',
     error: '',
   })
-  const [recipe, setRecipe] = useState<Recipe | null>(null)
+  const {
+    data: recipe,
+    isLoading: isRecipeLoading,
+    refetch,
+  } = useQuery<Recipe | null>([['recipe']], async () =>
+    initialProductValues.recipeId ? await getRecipe(initialProductValues.recipeId) : null
+  )
+
+  const { mutateAsync: create, isLoading: isCreateLoading } = useMutation({
+    mutationFn: createProduct,
+    onError: (err: Error) => addError(err?.message),
+  })
+  const { mutateAsync: update, isLoading: isUpdateLoading } = useMutation({
+    mutationFn: updateProduct,
+    onError: (err: Error) => addError(err?.message),
+  })
 
   useEffect(() => {
     if (!isNew) {
@@ -81,7 +100,6 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
     if (!isValid) {
       return
     } else {
-      setLoading(true)
       const body = {
         ...initialProductValues,
         name: name.value,
@@ -91,11 +109,10 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
         calories: parseInt(calories.value),
       }
       if (isNew) {
-        await createProduct(body)
+        await create(body)
       } else {
-        await updateProduct(body)
+        await update(body)
       }
-      setLoading(false)
 
       resetForm()
       onClose()
@@ -108,17 +125,15 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
     handleChange({ value: convertedValue, error: value ? '' : 'this field is required' })
   }
 
-  const fetchRecipe = async (id: string) => {
-    setLoading(true)
-    setRecipe(await getRecipe(id))
-    setLoading(false)
-  }
-
   useEffect(() => {
     if (initialProductValues.recipeId) {
-      fetchRecipe(initialProductValues.recipeId)
+      refetch()
     }
-  }, [initialProductValues.recipeId])
+  }, [initialProductValues])
+
+  useEffect(() => {
+    setLoading(isRecipeLoading || isCreateLoading || isUpdateLoading)
+  }, [isRecipeLoading, isCreateLoading, isUpdateLoading])
 
   return (
     <StyledProductForm>
@@ -179,7 +194,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
               errors={calories.error}
             />
 
-            {recipe && (
+            {recipe && !isNew && (
               <>
                 <StyledProductTitle>recipe</StyledProductTitle>
                 <a href={`/recipe/${recipe.id}`} target='_blank' rel='noreferrer'>

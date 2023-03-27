@@ -22,7 +22,7 @@ export const getProducts = async (params?: QueryParams, config?: AxiosRequestCon
     return convertProductListResponse(response.data)
   } catch (error) {
     const axiosError = error as AxiosError
-    throw new Error(axiosError?.message)
+    throw axiosError
   }
 }
 

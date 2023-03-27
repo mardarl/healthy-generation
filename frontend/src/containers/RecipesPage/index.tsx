@@ -13,7 +13,7 @@ import {
   StyledRecipeCal,
 } from '../../styles/RecipeList.styled'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
-import { useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
 import Pagination from '../../components/Pagination'
 
 const AllRecipesPage: FunctionComponent<RecipePageProps> = (props: RecipePageProps) => {

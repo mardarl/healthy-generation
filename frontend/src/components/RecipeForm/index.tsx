@@ -27,8 +27,8 @@ type PecipeFormProps = {
   isNew: Boolean
   initialRecipeValues?: Recipe
   onFormSubmit: (values: Recipe) => void
-  recipeTypes: NameSimple[]
-  products: Product[]
+  recipeTypes?: NameSimple[] | null
+  products?: Product[] | null
   onCancel: () => void
 }
 
@@ -63,7 +63,14 @@ const initialIngredient: Ingredient = {
 }
 
 export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
-  const { isNew = true, recipeTypes, onFormSubmit, products, initialRecipeValues = initialValues, onCancel } = props
+  const {
+    isNew = true,
+    recipeTypes = [],
+    onFormSubmit,
+    products = [],
+    initialRecipeValues = initialValues,
+    onCancel,
+  } = props
 
   const [name, setName] = useState<InputProps<string>>({ value: initialRecipeValues.name || '', error: '' })
   const [ingredients, setIngredients] = useState<InputProps<Array<Ingredient>>>({
@@ -126,7 +133,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
   }
 
   const handleProductSelect = (id: string, index: number) => {
-    const product = products.find((item) => item.id === id)
+    const product = products?.length && products.find((item) => item.id === id)
     if (ingredients.value && product) {
       const updatedIngredient = {
         ...ingredients.value[index],
@@ -147,7 +154,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
   }
 
   const handleAmountChange = (amount: number, index: number) => {
-    const product = products.find((item) => item.id === ingredients.value[index].productId)
+    const product = products?.length && products.find((item) => item.id === ingredients.value[index].productId)
     if (ingredients.value && product) {
       const updatedIngredient = {
         ...ingredients.value[index],
@@ -221,7 +228,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
             ingredients.value.map((ingredient: Ingredient, index: number) => (
               <StyledSelectorRow key={index}>
                 <Select
-                  options={products}
+                  options={products || []}
                   onSelect={(id) => handleProductSelect(id, index)}
                   selected={ingredient.productId}
                   withSearch

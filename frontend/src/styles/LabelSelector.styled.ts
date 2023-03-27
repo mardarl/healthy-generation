@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { lineSideNoOpacity } from './animatons'
 
 type LabelSelectortProps = {
   isEdit?: boolean
@@ -26,6 +27,7 @@ export const StyledLabelOption = styled.div<LabelOptionProps>`
   background: ${({ selected, theme }) => (selected ? theme.colors.border : 'transparent')};
   border: 0.063rem solid ${({ theme }) => theme.colors.border};
   color: ${({ selected, theme }) => (selected ? theme.colors.container : theme.colors.regularText)};
+  animation: 2s ${lineSideNoOpacity} ease-out;
 
   span {
     margin: 0;

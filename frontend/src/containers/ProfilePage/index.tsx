@@ -1,8 +1,8 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAllergies } from '../../api/allergies'
 import { getDiets } from '../../api/diets'
-import { changeUserPassword, getUser, updateUser } from '../../api/users'
+import { changeUserPassword, updateUser } from '../../api/users'
 import { NameSimple, User } from '../../common/types'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
@@ -16,7 +16,9 @@ import {
 import Button from '../../ui-components/Button'
 import Input from '../../ui-components/Input'
 import { LabelSelector } from '../../ui-components/LabelSelector'
-import { UserContext, useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
+import { useMutation, useQuery } from 'react-query'
+import { useAPIError } from '../../common/hooks/useAPIError'
 
 type PasswordFields = {
   newPassword: string
@@ -25,37 +27,41 @@ type PasswordFields = {
 }
 
 const ProfilePage: FunctionComponent = () => {
-  const { user } = useUser()
   const navigate = useNavigate()
-  const { setUser } = useContext(UserContext)
+  const { user, setUser } = useUser()
+  const { addError } = useAPIError()
 
   const [isLoading, setLoading] = useState<boolean>(false)
-  const [userData, setUserData] = useState<User | null>(null)
-  const [allergies, setAllergies] = useState<Array<NameSimple> | null>(null)
   const [selectedAllergies, setSelectedAllergies] = useState<Array<NameSimple> | null>(null)
-  const [diets, setDiets] = useState<Array<NameSimple> | null>(null)
   const [selectedDiets, setSelectedDiets] = useState<Array<NameSimple> | null>(null)
   const [newUserData, setNewUserData] = useState<User | null>(null)
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [isChangePassword, setIsChangePassword] = useState<boolean>(false)
   const [password, setPassword] = useState<PasswordFields>({ newPassword: '', repeatPassword: '', error: '' })
 
-  const fetchUserData = async (id: string) => {
-    setRespUserData(await getUser(id))
-  }
+  const { data: allergies, isLoading: isAllergiesLoading } = useQuery<Array<NameSimple> | null>(
+    ['allergies'],
+    async () => await getAllergies()
+  )
+  const { data: diets, isLoading: isDietsLoading } = useQuery<Array<NameSimple> | null>(
+    ['diets'],
+    async () => await getDiets()
+  )
 
-  const setRespUserData = (data: User) => {
+  const { mutateAsync: changePassword, isLoading: isChangeLoading } = useMutation({
+    mutationFn: changeUserPassword,
+    onError: (err: Error) => addError(err?.message),
+  })
+  const { mutateAsync: update, isLoading: isUpdateLoading } = useMutation({
+    mutationFn: updateUser,
+    onError: (err: Error) => addError(err?.message),
+  })
+
+  const setUserData = (data: User) => {
     setUser(data)
-    setUserData(data)
     setNewUserData(data)
     setSelectedAllergies(data.allergies)
     setSelectedDiets(data.diets)
-    setLoading(false)
-  }
-
-  const fetchAllData = async () => {
-    setAllergies(await getAllergies())
-    setDiets(await getDiets())
   }
 
   const handleLogout = () => {
@@ -66,7 +72,9 @@ const ProfilePage: FunctionComponent = () => {
   }
 
   const handleEditChange = () => {
-    setNewUserData(isEdit ? userData : newUserData)
+    if (user && isEdit) {
+      setUserData(user)
+    }
     setIsEdit(!isEdit)
   }
 
@@ -77,8 +85,8 @@ const ProfilePage: FunctionComponent = () => {
 
   const handleSave = async () => {
     if (newUserData) {
-      setRespUserData(
-        await updateUser({
+      setUserData(
+        await update({
           ...newUserData,
           allergies: selectedAllergies,
           diets: selectedDiets,
@@ -100,8 +108,8 @@ const ProfilePage: FunctionComponent = () => {
 
   const handlePasswordSave = async () => {
     if (user) {
-      setRespUserData(
-        await changeUserPassword({
+      setUserData(
+        await changePassword({
           id: user?.id,
           password: password.newPassword,
         })
@@ -112,11 +120,9 @@ const ProfilePage: FunctionComponent = () => {
 
   useEffect(() => {
     if (user) {
-      fetchUserData(user.id)
-      fetchAllData()
-      setLoading(true)
+      setUserData(user)
     }
-  }, [user?.id])
+  }, [user])
 
   useEffect(() => {
     if (password.newPassword && password.repeatPassword) {
@@ -125,7 +131,11 @@ const ProfilePage: FunctionComponent = () => {
         error: password.newPassword === password.repeatPassword ? '' : 'passwords should match',
       })
     }
-  }, [password.newPassword, password.repeatPassword])
+  }, [password, password.newPassword, password.repeatPassword])
+
+  useEffect(() => {
+    setLoading(isAllergiesLoading || isDietsLoading || isChangeLoading || isUpdateLoading)
+  }, [isAllergiesLoading, isDietsLoading, isChangeLoading, isUpdateLoading])
 
   return (
     <>

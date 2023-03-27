@@ -9,35 +9,40 @@ import {
   StyledSearchContainer,
 } from '../../styles/RecipeList.styled'
 import Input from '../../ui-components/Input'
-import { useUser } from '../../UserContext'
 import LoadingScreen from '../LoadingScreen'
 import { HiOutlineSearch } from 'react-icons/hi'
 import Button from '../../ui-components/Button'
 import { RoutePaths } from '../../routes/routePaths'
 import { useNavigate } from 'react-router-dom'
+import { useUser } from '../../common/hooks/useUser'
+import { useMutation, useQuery } from 'react-query'
+import { useAPIError } from '../../common/hooks/useAPIError'
 
 export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>, isFavourite: boolean) => {
   const WithRecipes = (props: any) => {
-    const [recipes, setRecipes] = useState<RecipeList | null>(null)
+    const navigate = useNavigate()
+    const { user, setUser } = useUser()
+    const { addError } = useAPIError()
+
     const [currentPage, setCurrentPage] = useState<number>(0)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [searchText, setSearchText] = useState<string>('')
     const [isSearchOpen, setIsSearchOpenOpen] = useState<boolean>(false)
 
-    const { user, setUser } = useUser()
-    const navigate = useNavigate()
+    const {
+      data: recipes,
+      isLoading: isRecipesLoading,
+      refetch,
+    } = useQuery<RecipeList | null>([['recipes']], async () =>
+      isFavourite && user
+        ? await getRecipes({ is_favourite: true, user_id: user.id, page: currentPage + 1, search: searchText })
+        : await getRecipes({ page: currentPage + 1, search: searchText })
+    )
 
-    const fetchData = async () => {
-      if (isFavourite && user) {
-        setRecipes(
-          await getRecipes({ is_favourite: true, user_id: user.id, page: currentPage + 1, search: searchText })
-        )
-        setLoading(false)
-      } else {
-        setRecipes(await getRecipes({ page: currentPage + 1, search: searchText }))
-        setLoading(false)
-      }
-    }
+    const { mutateAsync: update, isLoading: isUpdateLoading } = useMutation({
+      mutationFn: updateUser,
+      onError: (err: Error) => addError(err?.message),
+    })
 
     const handleFavouriteChange = async (e: MouseEvent<SVGElement, MouseEvent>, recipeId: string) => {
       e.stopPropagation()
@@ -45,24 +50,19 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
         const newFavs = user.favouriteRecipes.includes(recipeId)
           ? user.favouriteRecipes.filter((item) => item !== recipeId)
           : [...user.favouriteRecipes, recipeId]
-        const updatedUser = await updateUser({ ...user, favouriteRecipes: newFavs })
+        const updatedUser = await update({ ...user, favouriteRecipes: newFavs })
         setUser(updatedUser)
+        refetch()
       }
     }
 
     useEffect(() => {
-      if (user?.id) {
-        fetchData()
-        setLoading(true)
-      }
-    }, [user, currentPage])
+      refetch()
+    }, [currentPage, searchText])
 
     useEffect(() => {
-      if (searchText.length > 0) {
-        fetchData()
-        setLoading(true)
-      }
-    }, [searchText])
+      setLoading(isRecipesLoading || isUpdateLoading)
+    }, [isRecipesLoading, isUpdateLoading])
 
     return (
       <StyledRecipeListContainer>

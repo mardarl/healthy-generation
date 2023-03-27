@@ -145,6 +145,7 @@ export const StyledRecipeHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 
   svg {
     position: absolute;
@@ -161,7 +162,6 @@ export const StyledRecipeName = styled.div`
   max-height: 6.25rem;
   display: flex;
   flex-direction: column;
-  width: 90%;
   left: 1.25rem;
   top: -4.063rem;
 

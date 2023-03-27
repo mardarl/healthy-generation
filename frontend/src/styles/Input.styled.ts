@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { lineSideNoOpacity } from './animatons'
 
 type InputProps = {
   errors?: string

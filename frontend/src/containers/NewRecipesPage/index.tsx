@@ -4,32 +4,39 @@ import { getProducts } from '../../api/products'
 import { createRecipe } from '../../api/recipes'
 import { getRecipeTypes } from '../../api/recipeTypes'
 import { calculateTotalNutrient, routeWithParams } from '../../common/helpers'
-import { NameSimple, Product, Recipe } from '../../common/types'
+import { NameSimple, ProductList, Recipe } from '../../common/types'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RecipeForm } from '../../components/RecipeForm'
 import { RoutePaths } from '../../routes/routePaths'
 import { StyledNewRecipePage } from '../../styles/NewRecipePage.styled'
-import { useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
+import { useMutation, useQuery } from 'react-query'
+import { useAPIError } from '../../common/hooks/useAPIError'
 
 const NewRecipesPage: FunctionComponent = () => {
   const navigate = useNavigate()
   const { user } = useUser()
+  const { addError } = useAPIError()
 
   const [isLoading, setLoading] = useState<boolean>(false)
-  const [recipeTypes, setRecipeTypes] = useState<Array<NameSimple> | null>(null)
-  const [products, setProducts] = useState<Array<Product> | null>(null)
 
-  const fetchRecipeData = async () => {
-    setRecipeTypes(await getRecipeTypes())
-    const productsList = await getProducts()
-    setProducts(productsList.products)
-    setLoading(false)
-  }
+  const { data: recipeTypes, isLoading: isRecipeTypesLoading } = useQuery<Array<NameSimple> | null>(
+    ['recipeTypes'],
+    async () => await getRecipeTypes()
+  )
+  const { data: products, isLoading: isProductsLoading } = useQuery<ProductList | null>(
+    ['products'],
+    async () => await getProducts()
+  )
+
+  const { mutateAsync: create, isLoading: isCreateLoading } = useMutation({
+    mutationFn: createRecipe,
+    onError: (err: Error) => addError(err?.message),
+  })
 
   const onSubmit = async (values: Recipe) => {
     if (user) {
-      setLoading(true)
-      const newRecipe = await createRecipe({
+      const newRecipe = await create({
         name: values.name,
         authorId: user.id,
         ingredients: values.ingredients || [],
@@ -44,15 +51,13 @@ const NewRecipesPage: FunctionComponent = () => {
         totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
         isIngredient: values.isIngredient,
       })
-      setLoading(false)
       navigate(routeWithParams(RoutePaths.RECIPE, { recipeId: newRecipe.id }))
     }
   }
 
   useEffect(() => {
-    fetchRecipeData()
-    setLoading(true)
-  }, [])
+    setLoading(isRecipeTypesLoading || isCreateLoading || isProductsLoading)
+  }, [isRecipeTypesLoading, isCreateLoading, isProductsLoading])
 
   return (
     <>
@@ -60,15 +65,13 @@ const NewRecipesPage: FunctionComponent = () => {
         <LoadingScreen />
       ) : (
         <StyledNewRecipePage>
-          {recipeTypes && products && (
-            <RecipeForm
-              isNew
-              recipeTypes={recipeTypes}
-              onFormSubmit={onSubmit}
-              products={products}
-              onCancel={() => navigate(RoutePaths.ALL_RECIPES)}
-            />
-          )}
+          <RecipeForm
+            isNew
+            recipeTypes={recipeTypes}
+            products={products?.products}
+            onFormSubmit={onSubmit}
+            onCancel={() => navigate(RoutePaths.ALL_RECIPES)}
+          />
         </StyledNewRecipePage>
       )}
     </>

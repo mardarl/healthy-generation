@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 import { RoutePaths } from '../../routes/routePaths'
 import { StyledHeader, StyledLink, Nav, StyledNavLink, StyledHamburger } from '../../styles/Header.styped'
-import { useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
 import { HiOutlineMenu, HiOutlineX } from 'react-icons/hi'
 
 const Header: FunctionComponent = () => {

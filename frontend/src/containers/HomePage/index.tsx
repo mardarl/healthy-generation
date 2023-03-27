@@ -10,7 +10,7 @@ import {
 } from '../../styles/HomePage.styled'
 
 import Button from '../../ui-components/Button'
-import { useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
 
 const HomePage: FunctionComponent = () => {
   const navigate = useNavigate()

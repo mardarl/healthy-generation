@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { useParams } from 'react-router-dom'
 import { getProducts } from '../../api/products'
-import { deleteRecipe, getRecipe, updateRecipe } from '../../api/recipes'
+import { deleteRecipe as deleteResipeRequest, getRecipe, updateRecipe } from '../../api/recipes'
 import { getRecipeTypes } from '../../api/recipeTypes'
-import { updateUser } from '../../api/users'
-import { NameSimple, Product, Recipe } from '../../common/types'
+import { updateUser as updateUserRequest } from '../../api/users'
+import { NameSimple, ProductList, Recipe } from '../../common/types'
 import { RecipeForm } from '../../components/RecipeForm'
 import {
   StyledButtonsContainer,
@@ -18,36 +18,55 @@ import {
   StyledNestedText,
 } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
-import { UserContext, useUser } from '../../UserContext'
+import { useUser } from '../../common/hooks/useUser'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
 import { LabelSelector } from '../../ui-components/LabelSelector'
 import { calculateTotalNutrient, getRandomInt } from '../../common/helpers'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
 import DeleteModal from '../../components/DeleteModal'
+import { useMutation, useQuery } from 'react-query'
+import { useAPIError } from '../../common/hooks/useAPIError'
 
 const RecipePage: FunctionComponent = () => {
   const { user } = useUser()
   const navigate = useNavigate()
   const { recipeId } = useParams()
-  const { setUser } = useContext(UserContext)
+  const { setUser } = useUser()
+  const { addError } = useAPIError()
 
-  const [isLoading, setLoading] = useState<boolean>(false)
-  const [recipe, setRecipe] = useState<Recipe | null>(null)
+  const [loading, setLoading] = useState<boolean>(false)
   const [isFavourite, setIsFavourite] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [recipeTypes, setRecipeTypes] = useState<Array<NameSimple> | null>(null)
-  const [products, setProducts] = useState<Array<Product> | null>(null)
   const [imgSrc, setImgSrc] = useState<string>('')
   const [open, setOpen] = useState<boolean>(false)
 
-  const fetchData = async (id: string) => {
-    setRecipe(await getRecipe(id))
-    setRecipeTypes(await getRecipeTypes())
-    const productsList = await getProducts()
-    setProducts(productsList.products)
-    setLoading(false)
-  }
+  const {
+    data: recipe,
+    isLoading: isRecipeLoading,
+    refetch,
+  } = useQuery<Recipe | null>([['recipe'], recipeId], async () => (recipeId ? await getRecipe(recipeId) : null))
+  const { data: recipeTypes, isLoading: isRecipeTypesLoading } = useQuery<Array<NameSimple> | null>(
+    ['recipeTypes'],
+    async () => await getRecipeTypes()
+  )
+  const { data: products, isLoading: isProductsLoading } = useQuery<ProductList | null>(
+    ['products'],
+    async () => await getProducts()
+  )
+
+  const { mutateAsync: update, isLoading: isUpdateLoading } = useMutation({
+    mutationFn: updateRecipe,
+    onError: (err: Error) => addError(err?.message),
+  })
+  const { mutateAsync: deleteRecipe, isLoading: isDeleteLoading } = useMutation({
+    mutationFn: deleteResipeRequest,
+    onError: (err: Error) => addError(err?.message),
+  })
+  const { mutateAsync: updateUser, isLoading: isUpdateUserLoading } = useMutation({
+    mutationFn: updateUserRequest,
+    onError: (err: Error) => addError(err?.message),
+  })
 
   const handleFavouriteChange = async () => {
     if (user && recipe) {
@@ -61,9 +80,8 @@ const RecipePage: FunctionComponent = () => {
   }
 
   const onSubmit = async (values: Recipe) => {
-    setLoading(true)
     if (user && recipe) {
-      const newRecipe = await updateRecipe({
+      await update({
         id: recipe?.id,
         name: values.name,
         authorId: user.id,
@@ -79,10 +97,8 @@ const RecipePage: FunctionComponent = () => {
         totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
         isIngredient: values.isIngredient,
       })
-
-      fetchData(newRecipe.id)
+      refetch()
       setIsEdit(false)
-      setLoading(false)
     }
   }
 
@@ -94,17 +110,10 @@ const RecipePage: FunctionComponent = () => {
   }
 
   useEffect(() => {
-    if (recipeId) {
-      setLoading(true)
-      fetchData(recipeId)
-    }
-  }, [])
-
-  useEffect(() => {
     if (user && recipeId) {
       setIsFavourite(user.favouriteRecipes.includes(recipeId))
     }
-  }, [user])
+  }, [user, recipeId])
 
   useEffect(() => {
     if (recipe?.picturePath) {
@@ -115,9 +124,20 @@ const RecipePage: FunctionComponent = () => {
     }
   }, [recipe])
 
+  useEffect(() => {
+    setLoading(
+      isRecipeLoading ||
+        isRecipeTypesLoading ||
+        isProductsLoading ||
+        isUpdateLoading ||
+        isDeleteLoading ||
+        isUpdateUserLoading
+    )
+  }, [isRecipeLoading, isRecipeTypesLoading, isProductsLoading, isUpdateLoading, isDeleteLoading, isUpdateUserLoading])
+
   return (
     <>
-      {isLoading ? (
+      {loading ? (
         <LoadingScreen />
       ) : (
         <StyledRecipePage>
@@ -130,7 +150,7 @@ const RecipePage: FunctionComponent = () => {
                     isNew={false}
                     recipeTypes={recipeTypes}
                     onFormSubmit={onSubmit}
-                    products={products}
+                    products={products.products}
                     initialRecipeValues={recipe}
                     onCancel={() => setIsEdit(false)}
                   />
