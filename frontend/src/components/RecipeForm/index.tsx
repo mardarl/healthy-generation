@@ -154,8 +154,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
   }
 
   const handleAmountChange = (amount: number, index: number) => {
-    const product = products?.length && products.find((item) => item.id === ingredients.value[index].productId)
-    if (ingredients.value && product) {
+    if (ingredients.value[index].productId) {
       const updatedIngredient = {
         ...ingredients.value[index],
         amount: amount,
@@ -246,6 +245,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                     placeholder='amount'
                     onChange={(e) => handleAmountChange(e.target.valueAsNumber, index)}
                     value={ingredients.value[index].amount || ''}
+                    disabled={!ingredients.value[index].productId}
                   />
 
                   <Button onClick={() => handleRemove(ingredients.value, index, setIngredients)}>-</Button>
