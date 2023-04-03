@@ -85,7 +85,7 @@ export const convertProductResponse = (resp: ProductResponse): Product => ({
 })
 
 export const convertCreateProductRequest = (req: CreateProductBody): CreateProductResponse => ({
-  name: req.name,
+  name: req.name.toLocaleLowerCase(),
   carbs: req.carbs,
   proteins: req.proteins,
   fats: req.fats,
@@ -150,6 +150,7 @@ export const convertRecipeResponse = (resp: RecipeResponse): Recipe => ({
   totalProteins: resp.total_proteins,
   totalFats: resp.total_fats,
   totalCalories: resp.total_calories,
+  totalAmount: resp.total_amount,
   isIngredient: resp.is_ingredient,
 })
 
@@ -167,6 +168,7 @@ export const convertRecipeRequest = (req: Recipe): RecipeResponse => ({
   total_proteins: req.totalProteins,
   total_fats: req.totalFats,
   total_calories: req.totalCalories,
+  total_amount: req.totalAmount,
   is_ingredient: req.isIngredient,
 })
 
@@ -183,6 +185,7 @@ export const convertCreateRecipeRequest = (req: CreateRecipeBody): CreateRecipeR
   total_proteins: req.totalProteins || 0,
   total_fats: req.totalFats || 0,
   total_calories: req.totalCalories || 0,
+  total_amount: req.totalAmount || 0,
   is_ingredient: req.isIngredient,
 })
 
@@ -197,6 +200,7 @@ export const convertRecipeSimpleResponse = (resp: RecipeSimpleResponse): RecipeS
   totalProteins: resp.total_proteins,
   totalFats: resp.total_fats,
   totalCalories: resp.total_calories,
+  totalAmount: resp.total_amount,
 })
 
 export const convertRecipeListResponse = (resp: RecipeListResponse): RecipeList => ({

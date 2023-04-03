@@ -21,7 +21,7 @@ import Button from '../../ui-components/Button'
 import { useUser } from '../../common/hooks/useUser'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
 import { LabelSelector } from '../../ui-components/LabelSelector'
-import { calculateTotalNutrient, getRandomInt } from '../../common/helpers'
+import { calculateTotalAmount, calculateTotalNutrient, getRandomInt } from '../../common/helpers'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
 import DeleteModal from '../../components/DeleteModal'
@@ -81,6 +81,7 @@ const RecipePage: FunctionComponent = () => {
 
   const onSubmit = async (values: Recipe) => {
     if (user && recipe) {
+      const totalAmount = calculateTotalAmount(values.ingredients)
       await update({
         id: recipe?.id,
         name: values.name,
@@ -91,10 +92,11 @@ const RecipePage: FunctionComponent = () => {
         recipeTypes: values.recipeTypes || [],
         picturePath: values.picturePath,
         cookingTime: values.cookingTime,
-        totalCarbs: calculateTotalNutrient(values.ingredients, 'carbs'),
-        totalProteins: calculateTotalNutrient(values.ingredients, 'proteins'),
-        totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
-        totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
+        totalCarbs: calculateTotalNutrient(values.ingredients, 'carbs', totalAmount),
+        totalProteins: calculateTotalNutrient(values.ingredients, 'proteins', totalAmount),
+        totalFats: calculateTotalNutrient(values.ingredients, 'fats', totalAmount),
+        totalCalories: calculateTotalNutrient(values.ingredients, 'calories', totalAmount),
+        totalAmount,
         isIngredient: values.isIngredient,
       })
       refetch()

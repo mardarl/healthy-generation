@@ -15,17 +15,19 @@ export const recalculateIngredients = (ingredients: Ingredient[]): Ingredient[] 
     .filter((ingredient) => ingredient.productId)
     .map((ingredient) => ({
       ...ingredient,
-      carbs: (ingredient.carbs * ingredient.amount) / 100,
-      proteins: (ingredient.proteins * ingredient.amount) / 100,
-      fats: (ingredient.fats * ingredient.amount) / 100,
-      calories: (ingredient.calories * ingredient.amount) / 100,
+      carbs: Math.ceil((ingredient.carbs * ingredient.amount) / 100),
+      proteins: Math.ceil((ingredient.proteins * ingredient.amount) / 100),
+      fats: Math.ceil((ingredient.fats * ingredient.amount) / 100),
+      calories: Math.ceil((ingredient.calories * ingredient.amount) / 100),
     }))
 }
 
-export const calculateTotalNutrient = (ingredients: Ingredient[], field: string): number => {
-  const amount = ingredients.reduce((sum: number, ingredient: Ingredient) => sum + Math.round(ingredient.amount), 0)
+export const calculateTotalAmount = (ingredients: Ingredient[]): number => {
+  return ingredients.reduce((sum: number, ingredient: Ingredient) => sum + Math.round(ingredient.amount), 0)
+}
 
-  return Math.round(
+export const calculateTotalNutrient = (ingredients: Ingredient[], field: string, amount: number): number => {
+  return Math.ceil(
     (ingredients.reduce((sum: number, ingredient: { [key: string]: any }) => sum + ingredient[field], 0) * 100) / amount
   )
 }

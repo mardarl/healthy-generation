@@ -164,6 +164,7 @@ export type CreateRecipeResponse = {
   total_proteins: number
   total_fats: number
   total_calories: number
+  total_amount: number
   is_ingredient: boolean
 }
 
@@ -183,6 +184,7 @@ export type Recipe = {
   totalProteins: number
   totalFats: number
   totalCalories: number
+  totalAmount: number
   isIngredient: boolean
 }
 
@@ -199,6 +201,7 @@ export type CreateRecipeBody = {
   totalProteins: number
   totalFats: number
   totalCalories: number
+  totalAmount: number
   isIngredient: boolean
 }
 
@@ -213,6 +216,7 @@ export type RecipeSimpleResponse = {
   total_proteins: number
   total_fats: number
   total_calories: number
+  total_amount: number
 }
 
 export type RecipeSimple = {
@@ -226,6 +230,7 @@ export type RecipeSimple = {
   totalProteins: number
   totalFats: number
   totalCalories: number
+  totalAmount: number
 }
 
 export type RecipeListResponse = {

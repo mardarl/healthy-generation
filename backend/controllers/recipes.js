@@ -74,6 +74,7 @@ export const createRecipe = async (req, res) => {
             total_proteins = 0,
             total_fats = 0,
             total_calories = 0,
+            total_amount = 0,
             is_ingredient = false
         } = req.body
         const newRecipe = new Recipe({
@@ -89,6 +90,7 @@ export const createRecipe = async (req, res) => {
             total_proteins,
             total_fats,
             total_calories,
+            total_amount,
             is_ingredient
         })
         await newRecipe.save()
@@ -96,10 +98,10 @@ export const createRecipe = async (req, res) => {
         if (is_ingredient) {
             const newProduct = new Product({
                 name,
-                carbs,
-                proteins,
-                fats,
-                calories,
+                carbs: (total_carbs * 100) / total_amount,
+                proteins: (total_proteins * 100) / total_amount,
+                fats: (total_fats * 100) / total_amount,
+                calories: (total_calories * 100) / total_amount,
                 recipe_id
             })
             await newProduct.save()
@@ -125,10 +127,10 @@ export const updateRecipe = async (req, res) => {
                     product._id,
                     {
                         name: req.body.name,
-                        carbs: req.body.total_carbs,
-                        proteins: req.body.total_proteins,
-                        fats: req.body.total_fats,
-                        calories: req.body.total_calories,
+                        carbs: (req.body.total_carbs * 100) / req.body.total_amount,
+                        proteins: (req.body.total_proteins * 100) / req.body.total_amount,
+                        fats: (req.body.total_fats * 100) / req.body.total_amount,
+                        calories: (req.body.total_calories * 100) / req.body.total_amount,
                         recipe_id: id
                     },
                     { new: true }
@@ -136,10 +138,10 @@ export const updateRecipe = async (req, res) => {
             } else {
                 const newProduct = new Product({
                     name: req.body.name,
-                    carbs: req.body.total_carbs,
-                    proteins: req.body.total_proteins,
-                    fats: req.body.total_fats,
-                    calories: req.body.total_calories,
+                    carbs: (req.body.total_carbs * 100) / req.body.total_amount,
+                    proteins: (req.body.total_proteins * 100) / req.body.total_amount,
+                    fats: (req.body.total_fats * 100) / req.body.total_amount,
+                    calories: (req.body.total_calories * 100) / req.body.total_amount,
                     recipe_id: id
                 })
                 await newProduct.save()

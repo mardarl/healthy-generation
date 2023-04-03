@@ -67,23 +67,484 @@
         }
     ],
     "products": [
-		{
-			"name": "banana",
-			"carbs": 28,
-			"proteins": 1,
-			"fats": 0,
-			"calories": 108,
-            "recipe_id": null
-		},
-		{
-			"name": "peanut",
-			"carbs": 16,
-			"proteins": 26,
-			"fats": 49,
-			"calories": 567,
-			"recipe_id": null
-		}
-	],
+        { "name": "Apple", "carbs": 14, "proteins": 0, "fats": 0, "calories": 52, "recipeId": null },
+        { "name": "Banana", "carbs": 23, "proteins": 1, "fats": 0, "calories": 89, "recipeId": null },
+        { "name": "Orange", "carbs": 12, "proteins": 1, "fats": 0, "calories": 47, "recipeId": null },
+        { "name": "Strawberries", "carbs": 8, "proteins": 1, "fats": 0, "calories": 32, "recipeId": null },
+        { "name": "Blueberries", "carbs": 14, "proteins": 1, "fats": 0, "calories": 57, "recipeId": null },
+        { "name": "Raspberries", "carbs": 12, "proteins": 1, "fats": 1, "calories": 52, "recipeId": null },
+        { "name": "Pineapple", "carbs": 13, "proteins": 1, "fats": 0, "calories": 50, "recipeId": null },
+        { "name": "Mango", "carbs": 15, "proteins": 1, "fats": 0, "calories": 60, "recipeId": null },
+        { "name": "Peach", "carbs": 14, "proteins": 2, "fats": 0, "calories": 59, "recipeId": null },
+        { "name": "Pear", "carbs": 15, "proteins": 0, "fats": 0, "calories": 57, "recipeId": null },
+        { "name": "Plum", "carbs": 11, "proteins": 1, "fats": 0, "calories": 46, "recipeId": null },
+        { "name": "Grapefruit", "carbs": 11, "proteins": 1, "fats": 0, "calories": 42, "recipeId": null },
+        { "name": "Watermelon", "carbs": 8, "proteins": 1, "fats": 0, "calories": 30, "recipeId": null },
+        { "name": "Honeydew", "carbs": 9, "proteins": 1, "fats": 0, "calories": 36, "recipeId": null },
+        { "name": "Cantaloupe", "carbs": 8, "proteins": 1, "fats": 0, "calories": 34, "recipeId": null },
+        { "name": "Kiwi", "carbs": 15, "proteins": 1, "fats": 0, "calories": 61, "recipeId": null },
+        { "name": "Apricot", "carbs": 11, "proteins": 1, "fats": 0, "calories": 48, "recipeId": null },
+        { "name": "Cucumber", "carbs": 4, "proteins": 0, "fats": 0, "calories": 16, "recipeId": null },
+        { "name": "Tomato", "carbs": 4, "proteins": 1, "fats": 0, "calories": 18, "recipeId": null },
+        { "name": "Carrots", "carbs": 10, "proteins": 1, "fats": 0, "calories": 41, "recipeId": null },
+        { "name": "Broccoli", "carbs": 7, "proteins": 3, "fats": 0, "calories": 34, "recipeId": null },
+        { "name": "Cauliflower", "carbs": 5, "proteins": 2, "fats": 0, "calories": 25, "recipeId": null },
+        { "name": "Green beans", "carbs": 4, "proteins": 2, "fats": 0, "calories": 31, "recipeId": null },
+        { "name": "Lettuce", "carbs": 2, "proteins": 1, "fats": 0, "calories": 15, "recipeId": null },
+        { "name": "Spinach", "carbs": 1, "proteins": 3, "fats": 0, "calories": 23, "recipeId": null },
+        { "name": "Kale", "carbs": 10, "proteins": 3, "fats": 0, "calories": 49, "recipeId": null },
+        { "name": "Cabbage", "carbs": 6, "proteins": 1, "fats": 0, "calories": 25, "recipeId": null },
+        { "name": "Sweet potato", "carbs": 20, "proteins": 2, "fats": 0, "calories": 86, "recipeId": null },
+        { "name": "Potato", "carbs": 17, "proteins": 2, "fats": 0, "calories": 77, "recipeId": null },
+        { "name": "Oats", "carbs": 56, "proteins": 17, "fats": 7, "calories": 389, "recipeId": null },
+        { "name": "Quaker Instant Oatmeal", "carbs": 67, "proteins": 13, "fats": 6, "calories": 372, "recipeId": null },
+        { "name": "Whole wheat pasta", "carbs": 26, "proteins": 3, "fats": 0, "calories": 124, "recipeId": null },
+        { "name": "Zucchini", "carbs": 3, "proteins": 1, "fats": 0, "calories": 16, "recipeId": null },
+        { "name": "Eggplant", "carbs": 6, "proteins": 1, "fats": 0, "calories": 25, "recipeId": null },
+        { "name": "Peppers", "carbs": 6, "proteins": 1, "fats": 0, "calories": 26, "recipeId": null },
+        { "name": "Onion", "carbs": 9, "proteins": 1, "fats": 0, "calories": 40, "recipeId": null },
+        { "name": "Garlic", "carbs": 33, "proteins": 6, "fats": 0, "calories": 149, "recipeId": null },
+        { "name": "Ginger", "carbs": 18, "proteins": 2, "fats": 0, "calories": 80, "recipeId": null },
+        { "name": "Tofu", "carbs": 2, "proteins": 8, "fats": 5, "calories": 70, "recipeId": null },
+        { "name": "Tempeh", "carbs": 9, "proteins": 19, "fats": 12, "calories": 196, "recipeId": null },
+        { "name": "Seitan", "carbs": 4, "proteins": 22, "fats": 1, "calories": 100, "recipeId": null },
+        { "name": "Salmon", "carbs": 0, "proteins": 20, "fats": 13, "calories": 208, "recipeId": null },
+        { "name": "Tuna", "carbs": 0, "proteins": 30, "fats": 1, "calories": 137, "recipeId": null },
+        { "name": "Cod", "carbs": 0, "proteins": 20, "fats": 1, "calories": 89, "recipeId": null },
+        { "name": "Shrimp", "carbs": 1, "proteins": 24, "fats": 1, "calories": 119, "recipeId": null },
+        { "name": "Crab", "carbs": 0, "proteins": 19, "fats": 1, "calories": 84, "recipeId": null },
+        { "name": "Lobster", "carbs": 0, "proteins": 19, "fats": 1, "calories": 83, "recipeId": null },
+        { "name": "Scallops", "carbs": 4, "proteins": 18, "fats": 1, "calories": 111, "recipeId": null },
+        { "name": "Clams", "carbs": 5, "proteins": 11, "fats": 1, "calories": 63, "recipeId": null },
+        { "name": "Mussels", "carbs": 7, "proteins": 18, "fats": 2, "calories": 172, "recipeId": null },
+        { "name": "Oysters", "carbs": 4, "proteins": 9, "fats": 2, "calories": 68, "recipeId": null },
+        { "name": "Eggs", "carbs": 1, "proteins": 13, "fats": 11, "calories": 155, "recipeId": null },
+        { "name": "Egg whites", "carbs": 1, "proteins": 11, "fats": 0, "calories": 52, "recipeId": null },
+        { "name": "Egg yolks", "carbs": 1, "proteins": 3, "fats": 14, "calories": 154, "recipeId": null },
+        { "name": "Milk", "carbs": 5, "proteins": 3, "fats": 1, "calories": 42, "recipeId": null },
+        { "name": "Soy milk", "carbs": 3, "proteins": 3, "fats": 2, "calories": 54, "recipeId": null },
+        { "name": "Almond milk", "carbs": 1, "proteins": 1, "fats": 2, "calories": 29, "recipeId": null },
+        { "name": "Coconut milk", "carbs": 2, "proteins": 1, "fats": 5, "calories": 57, "recipeId": null },
+        { "name": "Oat milk", "carbs": 7, "proteins": 1, "fats": 3, "calories": 73, "recipeId": null },
+        { "name": "Greek yogurt", "carbs": 4, "proteins": 10, "fats": 0, "calories": 59, "recipeId": null },
+        { "name": "Regular yogurt", "carbs": 9, "proteins": 5, "fats": 1, "calories": 61, "recipeId": null },
+        { "name": "Cheese", "carbs": 1, "proteins": 25, "fats": 34, "calories": 402, "recipeId": null },
+        { "name": "Cottage cheese", "carbs": 3, "proteins": 11, "fats": 4, "calories": 81, "recipeId": null },
+        { "name": "Ricotta cheese", "carbs": 3, "proteins": 11, "fats": 5, "calories": 108, "recipeId": null },
+        { "name": "Cheddar cheese", "carbs": 1, "proteins": 25, "fats": 33, "calories": 403, "recipeId": null },
+        { "name": "Mozzarella cheese", "carbs": 2, "proteins": 22, "fats": 18, "calories": 280, "recipeId": null },
+        { "name": "Parmesan cheese", "carbs": 4, "proteins": 35, "fats": 25, "calories": 431, "recipeId": null },
+        { "name": "Blue cheese", "carbs": 2, "proteins": 21, "fats": 29, "calories": 353, "recipeId": null },
+        { "name": "Swiss cheese", "carbs": 5, "proteins": 27, "fats": 28, "calories": 380, "recipeId": null },
+        { "name": "Brie cheese", "carbs": 0, "proteins": 20, "fats": 27, "calories": 334, "recipeId": null },
+        { "name": "Feta cheese", "carbs": 2, "proteins": 14, "fats": 21, "calories": 264, "recipeId": null },
+        { "name": "Goat cheese", "carbs": 1, "proteins": 21, "fats": 23, "calories": 293, "recipeId": null },
+        { "name": "Cream cheese", "carbs": 3, "proteins": 3, "fats": 35, "calories": 348, "recipeId": null },
+        { "name": "Butter", "carbs": 0, "proteins": 0, "fats": 81, "calories": 717, "recipeId": null },
+        { "name": "Olive oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Coconut oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 862, "recipeId": null },
+        { "name": "Canola oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Avocado oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Sunflower oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Peanut oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Corn oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Safflower oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Sesame oil", "carbs": 0, "proteins": 0, "fats": 100, "calories": 884, "recipeId": null },
+        { "name": "Rice", "carbs": 80, "proteins": 7, "fats": 1, "calories": 370, "recipeId": null },
+        { "name": "Quinoa", "carbs": 64, "proteins": 14, "fats": 6, "calories": 368, "recipeId": null },
+        { "name": "Bulgur", "carbs": 76, "proteins": 3, "fats": 1, "calories": 83, "recipeId": null },
+        { "name": "Barley", "carbs": 73, "proteins": 10, "fats": 2, "calories": 354, "recipeId": null },
+        { "name": "Oats", "carbs": 66, "proteins": 17, "fats": 7, "calories": 389, "recipeId": null },
+        { "name": "Brown rice", "carbs": 77, "proteins": 8, "fats": 2, "calories": 370, "recipeId": null },
+        { "name": "Wild rice", "carbs": 76, "proteins": 15, "fats": 1, "calories": 357, "recipeId": null },
+        { "name": "Millet", "carbs": 73, "proteins": 11, "fats": 4, "calories": 378, "recipeId": null },
+        { "name": "Buckwheat", "carbs": 71, "proteins": 13, "fats": 3, "calories": 343, "recipeId": null },
+        { "name": "Rye", "carbs": 72, "proteins": 10, "fats": 2, "calories": 338, "recipeId": null },
+        { "name": "Cornmeal", "carbs": 76, "proteins": 7, "fats": 2, "calories": 370, "recipeId": null },
+        { "name": "Polenta", "carbs": 76, "proteins": 7, "fats": 2, "calories": 370, "recipeId": null },
+        { "name": "Grits", "carbs": 76, "proteins": 7, "fats": 2, "calories": 370, "recipeId": null },
+        { "name": "Wheat flour", "carbs": 76, "proteins": 10, "fats": 1, "calories": 364, "recipeId": null },
+        { "name": "Almond flour", "carbs": 22, "proteins": 46, "fats": 35, "calories": 583, "recipeId": null },
+        { "name": "Coconut flour", "carbs": 57, "proteins": 19, "fats": 8, "calories": 352, "recipeId": null },
+        { "name": "Bread flour", "carbs": 76, "proteins": 13, "fats": 1, "calories": 364, "recipeId": null },
+        { "name": "Whole wheat flour", "carbs": 72, "proteins": 13, "fats": 2, "calories": 340, "recipeId": null },
+        { "name": "Baking powder", "carbs": 27, "proteins": 0, "fats": 0, "calories": 110, "recipeId": null },
+        { "name": "Baking soda", "carbs": 0, "proteins": 0, "fats": 0, "calories": 0, "recipeId": null },
+        { "name": "Cornstarch", "carbs": 91, "proteins": 0, "fats": 0, "calories": 381, "recipeId": null },
+        { "name": "Potato starch", "carbs": 91, "proteins": 0, "fats": 0, "calories": 381, "recipeId": null },
+        { "name": "Tapioca starch", "carbs": 88, "proteins": 0, "fats": 0, "calories": 358, "recipeId": null },
+        { "name": "Arrowroot starch", "carbs": 88, "proteins": 0, "fats": 0, "calories": 357, "recipeId": null },
+        { "name": "Corn flour", "carbs": 76, "proteins": 7, "fats": 1, "calories": 361, "recipeId": null },
+        { "name": "Garbanzo bean flour", "carbs": 58, "proteins": 22, "fats": 6, "calories": 387, "recipeId": null },
+        {
+        "name": "Teff flour",
+        "carbs": 73,
+        "proteins": 13,
+        "fats": 2,
+        "calories": 367,
+        "recipeId": null
+        },
+        {
+        "name": "Quinoa flour",
+        "carbs": 68,
+        "proteins": 14,
+        "fats": 6,
+        "calories": 366,
+        "recipeId": null
+        },
+        {
+        "name": "Rye flour",
+        "carbs": 73,
+        "proteins": 9,
+        "fats": 2,
+        "calories": 335,
+        "recipeId": null
+        },
+        {
+        "name": "Spelt flour",
+        "carbs": 71,
+        "proteins": 15,
+        "fats": 2,
+        "calories": 338,
+        "recipeId": null
+        },
+        {
+        "name": "Buckwheat flour",
+        "carbs": 72,
+        "proteins": 12,
+        "fats": 3,
+        "calories": 335,
+        "recipeId": null
+        },
+        {
+        "name": "Hemp flour",
+        "carbs": 15,
+        "proteins": 46,
+        "fats": 33,
+        "calories": 492,
+        "recipeId": null
+        },
+        {
+        "name": "Soy flour",
+        "carbs": 33,
+        "proteins": 39,
+        "fats": 20,
+        "calories": 441,
+        "recipeId": null
+        },
+        {
+        "name": "Whey protein powder",
+        "carbs": 11,
+        "proteins": 82,
+        "fats": 5,
+        "calories": 392,
+        "recipeId": null
+        },
+        {
+        "name": "Casein protein powder",
+        "carbs": 8,
+        "proteins": 91,
+        "fats": 1,
+        "calories": 362,
+        "recipeId": null
+        },
+        {
+        "name": "Pea protein powder",
+        "carbs": 10,
+        "proteins": 80,
+        "fats": 5,
+        "calories": 382,
+        "recipeId": null
+        },
+        {
+        "name": "Hemp protein powder",
+        "carbs": 8,
+        "proteins": 50,
+        "fats": 11,
+        "calories": 276,
+        "recipeId": null
+        },
+        {
+        "name": "Cashew milk",
+        "carbs": 2,
+        "proteins": 1,
+        "fats": 2,
+        "calories": 25,
+        "recipeId": null
+        },
+        {
+        "name": "Rice milk",
+        "carbs": 9,
+        "proteins": 1,
+        "fats": 1,
+        "calories": 47,
+        "recipeId": null
+        },
+        {
+        "name": "Cow's milk",
+        "carbs": 5,
+        "proteins": 3,
+        "fats": 3,
+        "calories": 60,
+        "recipeId": null
+        },
+        {
+        "name": "Goat milk",
+        "carbs": 5,
+        "proteins": 4,
+        "fats": 4,
+        "calories": 69,
+        "recipeId": null
+        },
+        {
+        "name": "Sheep milk",
+        "carbs": 5,
+        "proteins": 5,
+        "fats": 7,
+        "calories": 108,
+        "recipeId": null
+        },
+        {
+        "name": "Butter",
+        "carbs": 0,
+        "proteins": 0,
+        "fats": 81,
+        "calories": 717,
+        "recipeId": null
+        },
+        {
+        "name": "Ghee",
+        "carbs": 0,
+        "proteins": 0,
+        "fats": 99,
+        "calories": 900,
+        "recipeId": null
+        },
+        {
+        "name": "Cheddar cheese",
+        "carbs": 1,
+        "proteins": 25,
+        "fats": 34,
+        "calories": 404,
+        "recipeId": null
+        },
+        {
+        "name": "Mozzarella cheese",
+        "carbs": 2,
+        "proteins": 22,
+        "fats": 19,
+        "calories": 280,
+        "recipeId": null
+        },
+        {
+        "name": "Parmesan cheese",
+        "carbs": 3,
+        "proteins": 38,
+        "fats": 28,
+        "calories": 431,
+        "recipeId": null
+        },
+        {
+        "name": "Feta cheese",
+        "carbs": 4,
+        "proteins": 14,
+        "fats": 21,
+        "calories": 264,
+        "recipeId": null
+        },
+        {
+        "name": "Blue cheese",
+        "carbs": 2,
+        "proteins": 21,
+        "fats": 29,
+        "calories": 353,
+        "recipeId": null
+        },
+        {
+        "name": "Egg (boiled)",
+        "carbs": 1,
+        "proteins": 13,
+        "fats": 11,
+        "calories": 155,
+        "recipeId": null
+        },
+        {
+        "name": "Egg white (boiled)",
+        "carbs": 1,
+        "proteins": 11,
+        "fats": 0,
+        "calories": 48,
+        "recipeId": null
+        },
+        {
+        "name": "Egg yolk (boiled)",
+        "carbs": 1,
+        "proteins": 3,
+        "fats": 11,
+        "calories": 119,
+        "recipeId": null
+        },
+        {
+        "name": "Chicken breast (cooked)",
+        "carbs": 0,
+        "proteins": 31,
+        "fats": 3,
+        "calories": 165,
+        "recipeId": null
+        },
+        {
+        "name": "Chicken thigh (cooked)",
+        "carbs": 0,
+        "proteins": 26,
+        "fats": 10,
+        "calories": 209,
+        "recipeId": null
+        },
+        {
+        "name": "Turkey breast (cooked)",
+        "carbs": 0,
+        "proteins": 29,
+        "fats": 1,
+        "calories": 138,
+        "recipeId": null
+        },
+        {
+        "name": "Turkey thigh (cooked)",
+        "carbs": 0,
+        "proteins": 22,
+        "fats": 10,
+        "calories": 190,
+        "recipeId": null
+        },
+        {
+        "name": "Beef steak (cooked)",
+        "carbs": 0,
+        "proteins": 26,
+        "fats": 17,
+        "calories": 271,
+        "recipeId": null
+        },
+        {
+        "name": "Pork chop (cooked)",
+        "carbs": 0,
+        "proteins": 26,
+        "fats": 9,
+        "calories": 193,
+        "recipeId": null
+        },
+        {
+        "name": "Salmon (cooked)",
+        "carbs": 0,
+        "proteins": 20,
+        "fats": 13,
+        "calories": 209,
+        "recipeId": null
+        },
+        {
+        "name": "Tuna (cooked)",
+        "carbs": 0,
+        "proteins": 30,
+        "fats": 1,
+        "calories": 136,
+        "recipeId": null
+        },
+        {
+        "name": "Cod (cooked)",
+        "carbs": 0,
+        "proteins": 20,
+        "fats": 1,
+        "calories": 96,
+        "recipeId": null
+        },
+        {
+        "name": "Shrimp (cooked)",
+        "carbs": 1,
+        "proteins": 24,
+        "fats": 1,
+        "calories": 99,
+        "recipeId": null
+        },
+        {
+        "name": "Lobster (cooked)",
+        "carbs": 1,
+        "proteins": 20,
+        "fats": 1,
+        "calories": 98,
+        "recipeId": null
+        },
+        {
+        "name": "Crab (cooked)",
+        "carbs": 0,
+        "proteins": 15,
+        "fats": 2,
+        "calories": 83,
+        "recipeId": null
+        },
+        {
+        "name": "Mussels (cooked)",
+        "carbs": 7,
+        "proteins": 18,
+        "fats": 2,
+        "calories": 172,
+        "recipeId": null
+        },
+        {
+        "name": "Clams (cooked)",
+        "carbs": 3,
+        "proteins": 24,
+        "fats": 1,
+        "calories": 126,
+        "recipeId": null
+        },
+        {
+        "name": "Tempeh",
+        "carbs": 9,
+        "proteins": 19,
+        "fats": 12,
+        "calories": 196,
+        "recipeId": null
+        },
+        {
+        "name": "Seitan",
+        "carbs": 13,
+        "proteins": 24,
+        "fats": 1,
+        "calories": 120,
+        "recipeId": null
+        },
+        {
+        "name": "Lentils (cooked)",
+        "carbs": 20,
+        "proteins": 9,
+        "fats": 0,
+        "calories": 116,
+        "recipeId": null
+        },
+        {
+        "name": "Chickpeas (cooked)",
+        "carbs": 27,
+        "proteins": 9,
+        "fats": 4,
+        "calories": 164,
+        "recipeId": null
+        },
+        {
+        "name": "Kidney beans (cooked)",
+        "carbs": 22,
+        "proteins": 9,
+        "fats": 0,
+        "calories": 127,
+        "recipeId": null
+        },
+        {
+        "name": "Black beans (cooked)",
+        "carbs": 22,
+        "proteins": 9,
+        "fats": 0,
+        "calories": 132,
+        "recipeId": null
+        }
+    ],
     "recipeTypes": [
         {
             "name": "breakfast"

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router'
 import { getProducts } from '../../api/products'
 import { createRecipe } from '../../api/recipes'
 import { getRecipeTypes } from '../../api/recipeTypes'
-import { calculateTotalNutrient, routeWithParams } from '../../common/helpers'
+import { calculateTotalAmount, calculateTotalNutrient, routeWithParams } from '../../common/helpers'
 import { NameSimple, ProductList, Recipe } from '../../common/types'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RecipeForm } from '../../components/RecipeForm'
@@ -36,6 +36,7 @@ const NewRecipesPage: FunctionComponent = () => {
 
   const onSubmit = async (values: Recipe) => {
     if (user) {
+      const totalAmount = calculateTotalAmount(values.ingredients)
       const newRecipe = await create({
         name: values.name,
         authorId: user.id,
@@ -45,10 +46,11 @@ const NewRecipesPage: FunctionComponent = () => {
         recipeTypes: values.recipeTypes || [],
         picturePath: values.picturePath,
         cookingTime: values.cookingTime,
-        totalCarbs: calculateTotalNutrient(values.ingredients, 'carbs'),
-        totalProteins: calculateTotalNutrient(values.ingredients, 'proteins'),
-        totalFats: calculateTotalNutrient(values.ingredients, 'fats'),
-        totalCalories: calculateTotalNutrient(values.ingredients, 'calories'),
+        totalCarbs: calculateTotalNutrient(values.ingredients, 'carbs', totalAmount),
+        totalProteins: calculateTotalNutrient(values.ingredients, 'proteins', totalAmount),
+        totalFats: calculateTotalNutrient(values.ingredients, 'fats', totalAmount),
+        totalCalories: calculateTotalNutrient(values.ingredients, 'calories', totalAmount),
+        totalAmount,
         isIngredient: values.isIngredient,
       })
       navigate(routeWithParams(RoutePaths.RECIPE, { recipeId: newRecipe.id }))

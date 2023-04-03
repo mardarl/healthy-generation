@@ -31,7 +31,7 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
 
     const {
       data: recipes,
-      isLoading: isRecipesLoading,
+      isFetching: isRecipesLoading,
       refetch,
     } = useQuery<RecipeList | null>([['recipes']], async () =>
       isFavourite && user

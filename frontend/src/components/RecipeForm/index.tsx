@@ -43,6 +43,7 @@ const initialValues: Recipe = {
   totalProteins: 0,
   totalFats: 0,
   totalCalories: 0,
+  totalAmount: 0,
   id: '',
   authorId: null,
   posibleAllergies: null,
@@ -132,8 +133,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
     }
   }
 
-  const handleProductSelect = (id: string, index: number) => {
-    const product = products?.length && products.find((item) => item.id === id)
+  const handleProductSelect = (product: Product, index: number) => {
     if (ingredients.value && product) {
       const updatedIngredient = {
         ...ingredients.value[index],
@@ -227,10 +227,10 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           {ingredients && ingredients.value.length > 0 ? (
             ingredients.value.map((ingredient: Ingredient, index: number) => (
               <StyledSelectorRow key={index}>
-                <Select
+                <Select<Product>
                   options={products || []}
-                  onSelect={(id) => handleProductSelect(id, index)}
-                  selected={ingredient.productId}
+                  onSelect={(product) => handleProductSelect(product, index)}
+                  selected={ingredient.name}
                   withSearch
                   withAddButton
                   onAdd={() => setOpen(true)}

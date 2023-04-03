@@ -11,7 +11,7 @@ export const APIErrorNotificationModal = () => {
   }
 
   return (
-    <Modal open={!!error}>
+    <Modal open={!!error} onClose={handleSubmit}>
       <StyledErrorNotification>
         <StyledError>
           <h4>{'oops!'}</h4>

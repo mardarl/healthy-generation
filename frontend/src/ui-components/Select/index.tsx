@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { List, NameSimple, QueryParams } from '../../common/types'
+import { List, QueryParams } from '../../common/types'
 import {
   NoResults,
   StyledSelect,
@@ -15,9 +15,9 @@ import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { AxiosRequestConfig } from 'axios'
 
-type SelectProps = {
-  options: Array<NameSimple>
-  onSelect: (id: string) => void
+type SelectProps<T> = {
+  options: Array<T>
+  onSelect: (id: T) => void
   selected?: string
   withSearch?: boolean
   withAddButton?: boolean
@@ -29,7 +29,7 @@ type SelectProps = {
   arrayName: string
 }
 
-export const Select = (props: SelectProps) => {
+export const Select = <T extends { id: string; name: string }>(props: SelectProps<T>) => {
   const {
     options,
     onSelect,
@@ -45,14 +45,14 @@ export const Select = (props: SelectProps) => {
   } = props
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [searchText, setSearchText] = useState<string>('')
-  const [items, setItems] = useState<NameSimple[]>([])
+  const [items, setItems] = useState<T[]>([])
   const [allItems, setAllItems] = useState<List | null>(null)
   const [page, setPage] = useState<number>(0)
   const ref = useRef<HTMLDivElement>(null)
 
-  const onSelectOption = (item: NameSimple) => {
+  const onSelectOption = (item: T) => {
     if (item) {
-      onSelect(item.id)
+      onSelect(item)
       toggleSelect()
     }
   }
@@ -98,11 +98,9 @@ export const Select = (props: SelectProps) => {
     setItems(page === 1 ? resp[arrayName] : [...items, ...resp[arrayName]])
   }
 
-  const value = selected ? options.find((item) => item.id === selected)?.name : 'select'
-
   return (
     <StyledSelect selected={!!selected} ref={ref}>
-      <span onClick={toggleSelect}>{value}</span>
+      <span onClick={toggleSelect}>{selected?.toLowerCase() || 'select'}</span>
       {isOpen && (
         <>
           <StyledSelectBody>
@@ -133,7 +131,7 @@ export const Select = (props: SelectProps) => {
                 {items.map((item, index) => (
                   <StyledSelectBodyItem>
                     <span onClick={() => onSelectOption(item)} key={item.id}>
-                      {item.name}
+                      {item.name.toLowerCase()}
                     </span>
                     {withButtons && (
                       <StyledIconsContainer>

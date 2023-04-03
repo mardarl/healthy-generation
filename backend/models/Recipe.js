@@ -51,6 +51,10 @@ const RecipeSchema = new mongoose.Schema(
             type: Number,
             required: true
         },
+        total_amount: {
+            type: Number,
+            required: true
+        },
         is_ingredient: {
             type: Boolean,
             default: false
