@@ -1,5 +1,5 @@
 import React, { FunctionComponent, HTMLProps, memo, Ref } from 'react'
-import { StyledInput, StyledLabel, StyledInputError } from '../../styles/Input.styled'
+import { StyledInput, Label, InputError } from '../../styles/Input.styled'
 
 export type InputProps = {
   label?: string
@@ -28,7 +28,7 @@ const Input: FunctionComponent<InputProps> = ({
 }) => {
   return (
     <StyledInput errors={errors} disabled={disabled}>
-      {label && <StyledLabel>{label}</StyledLabel>}
+      {label && <Label>{label}</Label>}
       <input
         autoComplete={autoComplete}
         disabled={disabled}
@@ -42,7 +42,7 @@ const Input: FunctionComponent<InputProps> = ({
         onKeyPress={onKeyPress}
         {...rest}
       />
-      {errors && <StyledInputError>{errors}</StyledInputError>}
+      {errors && <InputError>{errors}</InputError>}
     </StyledInput>
   )
 }

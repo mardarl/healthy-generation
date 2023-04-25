@@ -24,11 +24,6 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Michroma', sans-serif;
   }
 
-  p {
-    opacity: 1;
-    line-height: 1.5;
-  }
-
   img {
     max-width: 100%;
   }

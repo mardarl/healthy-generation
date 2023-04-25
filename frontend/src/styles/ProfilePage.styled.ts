@@ -24,7 +24,7 @@ export const StyledProfilePage = styled(Container)`
   }
 `
 
-export const StyledProfilePageContent = styled.div`
+export const ProfilePageContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
@@ -33,7 +33,7 @@ export const StyledProfilePageContent = styled.div`
   animation: 2s ${lineUpNoOpacity} ease-out;
 `
 
-export const StyledHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -55,7 +55,7 @@ export const StyledHeader = styled.div`
   }
 `
 
-export const StyledButtonsContainer = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1.25rem;

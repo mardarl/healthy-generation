@@ -16,7 +16,7 @@ export const StyledLoginPage = styled.div`
   }
 `
 
-export const StyledTitle = styled.span`
+export const Title = styled.span`
   font-size: 1.5rem;
   display: block;
   margin-bottom: 4.375rem;

@@ -18,7 +18,7 @@ export const StyledModal = styled.div`
   }
 `
 
-export const StyledModalBox = styled.div`
+export const ModalBox = styled.div`
   display: block;
   background: ${({ theme }) => theme.colors.container};
   max-height: 70%;
@@ -26,7 +26,7 @@ export const StyledModalBox = styled.div`
   width: 50%;
   overflow: scroll;
   padding: 0 1rem 1rem 1rem;
-  border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  border: 0.065rem solid ${({ theme }) => theme.colors.disabled};
   box-shadow: ${({ theme }) => `0 0 8rem 1.5rem ${theme.colors.header}`};
   animation: 2s ${lineUpNoOpacity} ease-out;
   position: relative;
@@ -41,7 +41,7 @@ export const StyledModalBox = styled.div`
   }
 `
 
-export const StyledButtonsContainer = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: end;
   width: 100%;

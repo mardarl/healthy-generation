@@ -1,20 +1,25 @@
 import styled from 'styled-components'
 
-export const StyledButton = styled.button`
+type ButtonProps = {
+  main?: boolean
+}
+
+export const StyledButton = styled.button<ButtonProps>`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.938rem 1.875rem;
+  padding: 1rem 1.85rem;
   width: fit-content;
-  opacity: 0.7;
+  opacity: ${({ main }) => (main ? '0.5' : '0.7')};
   cursor: pointer;
   background: transparent;
-  border: 0.063rem solid ${({ theme }) => theme.colors.border};
+  border: 0.065rem solid ${({ theme }) => theme.colors.border};
   color: ${({ theme }) => theme.colors.text};
+  margin-top: ${({ main }) => main && '1.875rem'};
 
   span {
     margin: 0;
-    font-size: 0.875rem;
+    font-size: ${({ main }) => (main ? '1rem' : '0.875rem')};
   }
 
   &:hover {

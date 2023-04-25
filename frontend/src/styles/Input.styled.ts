@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { lineSideNoOpacity } from './animatons'
 
 type InputProps = {
   errors?: string
@@ -67,7 +66,7 @@ export const StyledInput = styled.div<InputProps>`
 }
 `
 
-export const StyledLabel = styled.span<LabelProps>`
+export const Label = styled.span<LabelProps>`
   font-size: 0.75rem;
   display: block;
   margin-bottom: ${({ marginBottom }) => (marginBottom ? `${marginBottom}rem` : '0.313rem')};
@@ -75,9 +74,9 @@ export const StyledLabel = styled.span<LabelProps>`
   color: ${({ theme }) => theme.colors.regularText};
 `
 
-export const StyledInputError = styled.span`
+export const InputError = styled.span`
   font-size: 0.625rem;
   display: block;
-  margin-top: 0.313rem;
+  margin-top: 0.315rem;
   color: ${({ theme }) => theme.colors.error};
 `

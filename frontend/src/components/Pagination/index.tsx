@@ -1,11 +1,11 @@
 import React, { FunctionComponent, memo } from 'react'
 import {
-  StyledArrowLeft,
-  StyledArrowRight,
-  StyledCounterContainer,
-  StyledCounterEmptyItem,
-  StyledCounterItem,
-  StyledCounterItemSelected,
+  ArrowLeft,
+  ArrowRight,
+  CounterContainer,
+  CounterEmptyItem,
+  CounterItem,
+  CounterItemSelected,
   StyledPaginator,
 } from '../../styles/Pagination.style'
 
@@ -96,31 +96,31 @@ const Pagination: FunctionComponent<PaginationProps> = ({ pagesCount, currentPag
 
   return (
     <StyledPaginator>
-      <StyledArrowLeft disabled={currentPage === start} onClick={() => onPageChange(currentPage - 1)} />
-      <StyledCounterContainer>
+      <ArrowLeft disabled={currentPage === start} onClick={() => onPageChange(currentPage - 1)} />
+      <CounterContainer>
         {pages.map((value: string | number, index: number) => {
           if (value === EMPTY_VALUE) {
-            return <StyledCounterEmptyItem>{value}</StyledCounterEmptyItem>
+            return <CounterEmptyItem>{value}</CounterEmptyItem>
           }
           if (typeof value === 'number') {
             return (
               <>
                 {value === currentPage ? (
-                  <StyledCounterItemSelected key={index} onClick={() => onPageChange(value)}>
+                  <CounterItemSelected key={index} onClick={() => onPageChange(value)}>
                     {value + 1}
-                  </StyledCounterItemSelected>
+                  </CounterItemSelected>
                 ) : (
-                  <StyledCounterItem key={index} onClick={() => onPageChange(value)}>
+                  <CounterItem key={index} onClick={() => onPageChange(value)}>
                     {value + 1}
-                  </StyledCounterItem>
+                  </CounterItem>
                 )}
               </>
             )
           }
           return null
         })}
-      </StyledCounterContainer>
-      <StyledArrowRight disabled={currentPage === end} onClick={() => onPageChange(currentPage + 1)} />
+      </CounterContainer>
+      <ArrowRight disabled={currentPage === end} onClick={() => onPageChange(currentPage + 1)} />
     </StyledPaginator>
   )
 }

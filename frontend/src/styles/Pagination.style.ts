@@ -20,7 +20,7 @@ export const StyledPaginator = styled.div<ArrowProps>`
   margin-top: 3rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
 `
-export const StyledArrowLeft = styled(HiOutlineChevronLeft)<ArrowProps>`
+export const ArrowLeft = styled(HiOutlineChevronLeft)<ArrowProps>`
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   pointer-events: ${({ disabled }) => disabled && 'none'};
   color: ${({ disabled, theme }) => (disabled ? theme.colors.placeholder : theme.colors.text)};
@@ -28,7 +28,7 @@ export const StyledArrowLeft = styled(HiOutlineChevronLeft)<ArrowProps>`
   width: 3rem;
   height: 3rem;
 `
-export const StyledArrowRight = styled(HiOutlineChevronRight)<ArrowProps>`
+export const ArrowRight = styled(HiOutlineChevronRight)<ArrowProps>`
   cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
   pointer-events: ${({ disabled }) => disabled && 'none'};
   color: ${({ disabled, theme }) => (disabled ? theme.colors.placeholder : theme.colors.text)};
@@ -37,14 +37,14 @@ export const StyledArrowRight = styled(HiOutlineChevronRight)<ArrowProps>`
   height: 3rem;
 `
 
-export const StyledCounterContainer = styled.div`
+export const CounterContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, 3rem);
   column-gap: 0rem;
   grid-auto-flow: column;
 `
 
-export const StyledCounterItem = styled.span`
+export const CounterItem = styled.span`
   font: 0.75rem;
   color: ${({ theme }) => theme.colors.disabledText};
   width: 3rem;
@@ -55,13 +55,13 @@ export const StyledCounterItem = styled.span`
   cursor: pointer;
   border: none;
 `
-export const StyledCounterEmptyItem = styled(StyledCounterItem)`
+export const CounterEmptyItem = styled(CounterItem)`
   color: ${({ theme }) => theme.colors.disabledText};
   cursor: default;
 `
 
-export const StyledCounterItemSelected = styled(StyledCounterItem)`
+export const CounterItemSelected = styled(CounterItem)`
   background-color: ${({ theme }) => theme.colors.container};
   color: ${({ theme }) => theme.colors.active};
-  border: 0.063rem solid ${({ theme }) => theme.colors.border};
+  border: 0.065rem solid ${({ theme }) => theme.colors.border};
 `

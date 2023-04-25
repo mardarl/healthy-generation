@@ -15,7 +15,7 @@ export const StyledCheckbox = styled.div`
     -moz-appearance: none;
     -o-appearance: none;
     appearance: none;
-    outline: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+    outline: 0.065rem solid ${({ theme }) => theme.colors.disabled};
     box-shadow: none;
     text-align: center;
     background: ${({ theme }) => theme.colors.container};

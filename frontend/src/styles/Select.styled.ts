@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 type InputProps = {
   errors?: string
@@ -17,7 +18,7 @@ type SearchProps = {
 export const StyledSelect = styled.div<InputProps>`
   margin-bottom: 1.875rem;
   cursor: pointer;
-  border-bottom: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  border-bottom: 0.065rem solid ${({ theme }) => theme.colors.disabled};
   position: relative;
 
   span {
@@ -40,7 +41,7 @@ export const StyledSelect = styled.div<InputProps>`
     color: ${({ disabled, theme }) => (disabled ? theme.colors.disabledText : theme.colors.text)};
     padding: 0.938rem 0.625rem;
     border: none;
-    border-bottom: 0.063rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
+    border-bottom: 0.065rem solid ${({ errors, theme }) => (errors ? theme.colors.error : theme.colors.disabled)};
     outline: none;
     font-size: 1rem;
     min-width: 3.125rem;
@@ -78,17 +79,17 @@ export const StyledSelect = styled.div<InputProps>`
 }
 `
 
-export const StyledLabel = styled.span`
+export const Label = styled.span`
   font-size: 0.75rem;
   display: block;
-  margin-bottom: 0.313rem;
+  margin-bottom: 0.315rem;
   color: ${({ theme }) => theme.colors.regularText};
 `
 
-export const StyledInputError = styled.span`
+export const InputError = styled.span`
   font-size: 0.875rem;
   display: block;
-  margin-top: 0.313rem;
+  margin-top: 0.315rem;
   color: ${({ theme }) => theme.colors.error};
 `
 
@@ -102,7 +103,7 @@ export const NoResults = styled.p`
   margin-top: 1rem;
 `
 
-export const StyledSelectBody = styled.div`
+export const SelectBody = styled.div`
   position: absolute;
   width: 100%;
   background: ${({ theme }) => theme.colors.container};
@@ -120,7 +121,7 @@ export const StyledInfiniteScroll = styled.div<BodyProps>`
   top: 3.75rem;
   top: ${({ withSearch }) => (withSearch ? '9rem' : '3.75rem')};
   z-index: 1;
-  border: 0.063rem solid ${({ theme }) => theme.colors.disabled};
+  border: 0.065rem solid ${({ theme }) => theme.colors.disabled};
   cursor: default;
   box-shadow: ${({ theme }) => `0 0 50px 3px ${theme.colors.header}`};
   max-height: 20.85rem;
@@ -133,7 +134,7 @@ export const StyledInfiniteScroll = styled.div<BodyProps>`
   }
 `
 
-export const StyledSelectBodyItem = styled.div`
+export const SelectBodyItem = styled.div`
   display: flex;
   align-items: center;
   gap: 0.35rem;
@@ -157,7 +158,7 @@ export const StyledSelectBodyItem = styled.div`
   }
 `
 
-export const StyledIconsContainer = styled.div`
+export const IconsContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -170,7 +171,7 @@ export const StyledIconsContainer = styled.div`
   }
 `
 
-export const StyledSearchContainer = styled.div<SearchProps>`
+export const SearchContainer = styled.div<SearchProps>`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -189,7 +190,7 @@ export const StyledSearchContainer = styled.div<SearchProps>`
 
   input {
     border: 0.063rem solid ${({ theme }) => theme.colors.active};
-    font-size: 0.8rem;
+    font-size: 0.85rem;
 
     &:focus {
       border: 0.063rem solid ${({ theme }) => theme.colors.active};

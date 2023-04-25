@@ -1,6 +1,6 @@
 import React, { FunctionComponent, memo, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
-import { StyledModal, StyledModalBox, StyledButtonsContainer } from '../../styles/Modal.styled'
+import { StyledModal, ModalBox, ButtonsContainer } from '../../styles/Modal.styled'
 import { MdClose } from 'react-icons/md'
 
 export type ModalProps = {
@@ -42,12 +42,12 @@ const Modal: FunctionComponent<ModalProps> = ({ children, open, onClose = () => 
     <>
       {ReactDOM.createPortal(
         <StyledModal>
-          <StyledModalBox ref={modal}>
-            <StyledButtonsContainer>
+          <ModalBox ref={modal}>
+            <ButtonsContainer>
               <MdClose onClick={onClose} />
-            </StyledButtonsContainer>
+            </ButtonsContainer>
             <>{children}</>
-          </StyledModalBox>
+          </ModalBox>
         </StyledModal>,
         element
       )}

@@ -17,12 +17,12 @@ export const StyledRecipeForm = styled.div`
     animation: 2s ${lineUpNoOpacity} ease-out;
   }
 `
-export const StyledRecipeTitle = styled.h4`
+export const RecipeTitle = styled.h4`
   font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.regularText};
 `
 
-export const StyledSelectorRow = styled.div`
+export const SelectorRow = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -41,7 +41,7 @@ export const StyledSelectorRow = styled.div`
   }
 `
 
-export const StyledSelectorRowGroup = styled.div`
+export const SelectorRowGroup = styled.div`
   display: flex;
   gap: 0.625rem;
 
@@ -59,7 +59,7 @@ export const StyledSelectorRowGroup = styled.div`
   }
 `
 
-export const StyledTextareaRow = styled.div`
+export const TextareaRow = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -75,7 +75,7 @@ export const StyledTextareaRow = styled.div`
   }
 `
 
-export const StyledTextareaRowButtons = styled.div`
+export const TextareaRowButtons = styled.div`
   display: flex;
   gap: 0.625rem;
 
@@ -86,15 +86,15 @@ export const StyledTextareaRowButtons = styled.div`
 
     button {
       margin-bottom: 0.625rem;
-      width: 2.071rem;
+      width: 2.07rem;
     }
   }
 `
 
-export const StyledPictureSection = styled.div`
+export const PictureSection = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.938rem;
+  gap: 0.935rem;
   font-size: 0.75rem;
   color: ${({ theme }) => theme.colors.regularText};
 

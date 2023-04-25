@@ -31,7 +31,7 @@ export const StyledRecipePage = styled(Container)`
   }
 `
 
-export const StyledRecipePageContent = styled.div`
+export const RecipePageContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 70%;
@@ -45,7 +45,7 @@ export const StyledRecipePageContent = styled.div`
   }
 `
 
-export const StyledHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -79,7 +79,7 @@ export const StyledHeader = styled.div`
   }
 `
 
-export const StyledButtonsContainer = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -91,26 +91,26 @@ export const StyledButtonsContainer = styled.div`
   }
 `
 
-export const StyledRecipeText = styled.span`
+export const RecipeText = styled.span`
   font-size: 0.875rem;
   margin-bottom: 0.625rem;
   color: ${({ theme }) => theme.colors.disabledText};
 `
 
-export const StyledNestedText = styled.span`
+export const NestedText = styled.span`
   font-size: 0.75rem;
   margin: 0 0 0.625rem 1rem;
   color: ${({ theme }) => theme.colors.disabledText};
 `
 
-export const StyledRecipeStep = styled.li`
+export const RecipeStep = styled.li`
   font-size: 0.875rem;
-  margin-bottom: 0.938rem;
+  margin-bottom: 0.95rem;
   line-height: 1.875rem;
   color: ${({ theme }) => theme.colors.disabledText};
 `
 
-export const StyledRecipeTitle = styled.h4`
+export const RecipeTitle = styled.h4`
   font-size: 1.125rem;
   color: ${({ theme }) => theme.colors.regularText};
 `

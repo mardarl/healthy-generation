@@ -17,7 +17,7 @@ export const StyledLabelSelector = styled.div<LabelSelectortProps>`
   margin-bottom: 1.875rem;
 `
 
-export const StyledLabelOption = styled.div<LabelOptionProps>`
+export const LabelOption = styled.div<LabelOptionProps>`
   display: flex;
   justify-content: center;
   align-items: center;

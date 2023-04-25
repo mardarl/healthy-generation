@@ -2,12 +2,7 @@ import React, { FunctionComponent, MouseEvent, useEffect, useState } from 'react
 import { getRecipes } from '../../api/recipes'
 import { updateUser } from '../../api/users'
 import { RecipeList, RecipePageProps } from '../../common/types'
-import {
-  StyledButtonsContainer,
-  StyledRecipeListContainer,
-  StyledRecipeTitle,
-  StyledSearchContainer,
-} from '../../styles/RecipeList.styled'
+import { ButtonsContainer, RecipeListContainer, RecipeTitle, SearchContainer } from '../../styles/RecipeList.styled'
 import Input from '../../ui-components/Input'
 import LoadingScreen from '../LoadingScreen'
 import { HiOutlineSearch } from 'react-icons/hi'
@@ -65,17 +60,17 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
     }, [isRecipesLoading, isUpdateLoading])
 
     return (
-      <StyledRecipeListContainer>
-        <StyledRecipeTitle>
+      <RecipeListContainer>
+        <RecipeTitle>
           <span>{isFavourite ? 'favourite recipes' : 'all recipes'}</span>
-          <StyledButtonsContainer>
-            <StyledSearchContainer>
+          <ButtonsContainer>
+            <SearchContainer>
               {isSearchOpen && <Input value={searchText} onChange={(e) => setSearchText(e.target.value)} autoFocus />}
               <HiOutlineSearch onClick={() => setIsSearchOpenOpen(!isSearchOpen)} />
-            </StyledSearchContainer>
+            </SearchContainer>
             <Button onClick={() => navigate(RoutePaths.NEW_RECIPE)}>add new one</Button>
-          </StyledButtonsContainer>
-        </StyledRecipeTitle>
+          </ButtonsContainer>
+        </RecipeTitle>
         {isLoading ? (
           <LoadingScreen />
         ) : (
@@ -91,7 +86,7 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
             />
           )
         )}
-      </StyledRecipeListContainer>
+      </RecipeListContainer>
     )
   }
 

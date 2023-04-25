@@ -6,13 +6,8 @@ import { changeUserPassword, updateUser } from '../../api/users'
 import { NameSimple, User } from '../../common/types'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
-import { StyledLabel } from '../../styles/Input.styled'
-import {
-  StyledButtonsContainer,
-  StyledHeader,
-  StyledProfilePage,
-  StyledProfilePageContent,
-} from '../../styles/ProfilePage.styled'
+import { Label } from '../../styles/Input.styled'
+import { ButtonsContainer, Header, StyledProfilePage, ProfilePageContent } from '../../styles/ProfilePage.styled'
 import Button from '../../ui-components/Button'
 import Input from '../../ui-components/Input'
 import { LabelSelector } from '../../ui-components/LabelSelector'
@@ -143,10 +138,10 @@ const ProfilePage: FunctionComponent = () => {
         <LoadingScreen />
       ) : (
         <StyledProfilePage>
-          <StyledProfilePageContent>
-            <StyledHeader>
+          <ProfilePageContent>
+            <Header>
               <span>profile</span>
-              <StyledButtonsContainer>
+              <ButtonsContainer>
                 {isEdit ? (
                   <>
                     <Button onClick={handleEditChange}>cancel</Button>
@@ -156,8 +151,8 @@ const ProfilePage: FunctionComponent = () => {
                   <Button onClick={handleEditChange}>edit</Button>
                 )}
                 {user?.id && <Button onClick={handleLogout}>log out</Button>}
-              </StyledButtonsContainer>
-            </StyledHeader>
+              </ButtonsContainer>
+            </Header>
 
             {newUserData && (
               <>
@@ -181,17 +176,17 @@ const ProfilePage: FunctionComponent = () => {
                 />
               </>
             )}
-            <StyledLabel marginBottom={1.813}>allergies</StyledLabel>
+            <Label marginBottom={1.813}>allergies</Label>
             <LabelSelector
               options={allergies || []}
               onSelect={setSelectedAllergies}
               selected={selectedAllergies}
               isEdit={isEdit}
             />
-            <StyledLabel marginBottom={1.813}>diets</StyledLabel>
+            <Label marginBottom={1.813}>diets</Label>
             <LabelSelector options={diets || []} onSelect={setSelectedDiets} selected={selectedDiets} isEdit={isEdit} />
 
-            <StyledButtonsContainer>
+            <ButtonsContainer>
               {isChangePassword ? (
                 <>
                   <Button onClick={handlePasswordChangeTrigger}>cancel</Button>
@@ -200,7 +195,7 @@ const ProfilePage: FunctionComponent = () => {
               ) : (
                 <Button onClick={() => setIsChangePassword(!isChangePassword)}>change password</Button>
               )}
-            </StyledButtonsContainer>
+            </ButtonsContainer>
 
             {isChangePassword && (
               <>
@@ -221,7 +216,7 @@ const ProfilePage: FunctionComponent = () => {
                 />
               </>
             )}
-          </StyledProfilePageContent>
+          </ProfilePageContent>
           <img src={'assets/Lesik.jpg'} alt='' />
         </StyledProfilePage>
       )}

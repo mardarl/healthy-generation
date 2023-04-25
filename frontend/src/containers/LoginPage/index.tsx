@@ -5,7 +5,7 @@ import { RoutePaths } from '../../routes/routePaths'
 import Button from '../../ui-components/Button'
 import { login as loginRequest } from '../../api/auth'
 import { Container } from '../../styles/Container.styled'
-import { StyledLoginPage, StyledTitle } from '../../styles/LoginPage.styled'
+import { StyledLoginPage, Title } from '../../styles/LoginPage.styled'
 import Input from '../../ui-components/Input'
 import { useUser } from '../../common/hooks/useUser'
 import { useAPIError } from '../../common/hooks/useAPIError'
@@ -49,7 +49,7 @@ const LoginPage: FunctionComponent = () => {
         <LoadingScreen />
       ) : (
         <StyledLoginPage>
-          <StyledTitle>login page</StyledTitle>
+          <Title>login page</Title>
           <div>
             <Input label={'email'} value={email} onChange={(e) => setEmail(e.target.value)} />
             <Input

@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 import { InputProps, Product, Recipe } from '../../common/types'
 import Input from '../../ui-components/Input'
-import { StyledButtonsContainer } from '../../styles/RecipePage.styled'
+import { ButtonsContainer } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
-import { StyledProductForm, StyledProductTitle, StyledHeader } from '../../styles/ProductForm.styled'
+import { StyledProductForm, ProductTitle, Header } from '../../styles/ProductForm.styled'
 import { createProduct, updateProduct } from '../../api/products'
 import LoadingScreen from '../LoadingScreen'
 import { getRecipe } from '../../api/recipes'
@@ -137,19 +137,19 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
 
   return (
     <StyledProductForm>
-      <StyledHeader>
+      <Header>
         <span>{isNew ? 'new product' : 'edit product'}</span>
-        <StyledButtonsContainer>
+        <ButtonsContainer>
           <Button onClick={onSubmit}>save</Button>
-        </StyledButtonsContainer>
-      </StyledHeader>
+        </ButtonsContainer>
+      </Header>
 
       <>
         {isLoading ? (
           <LoadingScreen />
         ) : (
           <>
-            <StyledProductTitle>product name</StyledProductTitle>
+            <ProductTitle>product name</ProductTitle>
             <Input
               type='text'
               value={name.value}
@@ -158,7 +158,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
               errors={name.error}
             />
 
-            <StyledProductTitle>carbs</StyledProductTitle>
+            <ProductTitle>carbs</ProductTitle>
             <Input
               type='number'
               placeholder='carbs'
@@ -167,7 +167,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
               errors={carbs.error}
             />
 
-            <StyledProductTitle>proteins</StyledProductTitle>
+            <ProductTitle>proteins</ProductTitle>
             <Input
               type='number'
               placeholder='proteins'
@@ -176,7 +176,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
               errors={proteins.error}
             />
 
-            <StyledProductTitle>fats</StyledProductTitle>
+            <ProductTitle>fats</ProductTitle>
             <Input
               type='number'
               placeholder='fats'
@@ -185,7 +185,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
               errors={fats.error}
             />
 
-            <StyledProductTitle>calories</StyledProductTitle>
+            <ProductTitle>calories</ProductTitle>
             <Input
               type='number'
               placeholder='calories'
@@ -196,7 +196,7 @@ export const ProductForm: FunctionComponent<PecipeFormProps> = (props) => {
 
             {recipe && !isNew && (
               <>
-                <StyledProductTitle>recipe</StyledProductTitle>
+                <ProductTitle>recipe</ProductTitle>
                 <a href={`/recipe/${recipe.id}`} target='_blank' rel='noreferrer'>
                   {recipe.name}
                 </a>

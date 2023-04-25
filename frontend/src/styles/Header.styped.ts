@@ -51,7 +51,7 @@ export const Nav = styled.nav`
 
 export const StyledLink = styled(Link)`
   text-decoration: none;
-  color: ${({ theme }) => theme.colors.disabledText};
+  color: ${({ theme }) => theme.colors.text};
   width: fill-content;
   margin-right: 1.875rem;
   cursor: pointer;

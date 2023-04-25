@@ -4,18 +4,18 @@ import { Ingredient, InputProps, NameSimple, Product, Recipe } from '../../commo
 import { Select } from '../../ui-components/Select'
 import { LabelSelector } from '../../ui-components/LabelSelector'
 import {
-  StyledPictureSection,
   StyledRecipeForm,
-  StyledRecipeTitle,
-  StyledSelectorRow,
-  StyledSelectorRowGroup,
-  StyledTextareaRow,
-  StyledTextareaRowButtons,
+  PictureSection,
+  RecipeTitle,
+  SelectorRow,
+  SelectorRowGroup,
+  TextareaRow,
+  TextareaRowButtons,
 } from '../../styles/RecipeForm.styled'
 import Input from '../../ui-components/Input'
 import { StyledTextarea } from '../../styles/TextArea.styled'
 import { recalculateIngredients } from '../../common/helpers'
-import { StyledButtonsContainer, StyledHeader } from '../../styles/RecipePage.styled'
+import { ButtonsContainer, Header } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
 import Checkbox from '../../ui-components/Checkbox'
 import Modal from '../../ui-components/Modal'
@@ -204,15 +204,15 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
 
   return (
     <>
-      <StyledHeader>
+      <Header>
         <span>{isNew ? 'new recipe' : 'edit recipe'}</span>
-        <StyledButtonsContainer>
+        <ButtonsContainer>
           <Button onClick={onCancel}>cancel</Button>
           <Button onClick={onSubmit}>save</Button>
-        </StyledButtonsContainer>
-      </StyledHeader>
+        </ButtonsContainer>
+      </Header>
       <StyledRecipeForm>
-        <StyledRecipeTitle>recipe name</StyledRecipeTitle>
+        <RecipeTitle>recipe name</RecipeTitle>
         <Input
           type='text'
           value={name.value}
@@ -221,11 +221,11 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           errors={name.error}
         />
 
-        <StyledRecipeTitle>ingredients</StyledRecipeTitle>
+        <RecipeTitle>ingredients</RecipeTitle>
         <>
           {ingredients && ingredients.value.length > 0 ? (
             ingredients.value.map((ingredient: Ingredient, index: number) => (
-              <StyledSelectorRow key={index}>
+              <SelectorRow key={index}>
                 <Select<Product>
                   options={products || []}
                   onSelect={(product) => handleProductSelect(product, index)}
@@ -239,7 +239,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                   getOptions={getProducts}
                   arrayName={'products'}
                 />
-                <StyledSelectorRowGroup>
+                <SelectorRowGroup>
                   <Input
                     type='number'
                     placeholder='amount'
@@ -256,19 +256,19 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                       +
                     </Button>
                   )}
-                </StyledSelectorRowGroup>
-              </StyledSelectorRow>
+                </SelectorRowGroup>
+              </SelectorRow>
             ))
           ) : (
             <Button onClick={() => handleInsert(initialIngredient, ingredients.value, 0, setIngredients)}>+</Button>
           )}
         </>
 
-        <StyledRecipeTitle>steps</StyledRecipeTitle>
+        <RecipeTitle>steps</RecipeTitle>
         <>
           {steps && steps.value.length > 0 ? (
             steps.value.map((step: string, index: number) => (
-              <StyledTextareaRow key={index}>
+              <TextareaRow key={index}>
                 <StyledTextarea
                   placeholder='step'
                   onChange={(e) => handleStepChange(e.target.value, index, e.target.scrollHeight)}
@@ -276,20 +276,20 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
                   height={stepHeights[index] * 0.063}
                 />
 
-                <StyledTextareaRowButtons>
+                <TextareaRowButtons>
                   <Button onClick={() => handleRemove(steps.value, index, setSteps)}>-</Button>
                   {index === steps.value.length - 1 && (
                     <Button onClick={() => handleInsert('', steps.value, index + 1, setSteps)}>+</Button>
                   )}
-                </StyledTextareaRowButtons>
-              </StyledTextareaRow>
+                </TextareaRowButtons>
+              </TextareaRow>
             ))
           ) : (
             <Button onClick={() => handleInsert('', steps.value, 0, setSteps)}>+</Button>
           )}
         </>
 
-        <StyledRecipeTitle>recipe types</StyledRecipeTitle>
+        <RecipeTitle>recipe types</RecipeTitle>
         <LabelSelector
           options={recipeTypes || []}
           onSelect={setSelectedRecipeTypes}
@@ -297,7 +297,7 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           isEdit
         />
 
-        <StyledRecipeTitle>cooking time</StyledRecipeTitle>
+        <RecipeTitle>cooking time</RecipeTitle>
         <Input
           type='number'
           placeholder='cooking time'
@@ -306,14 +306,14 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           errors={cookingTime.error}
         />
 
-        <StyledRecipeTitle>picture</StyledRecipeTitle>
-        <StyledPictureSection>
+        <RecipeTitle>picture</RecipeTitle>
+        <PictureSection>
           <div {...getRootProps({ className: 'dropzone disabled' })}>
             <input {...getInputProps()} />
             <span>drag 'n' drop some files here, or click to select files</span>
           </div>
           {picturePath && <span>{`file: ${picturePath}`}</span>}
-        </StyledPictureSection>
+        </PictureSection>
 
         <Checkbox
           label={'it could be an ingredient'}

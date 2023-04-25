@@ -3,10 +3,10 @@ import { List, QueryParams } from '../../common/types'
 import {
   NoResults,
   StyledSelect,
-  StyledSelectBody,
-  StyledSearchContainer,
-  StyledSelectBodyItem,
-  StyledIconsContainer,
+  SelectBody,
+  SearchContainer,
+  SelectBodyItem,
+  IconsContainer,
   StyledInfiniteScroll,
 } from '../../styles/Select.styled'
 import Button from '../Button'
@@ -103,10 +103,10 @@ export const Select = <T extends { id: string; name: string }>(props: SelectProp
       <span onClick={toggleSelect}>{selected?.toLowerCase() || 'select'}</span>
       {isOpen && (
         <>
-          <StyledSelectBody>
+          <SelectBody>
             <>
               {withSearch && (
-                <StyledSearchContainer withButton={withAddButton}>
+                <SearchContainer withButton={withAddButton}>
                   <Input
                     placeholder={'search'}
                     onClick={(e) => e.stopPropagation()}
@@ -114,11 +114,11 @@ export const Select = <T extends { id: string; name: string }>(props: SelectProp
                     onChange={(e) => setSearchText(e.target.value)}
                   />
                   {withAddButton && <Button onClick={() => onButtonClick(onAdd)}>+</Button>}
-                </StyledSearchContainer>
+                </SearchContainer>
               )}
               {!items.length && <NoResults>{'no results'}</NoResults>}
             </>
-          </StyledSelectBody>
+          </SelectBody>
           {items.length > 0 && (
             <StyledInfiniteScroll withSearch={withSearch}>
               <InfiniteScroll
@@ -129,17 +129,17 @@ export const Select = <T extends { id: string; name: string }>(props: SelectProp
                 height={333}
               >
                 {items.map((item, index) => (
-                  <StyledSelectBodyItem>
+                  <SelectBodyItem>
                     <span onClick={() => onSelectOption(item)} key={item.id}>
                       {item.name.toLowerCase()}
                     </span>
                     {withButtons && (
-                      <StyledIconsContainer>
+                      <IconsContainer>
                         <AiOutlineEdit onClick={() => onListItemChange(onEdit, item)} />
                         <AiOutlineDelete onClick={() => onListItemChange(onDelete, item.id)} />
-                      </StyledIconsContainer>
+                      </IconsContainer>
                     )}
-                  </StyledSelectBodyItem>
+                  </SelectBodyItem>
                 ))}
               </InfiniteScroll>
             </StyledInfiniteScroll>

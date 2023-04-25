@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledDeleteModalContent = styled.div`
+export const Content = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@ export const StyledDeleteModalContent = styled.div`
   margin-bottom: 1.5rem;
 `
 
-export const DeleteModalButtons = styled.div`
+export const Buttons = styled.div`
   display: flex;
   gap: 2rem;
 `

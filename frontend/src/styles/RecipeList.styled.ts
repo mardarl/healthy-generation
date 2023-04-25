@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { fadeIn, lineSideNoOpacity, lineUpNoOpacity } from './animatons'
 import { Container } from './Container.styled'
 
-export const StyledRecipeListContainer = styled(Container)`
+export const RecipeListContainer = styled(Container)`
   background-color: ${({ theme }) => theme.colors.container};
   display: flex;
   flex-direction: column;
@@ -13,7 +13,7 @@ export const StyledRecipeListContainer = styled(Container)`
     width: 100%;
   }
 `
-export const StyledRecipeTitle = styled.div`
+export const RecipeTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,7 +33,7 @@ export const StyledRecipeTitle = styled.div`
   }
 `
 
-export const StyledButtonsContainer = styled.div`
+export const ButtonsContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1.25rem;
@@ -67,7 +67,7 @@ export const StyledButtonsContainer = styled.div`
   }
 `
 
-export const StyledSearchContainer = styled.div`
+export const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 0;
@@ -77,7 +77,7 @@ export const StyledSearchContainer = styled.div`
   }
 `
 
-export const StyledRecipeList = styled.div`
+export const RecipeList = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -89,7 +89,7 @@ export const StyledRecipeList = styled.div`
     column-gap: 10%;
   }
 `
-export const StyledRecipe = styled.div`
+export const Recipe = styled.div`
   width: 30%;
   height: 28.125rem;
   display: flex;
@@ -123,10 +123,10 @@ export const StyledRecipe = styled.div`
   }
 `
 
-export const StyledRecipeContent = styled.div`
+export const RecipeContent = styled.div`
   background-color: ${({ theme }) => theme.colors.recipePreview};
   height: 12.5rem;
-  bottom: 1.063rem;
+  bottom: 1.065rem;
   left: 1.063rem;
   position: absolute;
   width: 90%;
@@ -139,7 +139,7 @@ export const StyledRecipeContent = styled.div`
   }
 `
 
-export const StyledRecipeHeader = styled.div`
+export const RecipeHeader = styled.div`
   position: absolute;
   width: 100%;
   display: flex;
@@ -149,21 +149,21 @@ export const StyledRecipeHeader = styled.div`
 
   svg {
     position: absolute;
-    right: 0.938rem;
+    right: 0.95rem;
     top: 0.625rem;
-    width: 1.563rem;
-    height: 1.563rem;
+    width: 1.565rem;
+    height: 1.565rem;
   }
 `
 
-export const StyledRecipeName = styled.div`
+export const RecipeName = styled.div`
   position: absolute;
   font-size: 2.625rem;
   max-height: 6.25rem;
   display: flex;
   flex-direction: column;
   left: 1.25rem;
-  top: -4.063rem;
+  top: -4.065rem;
 
   p {
     color: ${({ theme }) => theme.colors.text};
@@ -176,18 +176,18 @@ export const StyledRecipeName = styled.div`
     font-size: 2rem;
   }
 `
-export const StyledRecipeTime = styled.div`
+export const RecipeTime = styled.div`
   color: ${({ theme }) => theme.colors.body};
   position: absolute;
   bottom: 0.625rem;
-  left: 0.938rem;
+  left: 0.95rem;
   font-size: 0.875rem;
 `
 
-export const StyledRecipeCal = styled.div`
+export const RecipeCal = styled.div`
   color: ${({ theme }) => theme.colors.body};
   position: absolute;
   bottom: 0.625rem;
-  right: 0.938rem;
+  right: 0.95rem;
   font-size: 0.875rem;
 `

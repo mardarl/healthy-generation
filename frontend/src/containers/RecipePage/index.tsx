@@ -8,20 +8,20 @@ import { updateUser as updateUserRequest } from '../../api/users'
 import { NameSimple, ProductList, Recipe } from '../../common/types'
 import { RecipeForm } from '../../components/RecipeForm'
 import {
-  StyledButtonsContainer,
-  StyledHeader,
-  StyledRecipeStep,
-  StyledRecipeText,
-  StyledRecipeTitle,
+  ButtonsContainer,
+  Header,
+  RecipeStep,
+  RecipeText,
+  RecipeTitle,
   StyledRecipePage,
-  StyledRecipePageContent,
-  StyledNestedText,
+  RecipePageContent,
+  NestedText,
 } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
 import { useUser } from '../../common/hooks/useUser'
 import { HiOutlineHeart, HiHeart } from 'react-icons/hi'
 import { LabelSelector } from '../../ui-components/LabelSelector'
-import { calculateTotalAmount, calculateTotalNutrient, getRandomInt } from '../../common/helpers'
+import { calculateTotalAmount, calculateTotalNutrient } from '../../common/helpers'
 import LoadingScreen from '../../components/LoadingScreen'
 import { RoutePaths } from '../../routes/routePaths'
 import DeleteModal from '../../components/DeleteModal'
@@ -118,12 +118,7 @@ const RecipePage: FunctionComponent = () => {
   }, [user, recipeId])
 
   useEffect(() => {
-    if (recipe?.picturePath) {
-      setImgSrc(`http://localhost:8000/assets/${recipe?.picturePath}`)
-    } else {
-      const randomNumber = getRandomInt(3)
-      setImgSrc(`http://localhost:3001/assets/default-${randomNumber}.jpg`)
-    }
+    setImgSrc(recipe?.picturePath ? `http://localhost:8000/assets/${recipe?.picturePath}` : 'assets/default-2.jpg')
   }, [recipe])
 
   useEffect(() => {
@@ -147,7 +142,7 @@ const RecipePage: FunctionComponent = () => {
             <>
               <img src={imgSrc} alt='' />
               {isEdit && recipeTypes && products ? (
-                <StyledRecipePageContent>
+                <RecipePageContent>
                   <RecipeForm
                     isNew={false}
                     recipeTypes={recipeTypes}
@@ -156,12 +151,12 @@ const RecipePage: FunctionComponent = () => {
                     initialRecipeValues={recipe}
                     onCancel={() => setIsEdit(false)}
                   />
-                </StyledRecipePageContent>
+                </RecipePageContent>
               ) : (
-                <StyledRecipePageContent>
-                  <StyledHeader>
+                <RecipePageContent>
+                  <Header>
                     <span>{recipe?.name}</span>
-                    <StyledButtonsContainer>
+                    <ButtonsContainer>
                       {isFavourite ? (
                         <HiHeart onClick={handleFavouriteChange} />
                       ) : (
@@ -169,33 +164,31 @@ const RecipePage: FunctionComponent = () => {
                       )}
                       <Button onClick={() => setOpen(true)}>delete</Button>
                       <Button onClick={() => setIsEdit(true)}>edit</Button>
-                    </StyledButtonsContainer>
-                  </StyledHeader>
-                  <StyledRecipeTitle>nutritions:</StyledRecipeTitle>
-                  <StyledRecipeText>{`time: ${recipe?.cookingTime || 0}m`}</StyledRecipeText>
-                  <StyledRecipeText>{`calories: ${recipe?.totalCalories || 0}g`}</StyledRecipeText>
-                  <StyledRecipeText>{`carbs: ${recipe?.totalCarbs || 0}g`}</StyledRecipeText>
-                  <StyledRecipeText>{`proteins: ${recipe?.totalProteins || 0}g`}</StyledRecipeText>
-                  <StyledRecipeText>{`fat: ${recipe?.totalFats || 0}g`}</StyledRecipeText>
+                    </ButtonsContainer>
+                  </Header>
+                  <RecipeTitle>nutritions:</RecipeTitle>
+                  <RecipeText>{`time: ${recipe?.cookingTime || 0}m`}</RecipeText>
+                  <RecipeText>{`calories: ${recipe?.totalCalories || 0}g`}</RecipeText>
+                  <RecipeText>{`carbs: ${recipe?.totalCarbs || 0}g`}</RecipeText>
+                  <RecipeText>{`proteins: ${recipe?.totalProteins || 0}g`}</RecipeText>
+                  <RecipeText>{`fat: ${recipe?.totalFats || 0}g`}</RecipeText>
                   {recipe?.recipeTypes && recipe?.recipeTypes.length > 0 && (
                     <>
-                      <StyledRecipeTitle>recipe types:</StyledRecipeTitle>
+                      <RecipeTitle>recipe types:</RecipeTitle>
                       <LabelSelector options={recipeTypes || []} onSelect={() => {}} selected={recipe?.recipeTypes} />
                     </>
                   )}
                   {recipe?.ingredients.length > 0 && (
                     <>
-                      <StyledRecipeTitle>ingredients:</StyledRecipeTitle>
+                      <RecipeTitle>ingredients:</RecipeTitle>
                       {recipe?.ingredients.map((ingredient, index) => (
                         <>
-                          <StyledRecipeText key={index}>
-                            {`${ingredient?.name} - ${ingredient?.amount}g`}
-                          </StyledRecipeText>
+                          <RecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</RecipeText>
                           <>
                             {ingredient?.recipe &&
                               ingredient?.recipe?.ingredients &&
                               ingredient?.recipe?.ingredients.map((i, index) => (
-                                <StyledNestedText key={index}>{`${i?.name} - ${i?.amount}g`}</StyledNestedText>
+                                <NestedText key={index}>{`${i?.name} - ${i?.amount}g`}</NestedText>
                               ))}
                           </>
                         </>
@@ -204,13 +197,13 @@ const RecipePage: FunctionComponent = () => {
                   )}
                   {recipe?.steps && recipe?.steps.length > 0 && (
                     <>
-                      <StyledRecipeTitle>steps:</StyledRecipeTitle>
+                      <RecipeTitle>steps:</RecipeTitle>
                       {recipe?.steps.map((step, index) => (
-                        <StyledRecipeStep key={index}>{step}</StyledRecipeStep>
+                        <RecipeStep key={index}>{step}</RecipeStep>
                       ))}
                     </>
                   )}
-                </StyledRecipePageContent>
+                </RecipePageContent>
               )}
             </>
           )}

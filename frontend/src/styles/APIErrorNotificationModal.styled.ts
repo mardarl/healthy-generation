@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const StyledErrorNotification = styled.div`
+export const ErrorNotification = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -9,7 +9,7 @@ export const StyledErrorNotification = styled.div`
   margin-bottom: 1.5rem;
 `
 
-export const StyledError = styled.div`
+export const ErrorContainer = styled.div`
   width: 90%;
   display: flex;
   flex-direction: column;

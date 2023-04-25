@@ -32,10 +32,6 @@ export const calculateTotalNutrient = (ingredients: Ingredient[], field: string,
   )
 }
 
-export const getRandomInt = (max: number): number => {
-  return Math.floor(Math.random() * max)
-}
-
 export const convertRecipeName = (name: string): string[] => {
   const nameArr = name.split(' ')
   const newName = [nameArr[1] || '', nameArr[2] || '', nameArr[3] ? '...' : '']

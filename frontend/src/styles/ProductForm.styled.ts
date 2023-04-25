@@ -17,13 +17,13 @@ export const StyledProductForm = styled.div`
   }
 `
 
-export const StyledProductTitle = styled.h4`
+export const ProductTitle = styled.h4`
   font-size: 1rem;
   margin: 0;
   color: ${({ theme }) => theme.colors.regularText};
 `
 
-export const StyledHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;

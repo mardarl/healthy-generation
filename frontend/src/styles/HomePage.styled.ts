@@ -83,13 +83,13 @@ export const StyledHomePage = styled.div`
   }
 `
 
-export const StyledHomePageBox = styled.div`
+export const PageBox = styled.div`
   background: ${({ theme }) => theme.colors.homeBox};
   position: absolute;
   z-index: 1;
   right: 0;
-  bottom: -0.438rem;
-  width: 81.563rem;
+  bottom: -0.435rem;
+  width: 81.565rem;
   animation: 3s ${lineSide} ease-out;
   height: 28.125rem;
   opacity: 0.5;
@@ -98,22 +98,23 @@ export const StyledHomePageBox = styled.div`
     display: none;
   }
 `
-export const StyledHomePageGreating = styled.span`
+export const Greating = styled.span`
   position: absolute;
-  margin: 1.875rem 0 0 0.313rem;
+  margin: 1.875rem 0 0 0.315rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
-  left: 16.875rem;
-  top: 11.875rem;
+  left: 17.25rem;
+  top: 12rem;
+  text-transform: lowercase;
 
   @media (max-width: ${({ theme }) => theme.tablets}) {
     margin-bottom: 1rem;
   }
 }`
 
-export const StyledHomePageInfo = styled.span`
+export const PageInfo = styled.span`
   position: absolute;
-  margin: 1.875rem 0 0 0.313rem;
+  margin: 1.875rem 0 0 0.315rem;
   animation: 4s ${lineUpNoOpacity} ease-out;
   z-index: 3;
   left: 16.875rem;
