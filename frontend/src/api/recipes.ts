@@ -1,7 +1,6 @@
 import { AxiosError, AxiosRequestConfig } from 'axios'
 import {
   convertCreateRecipeRequest,
-  convertIngredientResponse,
   convertRecipeListResponse,
   convertRecipeRequest,
   convertRecipeResponse,

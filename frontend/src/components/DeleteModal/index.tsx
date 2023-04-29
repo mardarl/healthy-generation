@@ -11,10 +11,10 @@ const DeleteModal: FunctionComponent<DeleteModalProps> = ({ open, onClose, onDel
   return (
     <Modal open={open} onClose={onClose}>
       <Content>
-        <span>{'are you sure you wanna delete it?'}</span>
+        <span>are you sure you wanna delete it?</span>
         <Buttons>
-          <Button onClick={onDelete}>{'yes'}</Button>
-          <Button onClick={onClose}>{'no'}</Button>
+          <Button onClick={onDelete}>yes</Button>
+          <Button onClick={onClose}>no</Button>
         </Buttons>
       </Content>
     </Modal>

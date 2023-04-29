@@ -26,7 +26,7 @@ const ProfilePage: FunctionComponent = () => {
   const { user, setUser } = useUser()
   const { addError } = useAPIError()
 
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedAllergies, setSelectedAllergies] = useState<Array<NameSimple> | null>(null)
   const [selectedDiets, setSelectedDiets] = useState<Array<NameSimple> | null>(null)
   const [newUserData, setNewUserData] = useState<User | null>(null)
@@ -129,7 +129,7 @@ const ProfilePage: FunctionComponent = () => {
   }, [password, password.newPassword, password.repeatPassword])
 
   useEffect(() => {
-    setLoading(isAllergiesLoading || isDietsLoading || isChangeLoading || isUpdateLoading)
+    setIsLoading(isAllergiesLoading || isDietsLoading || isChangeLoading || isUpdateLoading)
   }, [isAllergiesLoading, isDietsLoading, isChangeLoading, isUpdateLoading])
 
   return (

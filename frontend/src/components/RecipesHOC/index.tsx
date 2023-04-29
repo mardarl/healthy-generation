@@ -20,9 +20,9 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
     const { addError } = useAPIError()
 
     const [currentPage, setCurrentPage] = useState<number>(0)
-    const [isLoading, setLoading] = useState<boolean>(false)
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [searchText, setSearchText] = useState<string>('')
-    const [isSearchOpen, setIsSearchOpenOpen] = useState<boolean>(false)
+    const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
 
     const {
       data: recipes,
@@ -56,7 +56,7 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
     }, [currentPage, searchText])
 
     useEffect(() => {
-      setLoading(isRecipesLoading || isUpdateLoading)
+      setIsLoading(isRecipesLoading || isUpdateLoading)
     }, [isRecipesLoading, isUpdateLoading])
 
     return (
@@ -66,7 +66,7 @@ export const withRecipes = (WrappedComponent: FunctionComponent<RecipePageProps>
           <ButtonsContainer>
             <SearchContainer>
               {isSearchOpen && <Input value={searchText} onChange={(e) => setSearchText(e.target.value)} autoFocus />}
-              <HiOutlineSearch onClick={() => setIsSearchOpenOpen(!isSearchOpen)} />
+              <HiOutlineSearch onClick={() => setIsSearchOpen(!isSearchOpen)} />
             </SearchContainer>
             <Button onClick={() => navigate(RoutePaths.NEW_RECIPE)}>add new one</Button>
           </ButtonsContainer>

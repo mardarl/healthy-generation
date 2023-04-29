@@ -35,7 +35,7 @@ const RecipePage: FunctionComponent = () => {
   const { setUser } = useUser()
   const { addError } = useAPIError()
 
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setIsLoading] = useState<boolean>(false)
   const [isFavourite, setIsFavourite] = useState<boolean>(false)
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [imgSrc, setImgSrc] = useState<string>('')
@@ -118,11 +118,15 @@ const RecipePage: FunctionComponent = () => {
   }, [user, recipeId])
 
   useEffect(() => {
-    setImgSrc(recipe?.picturePath ? `http://localhost:8000/assets/${recipe?.picturePath}` : 'assets/default-2.jpg')
+    setImgSrc(
+      recipe?.picturePath
+        ? `http://localhost:8000/assets/${recipe?.picturePath}`
+        : 'http://localhost:8000/assets/default-2.jpg'
+    )
   }, [recipe])
 
   useEffect(() => {
-    setLoading(
+    setIsLoading(
       isRecipeLoading ||
         isRecipeTypesLoading ||
         isProductsLoading ||
@@ -183,7 +187,13 @@ const RecipePage: FunctionComponent = () => {
                       <RecipeTitle>ingredients:</RecipeTitle>
                       {recipe?.ingredients.map((ingredient, index) => (
                         <>
-                          <RecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</RecipeText>
+                          {ingredient?.recipe ? (
+                            <a href={`/recipe/${ingredient?.recipe.id}`} target='_blank' rel='noreferrer'>
+                              <RecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</RecipeText>
+                            </a>
+                          ) : (
+                            <RecipeText key={index}>{`${ingredient?.name} - ${ingredient?.amount}g`}</RecipeText>
+                          )}
                           <>
                             {ingredient?.recipe &&
                               ingredient?.recipe?.ingredients &&

@@ -5,7 +5,7 @@ import { MdClose } from 'react-icons/md'
 
 export type ModalProps = {
   open: boolean
-  onClose?: () => void
+  onClose: () => void
   children: React.ReactNode
 }
 

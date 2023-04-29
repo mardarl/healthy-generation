@@ -18,7 +18,6 @@ import { recalculateIngredients } from '../../common/helpers'
 import { ButtonsContainer, Header } from '../../styles/RecipePage.styled'
 import Button from '../../ui-components/Button'
 import Checkbox from '../../ui-components/Checkbox'
-import Modal from '../../ui-components/Modal'
 import { ProductForm } from '../ProductForm'
 import { deleteProduct, getProducts } from '../../api/products'
 import DeleteModal from '../DeleteModal'
@@ -227,7 +226,6 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
             ingredients.value.map((ingredient: Ingredient, index: number) => (
               <SelectorRow key={index}>
                 <Select<Product>
-                  options={products || []}
                   onSelect={(product) => handleProductSelect(product, index)}
                   selected={ingredient.name}
                   withSearch
@@ -301,14 +299,14 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
         <Input
           type='number'
           placeholder='cooking time'
-          onChange={(e) => handleInputChange(e.target.valueAsNumber, setCookingTime)}
+          onChange={(e) => handleInputChange(e.target.value, setCookingTime)}
           value={cookingTime.value}
           errors={cookingTime.error}
         />
 
         <RecipeTitle>picture</RecipeTitle>
         <PictureSection>
-          <div {...getRootProps({ className: 'dropzone disabled' })}>
+          <div {...getRootProps()}>
             <input {...getInputProps()} />
             <span>drag 'n' drop some files here, or click to select files</span>
           </div>
@@ -321,12 +319,13 @@ export const RecipeForm: FunctionComponent<PecipeFormProps> = (props) => {
           onChange={() => setIsIngredient(!isIngredient)}
         />
       </StyledRecipeForm>
-      <Modal open={open} onClose={() => setOpen(false)}>
-        <ProductForm isNew onClose={() => setOpen(false)} />
-      </Modal>
-      <Modal open={!!editProduct} onClose={() => setEditProduct(undefined)}>
-        <ProductForm isNew={false} onClose={() => setEditProduct(undefined)} initialProductValues={editProduct} />
-      </Modal>
+      <ProductForm isNew onClose={() => setOpen(false)} open={open} />
+      <ProductForm
+        isNew={false}
+        onClose={() => setEditProduct(undefined)}
+        initialProductValues={editProduct}
+        open={!!editProduct}
+      />
       <DeleteModal open={!!deleteProductId} onClose={() => setDeleteProductId(null)} onDelete={handleDelete} />
     </>
   )

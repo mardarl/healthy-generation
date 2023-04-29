@@ -14,6 +14,10 @@ export const StyledProductForm = styled.div`
     cursor: pointer;
     color: ${({ theme }) => theme.colors.text};
     margin: 1.5rem 0;
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.active};
+    }
   }
 `
 

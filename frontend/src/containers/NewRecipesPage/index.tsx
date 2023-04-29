@@ -18,7 +18,7 @@ const NewRecipesPage: FunctionComponent = () => {
   const { user } = useUser()
   const { addError } = useAPIError()
 
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const { data: recipeTypes, isLoading: isRecipeTypesLoading } = useQuery<Array<NameSimple> | null>(
     ['recipeTypes'],
@@ -58,7 +58,7 @@ const NewRecipesPage: FunctionComponent = () => {
   }
 
   useEffect(() => {
-    setLoading(isRecipeTypesLoading || isCreateLoading || isProductsLoading)
+    setIsLoading(isRecipeTypesLoading || isCreateLoading || isProductsLoading)
   }, [isRecipeTypesLoading, isCreateLoading, isProductsLoading])
 
   return (

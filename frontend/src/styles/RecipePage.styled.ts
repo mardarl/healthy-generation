@@ -7,6 +7,7 @@ export const StyledRecipePage = styled(Container)`
   margin-top: 2.5rem;
   height: fit-content;
   min-height: 80%;
+  cursor: default;
 
   img {
     filter: grayscale(100%) brightness(60%);
@@ -15,6 +16,14 @@ export const StyledRecipePage = styled(Container)`
     position: relative;
     overflow: hidden;
     animation: 2s ${fadeIn} ease-out;
+  }
+
+  a {
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.875rem;
+    margin-bottom: 0.625rem;
+    color: ${({ theme }) => theme.colors.disabledText};
   }
 
   @media (max-width: ${({ theme }) => theme.tablets}) {

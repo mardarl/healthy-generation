@@ -16,7 +16,6 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import { AxiosRequestConfig } from 'axios'
 
 type SelectProps<T> = {
-  options: Array<T>
   onSelect: (id: T) => void
   selected?: string
   withSearch?: boolean
@@ -31,7 +30,6 @@ type SelectProps<T> = {
 
 export const Select = <T extends { id: string; name: string }>(props: SelectProps<T>) => {
   const {
-    options,
     onSelect,
     selected = null,
     withSearch = false,
@@ -128,7 +126,7 @@ export const Select = <T extends { id: string; name: string }>(props: SelectProp
                 loader={<p>{'loading...'}</p>}
                 height={333}
               >
-                {items.map((item, index) => (
+                {items.map((item) => (
                   <SelectBodyItem>
                     <span onClick={() => onSelectOption(item)} key={item.id}>
                       {item.name.toLowerCase()}

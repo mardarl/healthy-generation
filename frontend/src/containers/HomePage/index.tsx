@@ -23,7 +23,7 @@ const HomePage: FunctionComponent = () => {
       <img src={'./assets/backgroung-image.jpg'} alt='' />
       <PageBox />
 
-      {user?.id && (
+      {!user?.id && (
         <Button onClick={() => navigate(RoutePaths.LOGIN)} main>
           <span>log in</span>
         </Button>
